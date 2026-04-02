@@ -1,13 +1,15 @@
+import Image from "next/image";
+
 export default function About() {
 	return (
 		<div className="flex justify-center p-32">
-			<div className="flex flex-col w-full max-w-4xl  gap-4">
+			<div className="flex flex-col w-full max-w-4xl gap-4">
 				<div className="flex flex-col gap-1">
 					<div className="text-2xl font-bold">About Me</div>
 					<hr className="max-w-xs text-white/50"></hr>
 				</div>
 
-				<div className="flex">
+				<div className="flex gap-16">
 					<div className="text-lg flex flex-col gap-4 text-gray-400 max-w-[50%]">
 						<div>Hello there!</div>
 						<div>
@@ -25,7 +27,12 @@ export default function About() {
 							collaborate or chat!
 						</div>
 					</div>
-					<div>Picture Here</div>
+					<Image
+						src="/picture.jpg"
+						alt="Description"
+						width={350}
+						height={350}
+					/>
 				</div>
 			</div>
 		</div>

@@ -4,7 +4,7 @@ import ProjectThree from "../projects/ProjectThree";
 
 export default function Projects() {
 	return (
-		<div>
+		<div className="flex flex-col gap-48">
 			<ProjectOne />
 			<ProjectTwo />
 			<ProjectThree />

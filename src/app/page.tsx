@@ -3,15 +3,18 @@ import Introduction from "../components/sections/Introduction";
 import About from "../components/sections/About";
 import Projects from "../components/sections/Projects";
 import Contact from "../components/sections/Contact";
+import LoadupAnimation from "../components/others/LoadupAnimation";
 
 export default function Home() {
 	return (
-		<div className="font-sans bg-oxford-blue">
-			<Header />
-			<Introduction />
-			<About />
-			<Projects />
-			<Contact />
-		</div>
+		<LoadupAnimation>
+			<div className="font-sans bg-oxford-blue">
+				<Header />
+				<Introduction />
+				<About />
+				<Projects />
+				<Contact />
+			</div>
+		</LoadupAnimation>
 	);
 }
