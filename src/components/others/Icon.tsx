@@ -5,18 +5,16 @@ import { motion } from "framer-motion";
 interface IconProps {
 	label: string;
 	icon: React.ReactNode;
-	color: string;
 }
 
-export default function Icon({ label, icon, color }: IconProps) {
+export default function Icon({ label, icon }: IconProps) {
 	return (
 		<motion.div
-			className="flex flex-col items-center justify-start cursor-pointer group relative h-14 w-16"
-			style={{ "--hover-color": color } as React.CSSProperties}
+			className="group relative flex h-14 w-16 cursor-pointer flex-col items-center justify-start"
 			initial="hidden"
 			whileHover="visible"
 		>
-			<div className="h-8 flex items-center justify-center text-neutral-500 grayscale opacity-70 transition-all duration-500 ease-out group-hover:text-[var(--hover-color)] group-hover:grayscale-0 group-hover:opacity-100 group-hover:-translate-y-1 group-hover:scale-110">
+			<div className="flex h-8 items-center justify-center transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-110">
 				{icon}
 			</div>
 
@@ -26,7 +24,7 @@ export default function Icon({ label, icon, color }: IconProps) {
 					visible: { opacity: 1, y: 0 },
 				}}
 				transition={{ type: "spring", stiffness: 300, damping: 25 }}
-				className="absolute -bottom-1 text-xs text-neutral-300 pointer-events-none"
+				className="pointer-events-none absolute -bottom-1 text-xs text-neutral-300"
 			>
 				{label}
 			</motion.div>

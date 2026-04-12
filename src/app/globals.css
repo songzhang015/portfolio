@@ -6,12 +6,47 @@
 }
 
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
-	--color-sky-blue: #5bdeff;
-	--color-oxford-blue: #0b0f33;
+	--color-background: #0b0e14;
+	--color-foreground: #ecedf6;
+
+	--color-surface: #0b0e14;
+	--color-surface-dim: #0b0e14;
+	--color-surface-bright: #282c36;
+	--color-surface-container-low: #10131a;
+	--color-surface-container: #161a21;
+	--color-surface-container-high: #1c2028;
+	--color-surface-container-highest: #22262f;
+	--color-surface-variant: #22262f;
+
+	--color-primary: #d7e2ff;
+	--color-primary-dim: #c9d4f0;
+	--color-primary-container: #96a0bb;
+
+	--color-secondary: #c2dcff;
+	--color-secondary-dim: #b4cef0;
+	--color-secondary-container: #2f4865;
+
+	--color-tertiary: #81ecff;
+	--color-tertiary-dim: #00d4ec;
+	--color-tertiary-container: #00e3fd;
+
+	--color-on-background: #ecedf6;
+	--color-on-surface: #ecedf6;
+	--color-on-surface-variant: #a9abb3;
+	--color-on-primary: #475269;
+	--color-on-primary-container: #182338;
+	--color-on-secondary: #354e6b;
+	--color-on-secondary-container: #b9d2f5;
+	--color-on-tertiary: #005762;
+	--color-on-tertiary-container: #004d57;
+
+	--color-outline: #73757d;
+	--color-outline-variant: #45484f;
+
+	--color-sky-blue: #81ecff;
+	--color-oxford-blue: #0b0e14;
+
+	--font-sans: var(--font-inter-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,8 +56,60 @@
 	}
 }
 
+@keyframes ripple {
+	0% {
+		transform: translate(-50%, -50%) scale(0);
+		opacity: 0.95;
+		border-width: 1px;
+	}
+	33% {
+		transform: translate(-50%, -50%) scale(4.8);
+		opacity: 0;
+		border-width: 0;
+	}
+	100% {
+		transform: translate(-50%, -50%) scale(4.8);
+		opacity: 0;
+		border-width: 0;
+	}
+}
+
+@utility animate-ripple {
+	animation: ripple 3.4s ease-out infinite;
+}
+
 body {
 	background: var(--background);
 	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: var(--font-sans);
+}
+
+html {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(103, 119, 147, 0.45) transparent;
+	scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(156, 163, 175, 0.38);
+	border-radius: 999px;
+	border: 1px solid rgba(9, 13, 45, 0.55);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(209, 213, 219, 0.55);
+}
+
+::-webkit-scrollbar-button {
+	display: none;
+	width: 0;
+	height: 0;
 }
