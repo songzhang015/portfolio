@@ -69,7 +69,7 @@ export default function ProjectOne() {
 					>
 						<div className="space-y-5">
 							<div className="text-xs font-bold uppercase tracking-[0.22em] text-sky-blue">
-								01 / AI-Powered Coffee Tuner
+								01 / AI-powered Coffee Guide
 							</div>
 
 							<h3 className="text-3xl font-bold tracking-tight text-slate-200">

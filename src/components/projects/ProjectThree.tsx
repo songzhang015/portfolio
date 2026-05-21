@@ -61,7 +61,7 @@ export default function ProjectThree() {
 				>
 					<div className="space-y-5">
 						<div className="text-xs font-bold uppercase tracking-[0.22em] text-sky-blue">
-							03 / Multiplayer drawing and guessing game
+							03 / Multiplayer drawing-guessing game
 						</div>
 
 						<h3 className="text-3xl font-bold tracking-tight text-slate-200">
@@ -69,30 +69,26 @@ export default function ProjectThree() {
 						</h3>
 
 						<p className="text-lg text-gray-400">
-							Coffee Companion is a web-based application designed to help users
-							identify key elements in their coffee and tune future brews toward
-							their preferred flavors and aroma notes.
+							Drawing Game is an online multiplayer drawing and guessing game
+							inspired by skribbl.io, built as an MVP project for CS 322 at the
+							University of Oregon. Players draw prompts in real time while
+							others try to guess the correct word, with synchronized timers,
+							scoring, chat, and room state across all connected players.
 						</p>
 
 						<p className="text-lg text-gray-400">
-							It combines an easy-to-use coffee logging interface with a
-							personalized brewing assistant that uses logged brew data, sensory
-							feedback, and key coffee metrics like aroma, acidity, sweetness,
-							body, and flavor to provide tailored recommendations.
+							The project was built using HTML, CSS, JavaScript, Flask, MongoDB,
+							Docker, and Socket.IO. A large part of the work focused on
+							real-time multiplayer systems, including event synchronization,
+							room state management, and balancing server vs. client authority
+							in a fast-paced game environment.
 						</p>
 
 						<p className="text-lg text-gray-400">
-							The platform supports brew logging, guided tasting, entry
-							management, tuning suggestions, and user account features like
-							email/password login, third-party authentication, and verified
-							accounts.
-						</p>
-
-						<p className="text-lg text-gray-400">
-							Built with Next.js, React, Tailwind, Flask, and MongoDB, this was
-							one of my first larger full-stack projects and helped shape how I
-							think about product flow, data modeling, and user-friendly design
-							for more complex systems.
+							Building the project helped me better understand real-time
+							architecture, multiplayer event systems, and the challenges
+							involved in designing responsive game workflows and UI
+							interactions.
 						</p>
 					</div>
 
@@ -102,15 +98,21 @@ export default function ProjectThree() {
 					>
 						<div className="flex justify-center gap-10">
 							<Icon
-								label="React"
+								label="HTML"
 								icon={
-									<i className="devicon-react-original colored text-[32px]" />
+									<i className="devicon-html5-plain colored text-[32px]" />
 								}
 							/>
 							<Icon
-								label="Next.js"
+								label="CSS"
 								icon={
-									<i className="devicon-nextjs-plain text-[32px] text-white" />
+									<i className="devicon-css3-plain colored text-[32px]" />
+								}
+							/>
+							<Icon
+								label="JavaScript"
+								icon={
+									<i className="devicon-javascript-plain colored text-[32px]" />
 								}
 							/>
 							<Icon

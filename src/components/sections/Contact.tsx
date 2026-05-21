@@ -17,6 +17,7 @@ const fadeUp: Variants = {
 export default function Contact() {
 	return (
 		<motion.section
+			id="contact"
 			className="flex min-h-screen items-center justify-center px-8 py-32 md:px-16 lg:px-24"
 			variants={fadeUp}
 			initial="initial"
@@ -34,7 +35,7 @@ export default function Contact() {
 				<div className="max-w-2xl space-y-10">
 					<p className="text-lg leading-9 text-gray-400">
 						I&apos;m always open to chatting about software, projects,
-						opportunities, or just connecting with other builders.
+						opportunities, or just connecting!
 					</p>
 
 					<div className="flex items-center gap-10">

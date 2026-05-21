@@ -47,7 +47,10 @@ const fadeUp: Variants = {
 
 export default function About() {
 	return (
-		<section className="flex justify-center px-8 py-32 md:px-16 lg:px-24">
+		<section
+			id="about"
+			className="flex justify-center px-8 py-32 md:px-16 lg:px-24"
+		>
 			<div className="grid w-full max-w-7xl grid-cols-1 gap-20 md:grid-cols-[0.9fr_1.1fr] md:gap-24">
 				<motion.div
 					className="md:sticky md:top-28 md:self-start"

@@ -111,7 +111,7 @@ export default function ProjectTwo() {
 				>
 					<div className="space-y-5">
 						<div className="text-xs font-bold uppercase tracking-[0.22em] text-sky-blue">
-							02 / Software development and management tool
+							02 / Software code reviewer
 						</div>
 
 						<h3 className="text-3xl font-bold tracking-tight text-slate-200">
@@ -119,30 +119,29 @@ export default function ProjectTwo() {
 						</h3>
 
 						<p className="text-lg text-gray-400">
-							Coffee Companion is a web-based application designed to help users
-							identify key elements in their coffee and tune future brews toward
-							their preferred flavors and aroma notes.
+							Synrax is an AI-powered platform focused on automated code
+							reviews, smoke testing, and developer workflow visibility for
+							modern software teams. As AI-generated code becomes more common
+							across the industry, one of the biggest challenges shifts from
+							writing software to maintaining quality as projects scale. Synrax
+							was built around that problem.
 						</p>
 
 						<p className="text-lg text-gray-400">
-							It combines an easy-to-use coffee logging interface with a
-							personalized brewing assistant that uses logged brew data, sensory
-							feedback, and key coffee metrics like aroma, acidity, sweetness,
-							body, and flavor to provide tailored recommendations.
+							I co-founded Synrax alongside two other engineers, where I
+							primarily work across product direction, architecture, and project
+							management. A large part of my role involves coordinating
+							development across both the frontend and backend systems while
+							figuring out how AI tooling can realistically fit into existing
+							engineering workflows without slowing teams down.
 						</p>
 
 						<p className="text-lg text-gray-400">
-							The platform supports brew logging, guided tasting, entry
-							management, tuning suggestions, and user account features like
-							email/password login, third-party authentication, and verified
-							accounts.
-						</p>
-
-						<p className="text-lg text-gray-400">
-							Built with Next.js, React, Tailwind, Flask, and MongoDB, this was
-							one of my first larger full-stack projects and helped shape how I
-							think about product flow, data modeling, and user-friendly design
-							for more complex systems.
+							The platform integrates directly into GitHub workflows and
+							automatically reviews pull requests, generates tests, runs smoke
+							tests, and surfaces issues before code is merged. The goal was to
+							reduce the amount of repetitive review and QA work that tends to
+							slow teams down as projects grow larger and more AI-assisted.
 						</p>
 					</div>
 
@@ -154,37 +153,28 @@ export default function ProjectTwo() {
 							<Icon
 								label="React"
 								icon={
-									<i className="devicon-react-original colored text-[32px]" />
+									<i className="devicon-react-original colored text-3xl" />
 								}
 							/>
 							<Icon
 								label="Next.js"
 								icon={
-									<i className="devicon-nextjs-plain text-[32px] text-white" />
+									<i className="devicon-nextjs-plain text-3xl text-white" />
 								}
 							/>
 							<Icon
-								label="Python"
+								label="Go"
+								icon={<i className="devicon-go-original-wordmark colored text-5xl" />}
+							/>
+							<Icon
+								label="PostgreSQL"
 								icon={
-									<Image
-										src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-										alt="Python"
-										width={32}
-										height={32}
-									/>
+									<i className="devicon-postgresql-plain colored text-4xl" />
 								}
 							/>
 							<Icon
-								label="Flask"
-								icon={
-									<i className="devicon-flask-original text-[32px] text-white" />
-								}
-							/>
-							<Icon
-								label="MongoDB"
-								icon={
-									<i className="devicon-mongodb-plain colored text-[32px]" />
-								}
+								label="Supabase"
+								icon={<i className="devicon-supabase-plain colored text-4xl" />}
 							/>
 						</div>
 					</motion.div>

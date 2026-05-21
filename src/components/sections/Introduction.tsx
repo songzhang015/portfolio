@@ -8,7 +8,6 @@ import {
 	useSpring,
 	useTransform,
 } from "framer-motion";
-import { ChevronsDown } from "lucide-react";
 import { useRef } from "react";
 
 const itemVariants: Variants = {
@@ -56,7 +55,7 @@ export default function Introduction() {
 					}}
 				/>
 
-				<div className="absolute inset-0 bg-background/50" />
+				<div className="absolute inset-0 bg-background/40" />
 				<div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-surface via-black/55 to-transparent" />
 			</div>
 
@@ -85,7 +84,7 @@ export default function Introduction() {
 
 				<motion.h1
 					variants={itemVariants}
-					className="font-headline text-6xl font-bold tracking-tight text-on-surface md:text-8xl"
+					className="font-headline text-6xl font-bold tracking-tight md:text-8xl"
 				>
 					Song Zhang
 				</motion.h1>
@@ -94,13 +93,8 @@ export default function Introduction() {
 					variants={itemVariants}
 					className="max-w-2xl text-xl text-on-surface-variant md:text-2xl"
 				>
-					A junior attending the University of Oregon, pursuing a
-					Bachelor&apos;s in Computer Science.
+					Student at the University of Oregon studying Computer Science.
 				</motion.p>
-
-				<motion.div variants={itemVariants} className="pt-4">
-					<ChevronsDown className="h-8 w-8 animate-bounce text-tertiary" />
-				</motion.div>
 			</motion.div>
 		</section>
 	);

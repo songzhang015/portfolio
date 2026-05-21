@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
+	animate,
 	motion,
 	useScroll,
 	useMotionValueEvent,
 	Variants,
 } from "framer-motion";
 import { useLoading } from "../others/LoadingContext";
+import { NavButton } from "../ui/NavButton";
+
+type SectionId = "about" | "projects" | "contact";
 
 const itemVariants: Variants = {
 	initial: { y: -12, opacity: 0 },
@@ -24,9 +28,37 @@ export default function Header() {
 	const isLoading = useLoading();
 	// const isLoading = false;
 	const { scrollY } = useScroll();
+	const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
 	const [hidden, setHidden] = useState(false);
 	const [isAtTop, setIsAtTop] = useState(true);
 	const [hasEntered, setHasEntered] = useState(false);
+
+	const scrollToSection = (sectionId: SectionId): void => {
+		const section = document.getElementById(sectionId);
+		if (!section) return;
+
+		const headerOffset = 96;
+		const targetY = Math.max(
+			section.getBoundingClientRect().top + window.scrollY - headerOffset,
+			0,
+		);
+		const prefersReducedMotion = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+
+		scrollAnimation.current?.stop();
+
+		if (prefersReducedMotion) {
+			window.scrollTo(0, targetY);
+			return;
+		}
+
+		scrollAnimation.current = animate(window.scrollY, targetY, {
+			duration: 1,
+			ease: [0.22, 1, 0.36, 1],
+			onUpdate: (latest) => window.scrollTo(0, latest),
+		});
+	};
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
 		const previous = scrollY.getPrevious() ?? 0;
@@ -88,31 +120,17 @@ export default function Header() {
 			`}
 		>
 			<motion.div variants={itemVariants}>
-				<button className="group relative cursor-pointer transition-colors duration-300 text-gray-200/90 hover:text-white">
-					<span>About</span>
-					<span
-						className="pointer-events-none absolute left-0 -bottom-1 h-px w-full origin-left
-					scale-x-0 bg-sky-400 transition-transform duration-300 ease-out group-hover:scale-x-100"
-					/>
-				</button>
+				<NavButton onClick={() => scrollToSection("about")}>About</NavButton>
 			</motion.div>
 			<motion.div variants={itemVariants}>
-				<button className="group relative cursor-pointer transition-colors duration-300 text-gray-200/90 hover:text-white">
-					<span>Projects</span>
-					<span
-						className="pointer-events-none absolute left-0 -bottom-1 h-px w-full origin-left
-					scale-x-0 bg-sky-400 transition-transform duration-300 ease-out group-hover:scale-x-100"
-					/>
-				</button>
+				<NavButton onClick={() => scrollToSection("projects")}>
+					Projects
+				</NavButton>
 			</motion.div>
 			<motion.div variants={itemVariants}>
-				<button className="group relative cursor-pointer transition-colors duration-300 text-gray-200/90 hover:text-white">
-					<span>Contact</span>
-					<span
-						className="pointer-events-none absolute left-0 -bottom-1 h-px w-full origin-left
-					scale-x-0 bg-sky-400 transition-transform duration-300 ease-out group-hover:scale-x-100"
-					/>
-				</button>
+				<NavButton onClick={() => scrollToSection("contact")}>
+					Contact
+				</NavButton>
 			</motion.div>
 		</motion.header>
 	);
