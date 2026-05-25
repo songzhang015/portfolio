@@ -37,3 +37,4 @@ next-env.d.ts
 
 # other
 AGENTS.md
+.codex-temp/

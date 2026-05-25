@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Icon from "../others/Icon";
+import BounceCards from "../ui/BounceCards";
 import {
 	motion,
 	type Variants,
@@ -29,6 +30,18 @@ const fadeInFromLeft: Variants = {
 	},
 };
 
+const bounceCardImages = [
+	"/coffee_companion.png",
+	"/coffee_companion.png",
+	"/coffee_companion.png",
+];
+
+const bounceCardTransforms = [
+	"rotate(6deg) translate(-96px)",
+	"rotate(-4deg)",
+	"rotate(6deg) translate(96px)",
+];
+
 export default function ProjectOne() {
 	const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -54,7 +67,7 @@ export default function ProjectOne() {
 			<div className="flex w-full max-w-7xl flex-col gap-12">
 				<div className="flex flex-col items-end gap-2">
 					<h2 className="text-4xl font-bold tracking-tight text-gray-100 md:text-5xl">
-						Projects
+						Featured Projects
 					</h2>
 					<hr className="w-full max-w-xs border-white/50" />
 				</div>
@@ -150,7 +163,7 @@ export default function ProjectOne() {
 
 					<div className="space-y-8 md:space-y-14">
 						<motion.div
-							className="relative overflow-hidden rounded-lg bg-[#10131a]"
+							className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 							variants={fadeUp}
 							initial="initial"
 							whileInView="visible"
@@ -166,7 +179,7 @@ export default function ProjectOne() {
 						</motion.div>
 
 						<motion.div
-							className="relative overflow-hidden rounded-lg bg-[#10131a]"
+							className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 							variants={fadeUp}
 							initial="initial"
 							whileInView="visible"
@@ -182,7 +195,7 @@ export default function ProjectOne() {
 						</motion.div>
 
 						<motion.div
-							className="relative overflow-hidden rounded-lg bg-[#10131a]"
+							className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 							variants={fadeUp}
 							initial="initial"
 							whileInView="visible"
@@ -196,6 +209,19 @@ export default function ProjectOne() {
 								className="h-auto w-full object-cover"
 							/>
 						</motion.div>
+
+						<div className="flex justify-center pt-4">
+							<BounceCards
+								images={bounceCardImages}
+								containerWidth={500}
+								containerHeight={280}
+								animationDelay={0}
+								animationStagger={0.08}
+								easeType="elastic.out(1, 0.5)"
+								transformStyles={bounceCardTransforms}
+								enableHover
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 import ProjectOne from "../projects/ProjectOne";
 import ProjectTwo from "../projects/ProjectTwo";
 import ProjectThree from "../projects/ProjectThree";
+import OtherProjects from "../projects/OtherProjects";
 
 export default function Projects() {
 	return (
@@ -11,6 +12,7 @@ export default function Projects() {
 			<ProjectOne />
 			<ProjectTwo />
 			<ProjectThree />
+			<OtherProjects />
 		</section>
 	);
 }

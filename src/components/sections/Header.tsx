@@ -14,14 +14,15 @@ import { NavButton } from "../ui/NavButton";
 type SectionId = "about" | "projects" | "contact";
 
 const itemVariants: Variants = {
-	initial: { y: -12, opacity: 0 },
+	initial: { y: -12, opacity: 0, filter: "blur(6px)" },
 	enter: {
 		y: 0,
 		opacity: 1,
+		filter: "blur(0px)",
 		transition: { type: "spring", bounce: 0.6, duration: 0.8 },
 	},
-	visible: { y: 0, opacity: 1 },
-	hidden: { y: -12, opacity: 0 },
+	visible: { y: 0, opacity: 1, filter: "blur(0px)" },
+	hidden: { y: -12, opacity: 0, filter: "blur(6px)" },
 };
 
 export default function Header() {
@@ -29,6 +30,7 @@ export default function Header() {
 	// const isLoading = false;
 	const { scrollY } = useScroll();
 	const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
+	const isProgrammaticScroll = useRef(false);
 	const [hidden, setHidden] = useState(false);
 	const [isAtTop, setIsAtTop] = useState(true);
 	const [hasEntered, setHasEntered] = useState(false);
@@ -47,9 +49,14 @@ export default function Header() {
 		).matches;
 
 		scrollAnimation.current?.stop();
+		isProgrammaticScroll.current = true;
+		setHidden(false);
 
 		if (prefersReducedMotion) {
 			window.scrollTo(0, targetY);
+			window.setTimeout(() => {
+				isProgrammaticScroll.current = false;
+			}, 100);
 			return;
 		}
 
@@ -57,6 +64,9 @@ export default function Header() {
 			duration: 1,
 			ease: [0.22, 1, 0.36, 1],
 			onUpdate: (latest) => window.scrollTo(0, latest),
+			onComplete: () => {
+				isProgrammaticScroll.current = false;
+			},
 		});
 	};
 
@@ -69,6 +79,11 @@ export default function Header() {
 			setIsAtTop(false);
 		}
 
+		if (isProgrammaticScroll.current) {
+			setHidden(false);
+			return;
+		}
+
 		if (latest > previous && latest > 50) {
 			setHidden(true);
 		} else {
@@ -79,10 +94,11 @@ export default function Header() {
 	return (
 		<motion.header
 			variants={{
-				initial: { y: -24, opacity: 0 },
+				initial: { y: -24, opacity: 0, filter: "blur(6px)" },
 				enter: {
 					y: 0,
 					opacity: 1,
+					filter: "blur(0px)",
 					transition: {
 						type: "spring",
 						bounce: 0.5,
@@ -95,9 +111,10 @@ export default function Header() {
 				visible: {
 					y: 0,
 					opacity: 1,
+					filter: "blur(0px)",
 					transition: { duration: 0.3, ease: "easeOut" },
 				},
-				hidden: { y: "-100%", opacity: 0 },
+				hidden: { y: "-100%", opacity: 0, filter: "blur(6px)" },
 			}}
 			initial="initial"
 			animate={

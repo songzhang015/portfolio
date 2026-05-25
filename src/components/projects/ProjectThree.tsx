@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Icon from "../others/Icon";
+import BounceCards from "../ui/BounceCards";
 import {
 	motion,
 	type Variants,
@@ -28,6 +29,18 @@ const fadeInFromLeft: Variants = {
 		transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
 	},
 };
+
+const bounceCardImages = [
+	"/coffee_companion.png",
+	"/coffee_companion.png",
+	"/coffee_companion.png",
+];
+
+const bounceCardTransforms = [
+	"rotate(6deg) translate(-96px)",
+	"rotate(-4deg)",
+	"rotate(6deg) translate(96px)",
+];
 
 export default function ProjectThree() {
 	const sectionRef = useRef<HTMLElement | null>(null);
@@ -144,7 +157,7 @@ export default function ProjectThree() {
 
 				<div className="space-y-8 md:space-y-14">
 					<motion.div
-						className="relative overflow-hidden rounded-lg bg-[#10131a]"
+						className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 						variants={fadeUp}
 						initial="initial"
 						whileInView="visible"
@@ -160,7 +173,7 @@ export default function ProjectThree() {
 					</motion.div>
 
 					<motion.div
-						className="relative overflow-hidden rounded-lg bg-[#10131a]"
+						className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 						variants={fadeUp}
 						initial="initial"
 						whileInView="visible"
@@ -176,7 +189,7 @@ export default function ProjectThree() {
 					</motion.div>
 
 					<motion.div
-						className="relative overflow-hidden rounded-lg bg-[#10131a]"
+						className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 						variants={fadeUp}
 						initial="initial"
 						whileInView="visible"
@@ -190,6 +203,19 @@ export default function ProjectThree() {
 							className="h-auto w-full object-cover"
 						/>
 					</motion.div>
+
+					<div className="flex justify-center pt-4">
+						<BounceCards
+							images={bounceCardImages}
+							containerWidth={500}
+							containerHeight={280}
+							animationDelay={0}
+							animationStagger={0.08}
+							easeType="elastic.out(1, 0.5)"
+							transformStyles={bounceCardTransforms}
+							enableHover
+						/>
+					</div>
 				</div>
 			</div>
 		</section>

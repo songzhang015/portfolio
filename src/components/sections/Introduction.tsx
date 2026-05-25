@@ -8,19 +8,23 @@ import {
 	useSpring,
 	useTransform,
 } from "framer-motion";
-import { useRef } from "react";
+import { ChevronDown } from "lucide-react";
+import { useRef, useState } from "react";
 
 const itemVariants: Variants = {
-	initial: { y: 24, opacity: 0 },
+	initial: { y: 24, opacity: 0, filter: "blur(8px)" },
 	visible: {
 		y: 0,
 		opacity: 1,
+		filter: "blur(0px)",
 		transition: { duration: 0.7, ease: [0.34, 1.56, 0.64, 1] as never },
 	},
 };
 
 export default function Introduction() {
 	const isLoading = useLoading();
+	const [isChevronDismissed, setIsChevronDismissed] = useState(false);
+	const [isChevronHidden, setIsChevronHidden] = useState(false);
 	const sectionRef = useRef<HTMLElement | null>(null);
 
 	const { scrollYProgress } = useScroll({
@@ -93,8 +97,45 @@ export default function Introduction() {
 					variants={itemVariants}
 					className="max-w-2xl text-xl text-on-surface-variant md:text-2xl"
 				>
-					Student at the University of Oregon studying Computer Science.
+					Building Full-Stack & AI Applications
 				</motion.p>
+
+				<motion.div variants={itemVariants} className="h-11">
+					{!isChevronHidden && (
+						<motion.button
+							type="button"
+							aria-label="Dismiss scroll cue"
+							className="flex cursor-pointer flex-col items-center -space-y-5 text-tertiary"
+							initial={{ y: 0 }}
+							onClick={() => setIsChevronDismissed(true)}
+							onAnimationComplete={() => {
+								if (isChevronDismissed) setIsChevronHidden(true);
+							}}
+							animate={
+								isChevronDismissed
+									? { opacity: 0, y: -32 }
+									: isLoading
+									? { opacity: 1, y: 0 }
+									: {
+											opacity: 1,
+											y: [0, 18, 0],
+										}
+							}
+							transition={
+								isChevronDismissed
+									? { duration: 0.55, ease: "easeOut" }
+									: {
+											duration: 1.8,
+											repeat: Infinity,
+											repeatType: "loop",
+										}
+							}
+						>
+							<ChevronDown className="h-8 w-8" strokeWidth={3} />
+							<ChevronDown className="h-8 w-8" strokeWidth={3} />
+						</motion.button>
+					)}
+				</motion.div>
 			</motion.div>
 		</section>
 	);

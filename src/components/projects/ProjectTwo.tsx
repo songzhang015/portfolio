@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Icon from "../others/Icon";
+import BounceCards from "../ui/BounceCards";
 import {
 	motion,
 	type Variants,
@@ -9,7 +10,7 @@ import {
 	useSpring,
 	useTransform,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const fadeUp: Variants = {
 	initial: { y: 28, opacity: 0 },
@@ -29,8 +30,21 @@ const fadeInFromRight: Variants = {
 	},
 };
 
+const bounceCardImages = [
+	"/coffee_companion.png",
+	"/coffee_companion.png",
+	"/coffee_companion.png",
+];
+
+const bounceCardTransforms = [
+	"rotate(6deg) translate(-96px)",
+	"rotate(-4deg)",
+	"rotate(6deg) translate(96px)",
+];
+
 export default function ProjectTwo() {
 	const sectionRef = useRef<HTMLElement | null>(null);
+	const [isVideoOpen, setIsVideoOpen] = useState(false);
 
 	const { scrollYProgress } = useScroll({
 		target: sectionRef,
@@ -54,23 +68,28 @@ export default function ProjectTwo() {
 			<div className="grid w-full max-w-7xl grid-cols-1 gap-20 md:grid-cols-[1fr_1fr] md:gap-24">
 				<div className="space-y-8 md:space-y-14">
 					<motion.div
-						className="relative overflow-hidden rounded-lg bg-[#10131a]"
+						className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 						variants={fadeUp}
 						initial="initial"
 						whileInView="visible"
 						viewport={{ once: true, amount: 0.2 }}
 					>
-						<Image
-							src="/coffee_companion.png"
-							alt="Synrax main screenshot"
-							width={1200}
-							height={900}
-							className="h-auto w-full object-cover"
-						/>
+						<video
+							className="h-auto w-full cursor-pointer object-cover transition-transform duration-300 hover:scale-[1.02]"
+							onClick={() => setIsVideoOpen(true)}
+							autoPlay
+							muted
+							loop
+							playsInline
+							preload="auto"
+							controls={false}
+						>
+							<source src="/synrax.mp4" type="video/mp4" />
+						</video>
 					</motion.div>
 
 					<motion.div
-						className="relative overflow-hidden rounded-lg bg-[#10131a]"
+						className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 						variants={fadeUp}
 						initial="initial"
 						whileInView="visible"
@@ -86,7 +105,7 @@ export default function ProjectTwo() {
 					</motion.div>
 
 					<motion.div
-						className="relative overflow-hidden rounded-lg bg-[#10131a]"
+						className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
 						variants={fadeUp}
 						initial="initial"
 						whileInView="visible"
@@ -100,6 +119,19 @@ export default function ProjectTwo() {
 							className="h-auto w-full object-cover"
 						/>
 					</motion.div>
+
+					<div className="flex justify-center pt-4">
+						<BounceCards
+							images={bounceCardImages}
+							containerWidth={500}
+							containerHeight={280}
+							animationDelay={0}
+							animationStagger={0.08}
+							easeType="elastic.out(1, 0.5)"
+							transformStyles={bounceCardTransforms}
+							enableHover
+						/>
+					</div>
 				</div>
 
 				<motion.div
@@ -180,6 +212,26 @@ export default function ProjectTwo() {
 					</motion.div>
 				</motion.div>
 			</div>
+
+			{isVideoOpen && (
+				<div
+					className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+					onClick={() => setIsVideoOpen(false)}
+				>
+					<video
+						className="relative z-20 max-h-[86vh] w-full max-w-7xl rounded-lg bg-black shadow-2xl"
+						autoPlay
+						muted
+						loop
+						playsInline
+						preload="auto"
+						controls
+						onClick={(event) => event.stopPropagation()}
+					>
+						<source src="/synrax.mp4" type="video/mp4" />
+					</video>
+				</div>
+			)}
 		</section>
 	);
 }

@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { motion, type Variants } from "framer-motion";
+import { animate, motion, type Variants } from "framer-motion";
 
 const itemVariants: Variants = {
 	initial: { x: -32, opacity: 0 },
@@ -46,6 +45,31 @@ const fadeUp: Variants = {
 };
 
 export default function About() {
+	const scrollToContact = (): void => {
+		const section = document.getElementById("contact");
+		if (!section) return;
+
+		const headerOffset = 96;
+		const targetY = Math.max(
+			section.getBoundingClientRect().top + window.scrollY - headerOffset,
+			0,
+		);
+		const prefersReducedMotion = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+
+		if (prefersReducedMotion) {
+			window.scrollTo(0, targetY);
+			return;
+		}
+
+		animate(window.scrollY, targetY, {
+			duration: 1,
+			ease: [0.22, 1, 0.36, 1],
+			onUpdate: (latest) => window.scrollTo(0, latest),
+		});
+	};
+
 	return (
 		<section
 			id="about"
@@ -68,9 +92,10 @@ export default function About() {
 
 					<div className="mt-10 max-w-xl space-y-8 text-lg text-gray-400">
 						<p>
-							Hello there! I&apos;m Song, and I specialize in full-stack
-							development with experience in frontend design, backend systems,
-							databases, and deployment.
+							Hello there! I&apos;m Song, a student at the University of Oregon
+							studying Computer Science. I specialize in full-stack development
+							with experience in frontend design, backend systems, databases,
+							and deployment.
 						</p>
 
 						<p>
@@ -81,6 +106,7 @@ export default function About() {
 						<motion.div variants={itemVariants} className="mt-1 self-start">
 							<motion.button
 								type="button"
+								onClick={scrollToContact}
 								initial="rest"
 								animate="rest"
 								whileHover="hover"
@@ -194,29 +220,12 @@ export default function About() {
 						</h3>
 						<p className="max-w-2xl text-lg text-gray-400">
 							Studying CS at UO for 3 years, I&apos;ve taken courses in data
-							structures, algorithms, and software engineering. Throughout these
-							years, I&apos;ve created over a dozen projects spanning from
-							personal ones, guided ones from CS50x and The Odin Project, and
-							group projects from classes and companies.
+							structures, algorithms, and software engineering. Over the past
+							few years, I&apos;ve built over a dozen projects ranging from
+							personal applications to guided coursework through CS50x and The
+							Odin Project, as well as collaborative projects for classes and
+							companies.
 						</p>
-					</motion.div>
-
-					<motion.div
-						className="pt-2"
-						variants={fadeUp}
-						initial="initial"
-						whileInView="visible"
-						viewport={{ once: true, amount: 0.25 }}
-					>
-						<div className="relative overflow-hidden rounded-lg bg-[#10131a]">
-							<Image
-								src="/picture.jpg"
-								alt="Song Zhang"
-								width={800}
-								height={1000}
-								className="h-auto w-full object-cover"
-							/>
-						</div>
 					</motion.div>
 				</div>
 			</div>
