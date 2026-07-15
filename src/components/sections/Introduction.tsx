@@ -39,9 +39,9 @@ export default function Introduction() {
 		mass: 0.3,
 	});
 
-	const bgY = useTransform(smoothProgress, [0, 1], ["-2%", "8%"]);
+	const bgY = useTransform(smoothProgress, [0, 1], ["-10%", "20%"]);
 	const contentY = useTransform(smoothProgress, [0, 1], [0, -18]);
-	const bgScale = useTransform(smoothProgress, [0, 1], [1.02, 1.08]);
+	const bgScale = useTransform(smoothProgress, [0, 1], [1.2, 1.3]);
 	const bgOpacity = useTransform(smoothProgress, [0, 1], [1, 0.82]);
 
 	return (
@@ -96,9 +96,9 @@ export default function Introduction() {
 
 				<motion.p
 					variants={itemVariants}
-					className="max-w-2xl text-xl text-on-surface-variant md:text-2xl"
+					className="max-w-2xl text-xl text-on-surface-variant md:text-2xl "
 				>
-					Building Full-Stack Applications
+					Full-Stack Development, Systems Design, AI Integration
 				</motion.p>
 
 				<motion.div variants={itemVariants} className="h-11">
