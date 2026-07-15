@@ -2,7 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import { fadeUp } from "../../lib/animations";
-import { scrollToElement } from "../../lib/scroll";
+import { useLenis } from "lenis/react";
 
 const itemVariants: Variants = {
 	initial: { x: -32, opacity: 0 },
@@ -38,6 +38,25 @@ const buttonGlowVariants: Variants = {
 };
 
 export default function About() {
+	const lenis = useLenis();
+
+	const scrollToContact = (): void => {
+		const section = document.getElementById("contact");
+		if (!section || !lenis) return;
+
+		const headerOffset = 96;
+		const prefersReducedMotion = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+
+		lenis.scrollTo(section, {
+			offset: -headerOffset,
+			immediate: prefersReducedMotion,
+			duration: 1.2,
+			easing: (t) => 1 - Math.pow(1 - t, 3),
+		});
+	};
+
 	return (
 		<section
 			id="about"
@@ -74,7 +93,7 @@ export default function About() {
 						<motion.div variants={itemVariants} className="mt-1 self-start">
 							<motion.button
 								type="button"
-								onClick={() => scrollToElement("contact")}
+								onClick={scrollToContact}
 								initial="rest"
 								animate="rest"
 								whileHover="hover"
