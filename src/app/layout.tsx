@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import SmoothScroll from "../components/others/SmoothScroll";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +27,9 @@ export default function RootLayout({
 					href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
 				/>
 			</head>
-			<body className="min-h-full flex flex-col">{children}</body>
+			<body className="min-h-full flex flex-col">
+				<SmoothScroll>{children}</SmoothScroll>
+			</body>
 		</html>
 	);
 }

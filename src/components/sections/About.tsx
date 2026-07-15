@@ -1,6 +1,7 @@
 "use client";
 
-import { animate, motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { useLenis } from "lenis/react";
 
 const itemVariants: Variants = {
 	initial: { x: -32, opacity: 0 },
@@ -45,28 +46,22 @@ const fadeUp: Variants = {
 };
 
 export default function About() {
+	const lenis = useLenis();
+
 	const scrollToContact = (): void => {
 		const section = document.getElementById("contact");
-		if (!section) return;
+		if (!section || !lenis) return;
 
 		const headerOffset = 96;
-		const targetY = Math.max(
-			section.getBoundingClientRect().top + window.scrollY - headerOffset,
-			0,
-		);
 		const prefersReducedMotion = window.matchMedia(
 			"(prefers-reduced-motion: reduce)",
 		).matches;
 
-		if (prefersReducedMotion) {
-			window.scrollTo(0, targetY);
-			return;
-		}
-
-		animate(window.scrollY, targetY, {
-			duration: 1,
-			ease: [0.22, 1, 0.36, 1],
-			onUpdate: (latest) => window.scrollTo(0, latest),
+		lenis.scrollTo(section, {
+			offset: -headerOffset,
+			immediate: prefersReducedMotion,
+			duration: 1.2,
+			easing: (t) => 1 - Math.pow(1 - t, 3),
 		});
 	};
 

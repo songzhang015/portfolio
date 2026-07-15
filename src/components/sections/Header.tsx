@@ -1,13 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import {
-	animate,
-	motion,
-	useScroll,
-	useMotionValueEvent,
-	Variants,
-} from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, Variants } from "framer-motion";
+import { useLenis } from "lenis/react";
 import { useLoading } from "../others/LoadingContext";
 import { NavButton } from "../ui/NavButton";
 
@@ -29,7 +24,7 @@ export default function Header() {
 	const isLoading = useLoading();
 	// const isLoading = false;
 	const { scrollY } = useScroll();
-	const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
+	const lenis = useLenis();
 	const isProgrammaticScroll = useRef(false);
 	const [hidden, setHidden] = useState(false);
 	const [isAtTop, setIsAtTop] = useState(true);
@@ -37,33 +32,21 @@ export default function Header() {
 
 	const scrollToSection = (sectionId: SectionId): void => {
 		const section = document.getElementById(sectionId);
-		if (!section) return;
+		if (!section || !lenis) return;
 
 		const headerOffset = 96;
-		const targetY = Math.max(
-			section.getBoundingClientRect().top + window.scrollY - headerOffset,
-			0,
-		);
 		const prefersReducedMotion = window.matchMedia(
 			"(prefers-reduced-motion: reduce)",
 		).matches;
 
-		scrollAnimation.current?.stop();
 		isProgrammaticScroll.current = true;
 		setHidden(false);
 
-		if (prefersReducedMotion) {
-			window.scrollTo(0, targetY);
-			window.setTimeout(() => {
-				isProgrammaticScroll.current = false;
-			}, 100);
-			return;
-		}
-
-		scrollAnimation.current = animate(window.scrollY, targetY, {
-			duration: 1,
-			ease: [0.22, 1, 0.36, 1],
-			onUpdate: (latest) => window.scrollTo(0, latest),
+		lenis.scrollTo(section, {
+			offset: -headerOffset,
+			immediate: prefersReducedMotion,
+			duration: 1.2,
+			easing: (t) => 1 - Math.pow(1 - t, 3),
 			onComplete: () => {
 				isProgrammaticScroll.current = false;
 			},
