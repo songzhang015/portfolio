@@ -5,6 +5,30 @@ import { useEffect, useId, useState } from "react";
 
 import { LoadingContext } from "./LoadingContext";
 
+const REVEAL_START = 3.5;
+const BASE_DURATION = 0.8;
+
+const DRIP_WIDTH = 10;
+const DRIP_SPACING = 8;
+const DRIP_COUNT = Math.ceil(100 / DRIP_SPACING) + 6;
+const FINAL_DRIP_HEIGHT = 150;
+
+const drips = Array.from({ length: DRIP_COUNT }, (_, index) => {
+	const centerIndex = (DRIP_COUNT - 1) / 2;
+	const offset = index - centerIndex;
+	const distance = Math.abs(offset);
+
+	return {
+		x: 50 + offset * DRIP_SPACING - DRIP_WIDTH / 2,
+		delay: REVEAL_START + distance * 0.1,
+		duration: BASE_DURATION + distance * 0.015,
+	};
+});
+
+const DURATION = 7.0;
+
+const BLOCK_TIMES = [0, 0.32, 0.4, 0.54] as const;
+
 export default function LoadupAnimation({
 	children,
 }: {
@@ -14,26 +38,6 @@ export default function LoadupAnimation({
 
 	const revealMaskId = useId();
 
-	const REVEAL_START = 3.5;
-	const BASE_DURATION = 0.8;
-
-	const DRIP_WIDTH = 10;
-	const DRIP_SPACING = 8;
-	const DRIP_COUNT = Math.ceil(100 / DRIP_SPACING) + 6;
-	const FINAL_DRIP_HEIGHT = 150;
-
-	const drips = Array.from({ length: DRIP_COUNT }, (_, index) => {
-		const centerIndex = (DRIP_COUNT - 1) / 2;
-		const offset = index - centerIndex;
-		const distance = Math.abs(offset);
-
-		return {
-			x: 50 + offset * DRIP_SPACING - DRIP_WIDTH / 2,
-			delay: REVEAL_START + distance * 0.1,
-			duration: BASE_DURATION + distance * 0.015,
-		};
-	});
-
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setIsLoading(false);
@@ -41,10 +45,6 @@ export default function LoadupAnimation({
 
 		return () => clearTimeout(timer);
 	}, []);
-
-	const DURATION = 7.0;
-
-	const BLOCK_TIMES = [0, 0.32, 0.4, 0.54] as const;
 
 	return (
 		<LoadingContext.Provider value={isLoading}>

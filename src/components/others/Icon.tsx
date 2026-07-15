@@ -1,11 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 interface IconProps {
 	label: string;
 	icon: React.ReactNode;
 }
+
+const labelVariants: Variants = {
+	hidden: { opacity: 0, y: -5 },
+	visible: { opacity: 1, y: 0 },
+};
 
 export default function Icon({ label, icon }: IconProps) {
 	return (
@@ -19,10 +24,7 @@ export default function Icon({ label, icon }: IconProps) {
 			</div>
 
 			<motion.div
-				variants={{
-					hidden: { opacity: 0, y: -5 },
-					visible: { opacity: 1, y: 0 },
-				}}
+				variants={labelVariants}
 				transition={{ type: "spring", stiffness: 300, damping: 25 }}
 				className="pointer-events-none absolute -bottom-1 text-xs text-neutral-300"
 			>

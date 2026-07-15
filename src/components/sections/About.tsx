@@ -1,6 +1,8 @@
 "use client";
 
-import { animate, motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { fadeUp } from "../../lib/animations";
+import { scrollToElement } from "../../lib/scroll";
 
 const itemVariants: Variants = {
 	initial: { x: -32, opacity: 0 },
@@ -35,41 +37,7 @@ const buttonGlowVariants: Variants = {
 	},
 };
 
-const fadeUp: Variants = {
-	initial: { y: 28, opacity: 0 },
-	visible: {
-		y: 0,
-		opacity: 1,
-		transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-	},
-};
-
 export default function About() {
-	const scrollToContact = (): void => {
-		const section = document.getElementById("contact");
-		if (!section) return;
-
-		const headerOffset = 96;
-		const targetY = Math.max(
-			section.getBoundingClientRect().top + window.scrollY - headerOffset,
-			0,
-		);
-		const prefersReducedMotion = window.matchMedia(
-			"(prefers-reduced-motion: reduce)",
-		).matches;
-
-		if (prefersReducedMotion) {
-			window.scrollTo(0, targetY);
-			return;
-		}
-
-		animate(window.scrollY, targetY, {
-			duration: 1,
-			ease: [0.22, 1, 0.36, 1],
-			onUpdate: (latest) => window.scrollTo(0, latest),
-		});
-	};
-
 	return (
 		<section
 			id="about"
@@ -106,7 +74,7 @@ export default function About() {
 						<motion.div variants={itemVariants} className="mt-1 self-start">
 							<motion.button
 								type="button"
-								onClick={scrollToContact}
+								onClick={() => scrollToElement("contact")}
 								initial="rest"
 								animate="rest"
 								whileHover="hover"

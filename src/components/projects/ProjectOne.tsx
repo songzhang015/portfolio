@@ -3,61 +3,19 @@
 import Image from "next/image";
 import Icon from "../others/Icon";
 import BounceCards from "../ui/BounceCards";
-import {
-	motion,
-	type Variants,
-	useScroll,
-	useSpring,
-	useTransform,
-} from "framer-motion";
+import ScreenshotCard from "../ui/ScreenshotCard";
+import { motion } from "framer-motion";
 import { useRef } from "react";
-
-const fadeUp: Variants = {
-	initial: { y: 28, opacity: 0 },
-	visible: {
-		y: 0,
-		opacity: 1,
-		transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-	},
-};
-
-const fadeInFromLeft: Variants = {
-	initial: { x: -32, opacity: 0 },
-	visible: {
-		x: 0,
-		opacity: 1,
-		transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-	},
-};
-
-const bounceCardImages = [
-	"/coffee_companion.png",
-	"/coffee_companion.png",
-	"/coffee_companion.png",
-];
-
-const bounceCardTransforms = [
-	"rotate(6deg) translate(-96px)",
-	"rotate(-4deg)",
-	"rotate(6deg) translate(96px)",
-];
+import {
+	bounceCardImages,
+	bounceCardTransforms,
+	fadeInFromLeft,
+} from "../../lib/animations";
+import { useScrollIconReveal } from "../../hooks/useScrollReveal";
 
 export default function ProjectOne() {
 	const sectionRef = useRef<HTMLElement | null>(null);
-
-	const { scrollYProgress } = useScroll({
-		target: sectionRef,
-		offset: ["start end", "end start"],
-	});
-
-	const smoothProgress = useSpring(scrollYProgress, {
-		stiffness: 120,
-		damping: 26,
-		mass: 0.3,
-	});
-
-	const iconOpacity = useTransform(smoothProgress, [0.6, 0.64, 1], [0, 1, 1]);
-	const iconY = useTransform(smoothProgress, [0.6, 0.64, 1], [18, 0, 0]);
+	const { iconOpacity, iconY } = useScrollIconReveal(sectionRef);
 
 	return (
 		<section
@@ -162,53 +120,23 @@ export default function ProjectOne() {
 					</motion.div>
 
 					<div className="space-y-8 md:space-y-14">
-						<motion.div
-							className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
-							variants={fadeUp}
-							initial="initial"
-							whileInView="visible"
-							viewport={{ once: true, amount: 0.2 }}
-						>
-							<Image
-								src="/coffee_companion.png"
-								alt="Coffee Companion main screenshot"
-								width={1200}
-								height={900}
-								className="h-auto w-full object-cover"
-							/>
-						</motion.div>
+						<ScreenshotCard
+							src="/coffee_companion.png"
+							alt="Coffee Companion main screenshot"
+							viewportAmount={0.2}
+						/>
 
-						<motion.div
-							className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
-							variants={fadeUp}
-							initial="initial"
-							whileInView="visible"
-							viewport={{ once: true, amount: 0.25 }}
-						>
-							<Image
-								src="/coffee_companion_2.png"
-								alt="Coffee Companion secondary screenshot"
-								width={1200}
-								height={900}
-								className="h-auto w-full object-cover"
-							/>
-						</motion.div>
+						<ScreenshotCard
+							src="/coffee_companion_2.png"
+							alt="Coffee Companion secondary screenshot"
+							viewportAmount={0.25}
+						/>
 
-						<motion.div
-							className="relative z-20 cursor-pointer overflow-hidden rounded-lg bg-[#10131a]"
-							variants={fadeUp}
-							initial="initial"
-							whileInView="visible"
-							viewport={{ once: true, amount: 0.3 }}
-						>
-							<Image
-								src="/coffee_companion_3.png"
-								alt="Coffee Companion third screenshot"
-								width={1200}
-								height={900}
-								className="h-auto w-full object-cover"
-							/>
-						</motion.div>
+						<ScreenshotCard
+							src="/coffee_companion_3.png"
+							alt="Coffee Companion third screenshot"
+							viewportAmount={0.3}
+						/>
 
 						<div className="flex justify-center pt-4">
 							<BounceCards

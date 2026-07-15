@@ -11,6 +11,8 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useRef, useState } from "react";
 
+type ChevronState = "visible" | "dismissed" | "hidden";
+
 const itemVariants: Variants = {
 	initial: { y: 24, opacity: 0, filter: "blur(8px)" },
 	visible: {
@@ -23,8 +25,7 @@ const itemVariants: Variants = {
 
 export default function Introduction() {
 	const isLoading = useLoading();
-	const [isChevronDismissed, setIsChevronDismissed] = useState(false);
-	const [isChevronHidden, setIsChevronHidden] = useState(false);
+	const [chevronState, setChevronState] = useState<ChevronState>("visible");
 	const sectionRef = useRef<HTMLElement | null>(null);
 
 	const { scrollYProgress } = useScroll({
@@ -59,7 +60,7 @@ export default function Introduction() {
 					}}
 				/>
 
-				<div className="absolute inset-0 bg-background/40" />
+				<div className="absolute inset-0 bg-background/25" />
 				<div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-surface via-black/55 to-transparent" />
 			</div>
 
@@ -97,22 +98,22 @@ export default function Introduction() {
 					variants={itemVariants}
 					className="max-w-2xl text-xl text-on-surface-variant md:text-2xl"
 				>
-					Building Full-Stack & AI Applications
+					Building Full-Stack Applications
 				</motion.p>
 
 				<motion.div variants={itemVariants} className="h-11">
-					{!isChevronHidden && (
+					{chevronState !== "hidden" && (
 						<motion.button
 							type="button"
 							aria-label="Dismiss scroll cue"
 							className="flex cursor-pointer flex-col items-center -space-y-5 text-tertiary"
 							initial={{ y: 0 }}
-							onClick={() => setIsChevronDismissed(true)}
+							onClick={() => setChevronState("dismissed")}
 							onAnimationComplete={() => {
-								if (isChevronDismissed) setIsChevronHidden(true);
+								if (chevronState === "dismissed") setChevronState("hidden");
 							}}
 							animate={
-								isChevronDismissed
+								chevronState === "dismissed"
 									? { opacity: 0, y: -32 }
 									: isLoading
 									? { opacity: 1, y: 0 }
@@ -122,7 +123,7 @@ export default function Introduction() {
 										}
 							}
 							transition={
-								isChevronDismissed
+								chevronState === "dismissed"
 									? { duration: 0.55, ease: "easeOut" }
 									: {
 											duration: 1.8,

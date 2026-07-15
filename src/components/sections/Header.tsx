@@ -10,8 +10,15 @@ import {
 } from "framer-motion";
 import { useLoading } from "../others/LoadingContext";
 import { NavButton } from "../ui/NavButton";
+import { scrollToElement } from "../../lib/scroll";
 
 type SectionId = "about" | "projects" | "contact";
+
+const navItems: { id: SectionId; label: string }[] = [
+	{ id: "about", label: "About" },
+	{ id: "projects", label: "Projects" },
+	{ id: "contact", label: "Contact" },
+];
 
 const itemVariants: Variants = {
 	initial: { y: -12, opacity: 0, filter: "blur(6px)" },
@@ -25,9 +32,32 @@ const itemVariants: Variants = {
 	hidden: { y: -12, opacity: 0, filter: "blur(6px)" },
 };
 
+const headerVariants: Variants = {
+	initial: { y: -24, opacity: 0, filter: "blur(6px)" },
+	enter: {
+		y: 0,
+		opacity: 1,
+		filter: "blur(0px)",
+		transition: {
+			type: "spring",
+			bounce: 0.5,
+			duration: 1.0,
+			delay: 0.25,
+			staggerChildren: 0.15,
+			delayChildren: 0.25,
+		},
+	},
+	visible: {
+		y: 0,
+		opacity: 1,
+		filter: "blur(0px)",
+		transition: { duration: 0.3, ease: "easeOut" },
+	},
+	hidden: { y: "-100%", opacity: 0, filter: "blur(6px)" },
+};
+
 export default function Header() {
 	const isLoading = useLoading();
-	// const isLoading = false;
 	const { scrollY } = useScroll();
 	const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
 	const isProgrammaticScroll = useRef(false);
@@ -36,38 +66,14 @@ export default function Header() {
 	const [hasEntered, setHasEntered] = useState(false);
 
 	const scrollToSection = (sectionId: SectionId): void => {
-		const section = document.getElementById(sectionId);
-		if (!section) return;
-
-		const headerOffset = 96;
-		const targetY = Math.max(
-			section.getBoundingClientRect().top + window.scrollY - headerOffset,
-			0,
-		);
-		const prefersReducedMotion = window.matchMedia(
-			"(prefers-reduced-motion: reduce)",
-		).matches;
-
 		scrollAnimation.current?.stop();
 		isProgrammaticScroll.current = true;
 		setHidden(false);
 
-		if (prefersReducedMotion) {
-			window.scrollTo(0, targetY);
-			window.setTimeout(() => {
+		scrollAnimation.current =
+			scrollToElement(sectionId, () => {
 				isProgrammaticScroll.current = false;
-			}, 100);
-			return;
-		}
-
-		scrollAnimation.current = animate(window.scrollY, targetY, {
-			duration: 1,
-			ease: [0.22, 1, 0.36, 1],
-			onUpdate: (latest) => window.scrollTo(0, latest),
-			onComplete: () => {
-				isProgrammaticScroll.current = false;
-			},
-		});
+			}) ?? null;
 	};
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
@@ -93,29 +99,7 @@ export default function Header() {
 
 	return (
 		<motion.header
-			variants={{
-				initial: { y: -24, opacity: 0, filter: "blur(6px)" },
-				enter: {
-					y: 0,
-					opacity: 1,
-					filter: "blur(0px)",
-					transition: {
-						type: "spring",
-						bounce: 0.5,
-						duration: 1.0,
-						delay: 0.25,
-						staggerChildren: 0.15,
-						delayChildren: 0.25,
-					},
-				},
-				visible: {
-					y: 0,
-					opacity: 1,
-					filter: "blur(0px)",
-					transition: { duration: 0.3, ease: "easeOut" },
-				},
-				hidden: { y: "-100%", opacity: 0, filter: "blur(6px)" },
-			}}
+			variants={headerVariants}
 			initial="initial"
 			animate={
 				isLoading
@@ -136,19 +120,11 @@ export default function Header() {
 				${isAtTop ? "shadow-none backdrop-blur-none" : "shadow-sm shadow-black/75 backdrop-blur-xs"}
 			`}
 		>
-			<motion.div variants={itemVariants}>
-				<NavButton onClick={() => scrollToSection("about")}>About</NavButton>
-			</motion.div>
-			<motion.div variants={itemVariants}>
-				<NavButton onClick={() => scrollToSection("projects")}>
-					Projects
-				</NavButton>
-			</motion.div>
-			<motion.div variants={itemVariants}>
-				<NavButton onClick={() => scrollToSection("contact")}>
-					Contact
-				</NavButton>
-			</motion.div>
+			{navItems.map(({ id, label }) => (
+				<motion.div variants={itemVariants} key={id}>
+					<NavButton onClick={() => scrollToSection(id)}>{label}</NavButton>
+				</motion.div>
+			))}
 		</motion.header>
 	);
 }
