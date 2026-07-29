@@ -8,10 +8,16 @@ import {
 	useSpring,
 	useTransform,
 } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type ChevronState = "visible" | "dismissed" | "hidden";
+const BLURBS = [
+	"Hello there! I'm Song, a senior at the University of Oregon studying Computer Science.",
+	"I have experience with frontend design, backend systems, and AI integrations.",
+	"Please feel free to reach out or connect if you'd like to collaborate or chat!",
+];
+
+/* How long each blurb stays highlighted before the rotation advances */
+const ROTATE_MS = 6000;
 
 const itemVariants: Variants = {
 	initial: { y: 24, opacity: 0, filter: "blur(8px)" },
@@ -25,8 +31,22 @@ const itemVariants: Variants = {
 
 export default function Introduction() {
 	const isLoading = useLoading();
-	const [chevronState, setChevronState] = useState<ChevronState>("visible");
 	const sectionRef = useRef<HTMLElement | null>(null);
+
+	const [activeBlurb, setActiveBlurb] = useState(0);
+	const [hoveredBlurb, setHoveredBlurb] = useState<number | null>(null);
+
+	/* Rotation pauses while hovering; re-running on activeBlurb restarts the
+	   8s window whenever hover jumps the highlight somewhere else. */
+	useEffect(() => {
+		if (hoveredBlurb !== null) return;
+
+		const timer = setTimeout(
+			() => setActiveBlurb((i) => (i + 1) % BLURBS.length),
+			ROTATE_MS,
+		);
+		return () => clearTimeout(timer);
+	}, [activeBlurb, hoveredBlurb]);
 
 	const { scrollYProgress } = useScroll({
 		target: sectionRef,
@@ -44,11 +64,10 @@ export default function Introduction() {
 	return (
 		<section
 			ref={sectionRef}
-			className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black"
+			className="relative flex min-h-screen flex-col overflow-hidden"
 		>
-
 			<motion.div
-				className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-6 px-6 text-center"
+				className="relative z-10 flex w-full flex-1 flex-col justify-between px-8 pt-48 pb-10 md:px-16"
 				style={{ y: contentY }}
 				variants={{
 					initial: {},
@@ -63,63 +82,45 @@ export default function Introduction() {
 				initial="initial"
 				animate={isLoading ? "initial" : "visible"}
 			>
-				<motion.div
-					variants={itemVariants}
-					className="font-label text-xs font-bold tracking-[0.3em] text-tertiary uppercase"
-				>
-					Software Engineer
-				</motion.div>
+				<div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-8 md:flex-row md:items-start md:justify-center md:gap-16">
+					<motion.h1
+						variants={itemVariants}
+						className="text-6xl font-medium leading-[1.2] tracking-tight md:text-7xl"
+					>
+						<span className="block text-white">Song</span>
+						<span className="block text-gray-dark">Zhang</span>
+					</motion.h1>
 
-				<motion.h1
-					variants={itemVariants}
-					className="font-headline text-6xl font-bold tracking-tight md:text-8xl"
-				>
-					Song Zhang
-				</motion.h1>
+					<motion.div
+						variants={itemVariants}
+						className="space-y-8 pt-4 text-lg md:whitespace-nowrap md:text-xl"
+					>
+						{BLURBS.map((blurb, i) => (
+							<p
+								key={i}
+								onMouseEnter={() => {
+									setHoveredBlurb(i);
+									setActiveBlurb(i);
+								}}
+								onMouseLeave={() => setHoveredBlurb(null)}
+								className={`cursor-default transition-colors duration-700 ease-in-out ${
+									activeBlurb === i ? "text-white" : "text-gray-dark"
+								}`}
+							>
+								{blurb}
+							</p>
+						))}
+					</motion.div>
+				</div>
 
-				<motion.p
+				<motion.h2
 					variants={itemVariants}
-					className="max-w-2xl text-xl text-on-surface-variant md:text-2xl "
+					/* Viewport-relative so "DEVELOPING FULL-STACK" stays on one line */
+					className="text-[clamp(1.75rem,6.4vw,8.5rem)] font-medium leading-[1.02] tracking-tight text-white"
 				>
-					Full-Stack Development, Systems Design, AI Integration
-				</motion.p>
-
-				<motion.div variants={itemVariants} className="h-11">
-					{chevronState !== "hidden" && (
-						<motion.button
-							type="button"
-							aria-label="Dismiss scroll cue"
-							className="flex cursor-pointer flex-col items-center -space-y-5 text-tertiary"
-							initial={{ y: 0 }}
-							onClick={() => setChevronState("dismissed")}
-							onAnimationComplete={() => {
-								if (chevronState === "dismissed") setChevronState("hidden");
-							}}
-							animate={
-								chevronState === "dismissed"
-									? { opacity: 0, y: -32 }
-									: isLoading
-									? { opacity: 1, y: 0 }
-									: {
-											opacity: 1,
-											y: [0, 18, 0],
-										}
-							}
-							transition={
-								chevronState === "dismissed"
-									? { duration: 0.55, ease: "easeOut" }
-									: {
-											duration: 1.8,
-											repeat: Infinity,
-											repeatType: "loop",
-										}
-							}
-						>
-							<ChevronDown className="h-8 w-8" strokeWidth={3} />
-							<ChevronDown className="h-8 w-8" strokeWidth={3} />
-						</motion.button>
-					)}
-				</motion.div>
+					<span className="block pl-14">DEVELOPING FULL-STACK</span>
+					<span className="block pr-14 text-right">APPLICATIONS</span>
+				</motion.h2>
 			</motion.div>
 		</section>
 	);

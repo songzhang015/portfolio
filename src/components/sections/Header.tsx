@@ -8,10 +8,11 @@ import { NavButton } from "../ui/NavButton";
 
 type SectionId = "about" | "projects" | "contact";
 
-const navItems: { id: SectionId; label: string }[] = [
+/* Experience has no section to scroll to yet, so it renders as an inert label */
+const centerItems: { id: SectionId | null; label: string }[] = [
 	{ id: "about", label: "About" },
+	{ id: null, label: "Experience" },
 	{ id: "projects", label: "Projects" },
-	{ id: "contact", label: "Contact" },
 ];
 
 const itemVariants: Variants = {
@@ -121,16 +122,30 @@ export default function Header() {
 			}}
 			transition={{ duration: 0.3, ease: "easeOut" }}
 			className={`
-				fixed top-0 left-0 w-full z-50 flex justify-end text-md gap-16 py-8 px-16
+				fixed top-0 left-0 w-full z-50 grid grid-cols-3 items-center text-md py-8 px-16
 				transition-shadow duration-300
 				${isAtTop ? "shadow-none backdrop-blur-none" : "shadow-sm shadow-black/75 backdrop-blur-xs"}
 			`}
 		>
-			{navItems.map(({ id, label }) => (
-				<motion.div variants={itemVariants} key={id}>
-					<NavButton onClick={() => scrollToSection(id)}>{label}</NavButton>
+			<div aria-hidden="true" />
+
+			<nav className="flex justify-center gap-16">
+				{centerItems.map(({ id, label }) => (
+					<motion.div variants={itemVariants} key={label}>
+						<NavButton onClick={() => id && scrollToSection(id)}>
+							{label}
+						</NavButton>
+					</motion.div>
+				))}
+			</nav>
+
+			<div className="flex justify-end">
+				<motion.div variants={itemVariants}>
+					<NavButton onClick={() => scrollToSection("contact")}>
+						Contact
+					</NavButton>
 				</motion.div>
-			))}
+			</div>
 		</motion.header>
 	);
 }

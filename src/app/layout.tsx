@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import SmoothScroll from "../components/others/SmoothScroll";
 import "./globals.css";
 
 const inter = Inter({
 	variable: "--font-inter-sans",
 	subsets: ["latin"],
+});
+
+/* Variable font - the whole 400-700 range is available, so regular (400),
+   medium (500) and bold (700) all resolve from this single face */
+const geist = Geist({
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
+	weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -19,7 +27,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={`${inter.variable} h-full antialiased`}>
+		<html
+			lang="en"
+			className={`${geist.variable} ${inter.variable} h-full antialiased`}
+		>
 			<head>
 				<link
 					rel="stylesheet"
