@@ -6,6 +6,14 @@
 }
 
 @theme inline {
+	/* Approved palette — the only colors allowed in this project. */
+	--color-black: #000000;
+	--color-white: #ffffff;
+	--color-gray: #a6a6a6;
+	--color-gray-dark: #696969;
+	--color-gray-light: #dfdfdf;
+	--color-gray-background: #1c1c1c;
+
 	--color-background: #0b0e14;
 	--color-foreground: #ecedf6;
 
