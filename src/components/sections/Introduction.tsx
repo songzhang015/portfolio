@@ -39,30 +39,13 @@ export default function Introduction() {
 		mass: 0.3,
 	});
 
-	const bgY = useTransform(smoothProgress, [0, 1], ["-10%", "20%"]);
 	const contentY = useTransform(smoothProgress, [0, 1], [0, -18]);
-	const bgScale = useTransform(smoothProgress, [0, 1], [1.2, 1.3]);
-	const bgOpacity = useTransform(smoothProgress, [0, 1], [1, 0.82]);
 
 	return (
 		<section
 			ref={sectionRef}
-			className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background"
+			className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black"
 		>
-			<div className="pointer-events-none absolute inset-0">
-				<motion.div
-					className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-[1px]"
-					style={{
-						backgroundImage: "url('/background-3.png')",
-						y: bgY,
-						scale: bgScale,
-						opacity: bgOpacity,
-					}}
-				/>
-
-				<div className="absolute inset-0 bg-background/25" />
-				<div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-surface via-black/55 to-transparent" />
-			</div>
 
 			<motion.div
 				className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-6 px-6 text-center"

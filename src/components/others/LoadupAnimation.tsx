@@ -1,33 +1,51 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useId, useState } from "react";
+import {
+	motion,
+	AnimatePresence,
+	useMotionValue,
+	useSpring,
+	useTransform,
+} from "motion/react";
+import { useEffect, useState, type CSSProperties } from "react";
 
+import CountUp from "../ui/CountUp";
 import { LoadingContext } from "./LoadingContext";
 
-const REVEAL_START = 3.5;
-const BASE_DURATION = 0.8;
+/* Two-stage curtain: the gray panel sweeps down over the name to cover the
+   screen, then the whole overlay slides up off the top to reveal the page */
+const COVER_START = 5.0;
+const COVER_DURATION = 0.6;
+const REVEAL_START = COVER_START + COVER_DURATION + 0.15;
+const REVEAL_DURATION = 0.7;
 
-const DRIP_WIDTH = 10;
-const DRIP_SPACING = 8;
-const DRIP_COUNT = Math.ceil(100 / DRIP_SPACING) + 6;
-const FINAL_DRIP_HEIGHT = 150;
+/* Hold the overlay until the upward reveal has fully cleared the viewport */
+const LOADER_DURATION = (REVEAL_START + REVEAL_DURATION) * 1000;
 
-const drips = Array.from({ length: DRIP_COUNT }, (_, index) => {
-	const centerIndex = (DRIP_COUNT - 1) / 2;
-	const offset = index - centerIndex;
-	const distance = Math.abs(offset);
+const COUNT_DELAY = 0.1;
+const COUNT_DURATION = 1.0;
 
-	return {
-		x: 50 + offset * DRIP_SPACING - DRIP_WIDTH / 2,
-		delay: REVEAL_START + distance * 0.1,
-		duration: BASE_DURATION + distance * 0.015,
-	};
-});
+/* Passed to CountUp as well, so the bar tracks the number exactly. Damping is
+   below CountUp's own 20 + 40 / duration to shorten the crawl into 100 */
+const COUNT_SPRING = {
+	damping: 33,
+	stiffness: 100 * (1 / COUNT_DURATION),
+	/* Snap the last half-unit instead of crawling it - the tail is invisible
+	   anyway once the value rounds to 100, but it delays landing by ~1s */
+	restDelta: 0.4,
+};
 
-const DURATION = 7.0;
+/* The spring reads a settled 100 by ~1.95s; hold it, then push it out of frame.
+   Keep at least ~0.2s of daylight between those two or the push starts before
+   the counter ever displays 100 */
+const NAME_START = 2.15;
+const SWAP_DURATION = 1.1;
 
-const BLOCK_TIMES = [0, 0.32, 0.4, 0.54] as const;
+/* Matches the name block's measured height (48px name + 4px gap + 24px sub) so
+   both lines clip against the window edges at once during the swap. This is the
+   floor: the counter and name sit one slot apart, so any taller and the gap
+   between them grows, any shorter and the name clips at rest */
+const SLOT_HEIGHT = "4.75rem";
 
 export default function LoadupAnimation({
 	children,
@@ -36,15 +54,25 @@ export default function LoadupAnimation({
 }) {
 	const [isLoading, setIsLoading] = useState(true);
 
-	const revealMaskId = useId();
+	const progress = useMotionValue(0);
+	const smoothProgress = useSpring(progress, COUNT_SPRING);
+	const barWidth = useTransform(smoothProgress, (value) => `${value}%`);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setIsLoading(false);
-		}, 5000);
+		}, LOADER_DURATION);
 
 		return () => clearTimeout(timer);
 	}, []);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			progress.set(100);
+		}, COUNT_DELAY * 1000);
+
+		return () => clearTimeout(timer);
+	}, [progress]);
 
 	return (
 		<LoadingContext.Provider value={isLoading}>
@@ -53,171 +81,80 @@ export default function LoadupAnimation({
 					{isLoading && (
 						<motion.div
 							key="loader-overlay"
-							className="fixed inset-0 z-[999] flex justify-center items-center h-screen overflow-hidden"
+							className="fixed inset-0 z-[999] flex justify-center items-center h-screen overflow-hidden bg-black"
+							initial={{ y: "0%" }}
+							animate={{ y: "-100%" }}
+							transition={{
+								duration: REVEAL_DURATION,
+								delay: REVEAL_START,
+								ease: [0.76, 0, 0.24, 1],
+							}}
 						>
-							<svg
-								className="absolute inset-0 h-full w-full"
-								viewBox="0 0 100 100"
-								preserveAspectRatio="none"
-								aria-hidden="true"
-							>
-								<defs>
-									<mask
-										id={revealMaskId}
-										maskUnits="userSpaceOnUse"
-										x="0"
-										y="0"
-										width="100"
-										height="100"
-									>
-										<rect x="0" y="0" width="100" height="100" fill="white" />
-
-										{drips.map((drip, index) => (
-											<motion.rect
-												key={index}
-												x={drip.x}
-												y="-20"
-												width={DRIP_WIDTH}
-												height="0"
-												rx={DRIP_WIDTH / 2}
-												fill="black"
-												animate={{ height: FINAL_DRIP_HEIGHT }}
-												transition={{
-													duration: drip.duration,
-													delay: drip.delay,
-													ease: [0.4, 0, 1, 1],
-												}}
-											/>
-										))}
-									</mask>
-								</defs>
-
-								<motion.rect
-									x="0"
-									y="0"
-									width="100"
-									height="100"
-									mask={`url(#${revealMaskId})`}
-									initial={{ fill: "#070a25" }}
-									animate={{ fill: "#010208" }}
-									transition={{
-										duration: 0.75,
-										delay: 0.25,
-										ease: "easeInOut",
-									}}
-								/>
-							</svg>
+							{/* Sweeps down over the name, then rides the overlay back up */}
+							<motion.div
+								className="absolute inset-0 z-20 bg-gray-background"
+								initial={{ y: "-100%" }}
+								animate={{ y: "0%" }}
+								transition={{
+									duration: COVER_DURATION,
+									delay: COVER_START,
+									ease: [0.76, 0, 0.24, 1],
+								}}
+							/>
 
 							<motion.div
-								className="relative z-10 flex items-center justify-center w-28 h-28"
-								initial={{ y: 0 }}
-								animate={{ y: [0, 0, -140, 1200] }}
-								transition={{
-									times: [...BLOCK_TIMES],
-									duration: DURATION,
-									delay: 0.75,
-									ease: ["linear", [0.2, 0.8, 0.4, 1], [0.4, 0, 1, 1]] as never,
-								}}
+								className="relative z-10 h-[var(--swap-slot)] w-full overflow-hidden select-none"
+								style={{ "--swap-slot": SLOT_HEIGHT } as CSSProperties}
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ duration: 0.5, ease: "easeOut" }}
 							>
+								{/* One track of two full-height slots: the name pushes the
+								    counter up and out of the window as it slides in */}
 								<motion.div
-									className="relative flex items-center justify-center w-full h-full"
-									initial={{ rotate: 0 }}
-									animate={{ rotate: [0, 0, 180, 640] }}
+									initial={{ y: "0%" }}
+									animate={{ y: "-50%" }}
 									transition={{
-										times: [...BLOCK_TIMES],
-										duration: DURATION,
-										delay: 0.75,
-										ease: ["linear", [0.4, 0, 0.6, 1], "linear"] as never,
+										duration: SWAP_DURATION,
+										delay: NAME_START,
+										ease: [0.65, 0, 0.35, 1],
 									}}
 								>
-									<motion.div
-										initial={{ opacity: 0 }}
-										animate={{ opacity: 1 }}
-										transition={{ delay: 1, duration: 1.5 }}
-										className="absolute text-3xl font-bold text-white z-10 select-none"
-									>
-										SZ
-									</motion.div>
+									<div className="flex h-[var(--swap-slot)] items-center justify-center">
+										<span className="text-white text-base tabular-nums">
+											<CountUp
+												to={100}
+												duration={COUNT_DURATION}
+												delay={COUNT_DELAY}
+												damping={COUNT_SPRING.damping}
+												stiffness={COUNT_SPRING.stiffness}
+												restDelta={COUNT_SPRING.restDelta}
+											/>
+										</span>
+									</div>
 
-									<svg
-										className="absolute inset-0 w-full h-full"
-										viewBox="0 0 100 100"
-									>
-										<defs>
-											<linearGradient
-												id="brandGradient"
-												x1="0%"
-												y1="0%"
-												x2="100%"
-												y2="0%"
-											>
-												<stop offset="0%" stopColor="#5bdeff" />
-												<stop offset="100%" stopColor="#2695da" />
-											</linearGradient>
-										</defs>
-										{/* Stroke 1 */}
-										<motion.rect
-											x="10"
-											y="10"
-											width="80"
-											height="80"
-											rx="8"
-											fill="none"
-											stroke="#5bdeff"
-											strokeWidth="1.5"
-											strokeOpacity="0.18"
-											strokeLinecap="round"
-											initial={{ pathLength: 0, opacity: 0 }}
-											animate={{ pathLength: 1, opacity: 1 }}
-											transition={{
-												delay: 0.5,
-												duration: 1.0,
-												ease: [0.4, 0, 0.2, 1],
-											}}
-										/>
-
-										{/* Stroke 2 */}
-										<motion.rect
-											x="10"
-											y="10"
-											width="80"
-											height="80"
-											rx="8"
-											fill="none"
-											stroke="url(#brandGradient)"
-											strokeWidth="2"
-											strokeLinecap="round"
-											initial={{ pathLength: 0, opacity: 0 }}
-											animate={{ pathLength: 1, opacity: 1 }}
-											transition={{
-												delay: 1.5,
-												duration: 1.0,
-												ease: [0.4, 0, 0.2, 1],
-											}}
-										/>
-
-										{/* Glow layer */}
-										<motion.rect
-											x="10"
-											y="10"
-											width="80"
-											height="80"
-											rx="8"
-											fill="none"
-											stroke="url(#brandGradient)"
-											strokeWidth="6"
-											strokeLinecap="round"
-											style={{ filter: "blur(3px)" }}
-											initial={{ pathLength: 0, opacity: 0 }}
-											animate={{ pathLength: 1, opacity: 0.12 }}
-											transition={{
-												delay: 1.5,
-												duration: 1.0,
-												ease: "easeOut",
-											}}
-										/>
-									</svg>
+									<div className="flex h-[var(--swap-slot)] flex-col items-center justify-center">
+										<span className="text-white text-4xl sm:text-5xl font-bold">
+											Song Zhang
+										</span>
+										<span className="text-gray text-base mt-1">
+											Software Engineer&nbsp; / &nbsp;System Design&nbsp; /
+											&nbsp;AI Integration
+										</span>
+									</div>
 								</motion.div>
+							</motion.div>
+
+							<motion.div
+								className="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-gray-background"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ duration: 0.5, ease: "easeOut" }}
+							>
+								<motion.div
+									className="h-full bg-white"
+									style={{ width: barWidth }}
+								/>
 							</motion.div>
 						</motion.div>
 					)}
