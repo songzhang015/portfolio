@@ -96,14 +96,14 @@ export default function Contact() {
 				<span className="block">ME</span>
 			</h2>
 
-			{/* Blurb left, links right, centered in whatever space the headline leaves */}
-			<div className="relative z-10 mt-20 grid flex-1 grid-cols-1 gap-16 md:grid-cols-2 md:items-center">
-				<p className="max-w-sm text-lg leading-relaxed text-gray-light">
+			{/* Blurb left, links right, both starting on the same line under the headline */}
+			<div className="relative z-10 mt-12 grid flex-1 grid-cols-1 items-start gap-16 md:grid-cols-2">
+				<p className="max-w-sm text-xl leading-relaxed text-gray-light">
 					I&apos;m always open to chatting about projects,
 					opportunities, or just to connect!
 				</p>
 
-				<div className="flex flex-col items-start gap-1 text-3xl font-medium tracking-tight text-white uppercase md:text-4xl">
+				<div className="flex flex-col items-start gap-1 text-4xl font-medium tracking-tight text-white uppercase md:text-5xl">
 					{SOCIAL_LINKS.map(({ href, label, Icon, external }) => (
 						<a
 							key={label}
@@ -128,7 +128,7 @@ export default function Contact() {
 				</div>
 			</div>
 
-			<div className="relative z-10 mt-16 flex items-end justify-between text-base text-gray">
+			<div className="relative z-10 mt-16 flex items-end justify-between text-lg text-gray">
 				<div className="flex flex-col">
 					<span>Portland, OR</span>
 					{/* Non-breaking space holds the line before the clock mounts */}
