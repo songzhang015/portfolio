@@ -10,6 +10,8 @@ import { fadeUp } from "../../lib/animations";
 import ParticleField from "../ui/ParticleField";
 
 type SectionId = "experience" | "projects";
+/* "top" scrolls back to the hero rather than to a section element */
+type NavTarget = SectionId | "top";
 
 const SOCIAL_LINKS = [
 	{
@@ -32,11 +34,10 @@ const SOCIAL_LINKS = [
 	},
 ];
 
-/* About is commented out of the page, so it renders as an inert label — matches the header */
-const NAV_ITEMS: { id: SectionId | null; label: string }[] = [
-	{ id: null, label: "About" },
-	{ id: "experience", label: "Experience" },
-	{ id: "projects", label: "Projects" },
+const NAV_ITEMS: { target: NavTarget; label: string }[] = [
+	{ target: "top", label: "About" },
+	{ target: "experience", label: "Experience" },
+	{ target: "projects", label: "Projects" },
 ];
 
 export default function Contact() {
@@ -61,17 +62,21 @@ export default function Contact() {
 		return () => clearInterval(interval);
 	}, []);
 
-	const scrollToSection = (sectionId: SectionId): void => {
-		const section = document.getElementById(sectionId);
-		if (!section || !lenis) return;
+	const scrollToTarget = (target: NavTarget): void => {
+		if (!lenis) return;
+
+		const section =
+			target === "top" ? null : document.getElementById(target);
+		if (target !== "top" && !section) return;
 
 		const headerOffset = 96;
 		const prefersReducedMotion = window.matchMedia(
 			"(prefers-reduced-motion: reduce)",
 		).matches;
 
-		lenis.scrollTo(section, {
-			offset: -headerOffset,
+		lenis.scrollTo(section ?? 0, {
+			/* The hero starts at the top of the page, so it needs no header offset */
+			offset: section ? -headerOffset : 0,
 			immediate: prefersReducedMotion,
 			duration: 1.2,
 			easing: (t) => 1 - Math.pow(1 - t, 3),
@@ -138,11 +143,11 @@ export default function Contact() {
 				</div>
 
 				<nav className="flex flex-col items-end text-gray-dark uppercase">
-					{NAV_ITEMS.map(({ id, label }) => (
+					{NAV_ITEMS.map(({ target, label }) => (
 						<button
 							key={label}
 							type="button"
-							onClick={() => id && scrollToSection(id)}
+							onClick={() => scrollToTarget(target)}
 							className="cursor-pointer transition-colors duration-300 hover:text-gray"
 						>
 							{label}

@@ -6,13 +6,14 @@ import { useLenis } from "lenis/react";
 import { useLoading } from "../others/LoadingContext";
 import { NavButton } from "../ui/NavButton";
 
-type SectionId = "about" | "experience" | "projects" | "contact";
+type SectionId = "experience" | "projects" | "contact";
+/* "top" scrolls back to the hero rather than to a section element */
+type NavTarget = SectionId | "top";
 
-/* About is commented out of the page, so it renders as an inert label */
-const centerItems: { id: SectionId | null; label: string }[] = [
-	{ id: null, label: "About" },
-	{ id: "experience", label: "Experience" },
-	{ id: "projects", label: "Projects" },
+const centerItems: { target: NavTarget; label: string }[] = [
+	{ target: "top", label: "About" },
+	{ target: "experience", label: "Experience" },
+	{ target: "projects", label: "Projects" },
 ];
 
 const itemVariants: Variants = {
@@ -60,9 +61,11 @@ export default function Header() {
 	const [isAtTop, setIsAtTop] = useState(true);
 	const [hasEntered, setHasEntered] = useState(false);
 
-	const scrollToSection = (sectionId: SectionId): void => {
-		const section = document.getElementById(sectionId);
-		if (!section || !lenis) return;
+	const scrollToTarget = (target: NavTarget): void => {
+		if (!lenis) return;
+
+		const section = target === "top" ? null : document.getElementById(target);
+		if (target !== "top" && !section) return;
 
 		const headerOffset = 96;
 		const prefersReducedMotion = window.matchMedia(
@@ -72,8 +75,9 @@ export default function Header() {
 		isProgrammaticScroll.current = true;
 		setHidden(false);
 
-		lenis.scrollTo(section, {
-			offset: -headerOffset,
+		lenis.scrollTo(section ?? 0, {
+			/* The hero starts at the top of the page, so it needs no header offset */
+			offset: section ? -headerOffset : 0,
 			immediate: prefersReducedMotion,
 			duration: 1.2,
 			easing: (t) => 1 - Math.pow(1 - t, 3),
@@ -130,9 +134,9 @@ export default function Header() {
 			<div aria-hidden="true" />
 
 			<nav className="flex justify-center gap-16">
-				{centerItems.map(({ id, label }) => (
+				{centerItems.map(({ target, label }) => (
 					<motion.div variants={itemVariants} key={label}>
-						<NavButton onClick={() => id && scrollToSection(id)}>
+						<NavButton onClick={() => scrollToTarget(target)}>
 							{label}
 						</NavButton>
 					</motion.div>
@@ -141,7 +145,7 @@ export default function Header() {
 
 			<div className="flex justify-end">
 				<motion.div variants={itemVariants}>
-					<NavButton onClick={() => scrollToSection("contact")}>
+					<NavButton onClick={() => scrollToTarget("contact")}>
 						Contact
 					</NavButton>
 				</motion.div>
