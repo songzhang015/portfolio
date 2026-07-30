@@ -96,7 +96,6 @@ export default function Experience() {
             id="experience"
             className="relative flex min-h-screen flex-col justify-between overflow-hidden px-8 pt-32 pb-24 md:px-16"
         >
-            {/* Ambient particles, tracking left to right across the section */}
             <ParticleField direction="right" className="z-0" />
 
             <motion.h2
@@ -111,8 +110,6 @@ export default function Experience() {
                 <span className="block pr-14 text-right">EXPERIENCE</span>
             </motion.h2>
 
-            {/* Two squares wide and tall, so the whole circuit stays inside the track.
-			    Centred on the middle of the section's bottom-right quadrant. */}
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute top-3/4 left-3/4 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
@@ -148,8 +145,6 @@ export default function Experience() {
                 viewport={{ once: true, amount: 0.2 }}
                 className="relative z-10 mt-24 flex flex-col gap-14 pl-4 md:pl-8"
             >
-                {/* Each block is sized to fit its contents, so the summary can run out
-				    to the width of the single-line title before it wraps */}
                 {ROLES.map((role) => (
                     <motion.div
                         key={role.title}

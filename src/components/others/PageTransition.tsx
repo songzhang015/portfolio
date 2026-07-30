@@ -77,8 +77,6 @@ export default function PageTransition({
 		(href, scrollTo) => {
 			if (phase !== "idle") return;
 
-			/* Tells the homepage loader to stay out of the way — the intro is for
-			   fresh page loads, not for coming back from a project */
 			markInAppNavigation();
 
 			setPendingHref(href);
@@ -90,8 +88,6 @@ export default function PageTransition({
 
 	const hasLanded = phase === "covered" && pathname === pendingHref;
 
-	/* Jump to the requested section while the screen is still covered, so the
-	   curtain lifts on the right part of the page rather than scrolling after */
 	useEffect(() => {
 		if (!hasLanded || !pendingScroll || !lenis) return;
 
@@ -115,7 +111,6 @@ export default function PageTransition({
 		});
 	}, [hasLanded, pendingScroll, lenis]);
 
-	/* Backstop only — the reveal normally starts as soon as the route lands */
 	useEffect(() => {
 		if (phase !== "covered") return;
 

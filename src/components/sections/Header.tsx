@@ -66,8 +66,6 @@ export default function Header() {
 	const [hasEntered, setHasEntered] = useState(false);
 
 	const goTo = (target: ScrollTarget): void => {
-		/* Off the homepage there is nothing to scroll to, so run the curtain back
-		   to "/" and let it land on the right section while the screen is covered */
 		if (!isHome) {
 			navigateWithCurtain("/", target);
 			return;
@@ -151,8 +149,6 @@ export default function Header() {
 			`}
 		>
 			<motion.div variants={itemVariants} className="w-fit">
-				{/* On the homepage it reloads (bringing back the loadup animation);
-				    from a project it curtains back to the top of the homepage */}
 				<button
 					type="button"
 					onClick={() =>

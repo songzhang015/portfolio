@@ -97,7 +97,6 @@ export default function LoadupAnimation({
                                 ease: [0.76, 0, 0.24, 1],
                             }}
                         >
-                            {/* Sweeps down over the name, then rides the overlay back up */}
                             <motion.div
                                 className="absolute inset-0 z-20 bg-gray-background"
                                 initial={{ y: "-100%" }}
@@ -120,8 +119,6 @@ export default function LoadupAnimation({
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
                             >
-                                {/* One track of two full-height slots: the name pushes the
-								    counter up and out of the window as it slides in */}
                                 <motion.div
                                     initial={{ y: "0%" }}
                                     animate={{ y: "-50%" }}
@@ -176,7 +173,6 @@ export default function LoadupAnimation({
                     )}
                 </AnimatePresence>
 
-                {/* Page content - locked during load to prevent scroll */}
                 <div className={isLoading ? "h-screen overflow-hidden" : ""}>
                     {children}
                 </div>

@@ -3,10 +3,6 @@
 import { ReactLenis, useLenis } from "lenis/react";
 import { ReactNode, useEffect, useState } from "react";
 
-// html has a fixed (not auto) height, so its box never changes size as
-// content grows and Lenis's own ResizeObserver never fires, leaving it
-// stuck thinking there's nothing to scroll. Watch body (auto height)
-// and force a recalculation whenever it actually resizes.
 function ResizeSync() {
 	const lenis = useLenis();
 	useEffect(() => {

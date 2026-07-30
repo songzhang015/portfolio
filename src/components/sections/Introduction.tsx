@@ -49,8 +49,6 @@ export default function Introduction() {
     const [hoveredBlurb, setHoveredBlurb] = useState<number | null>(null);
     const [rotating, setRotating] = useState(false);
 
-    /* Hold the first blurb until the intro animation has finished revealing it,
-	   otherwise the rotation advances behind the loader. */
     useEffect(() => {
         if (isLoading) return;
 
@@ -58,8 +56,6 @@ export default function Introduction() {
         return () => clearTimeout(timer);
     }, [isLoading]);
 
-    /* Rotation pauses while hovering; re-running on activeBlurb restarts the
-	   6s window whenever hover jumps the highlight somewhere else. */
     useEffect(() => {
         if (!rotating || hoveredBlurb !== null) return;
 
@@ -88,7 +84,6 @@ export default function Introduction() {
             ref={sectionRef}
             className="relative flex min-h-screen flex-col overflow-hidden"
         >
-            {/* Hero-only ambient particles, drifting downward behind the content */}
             <ParticleField className="z-0" />
 
             <motion.div

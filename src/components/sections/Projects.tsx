@@ -21,8 +21,6 @@ export default function Projects() {
 			id="projects"
 			className="relative flex min-h-screen flex-col overflow-hidden px-8 pt-32 pb-32 md:px-16"
 		>
-			{/* Ambient particles, tracking right to left so they run counter to
-			    the experience section above */}
 			<ParticleField direction="left" className="z-0" />
 
 			<motion.h2
@@ -38,7 +36,6 @@ export default function Projects() {
 				<span className="block">PROJECTS</span>
 			</motion.h2>
 
-			{/* Three across, so the five cards fall as 3 + 2 */}
 			<motion.div
 				variants={gridVariants}
 				initial="initial"
@@ -50,8 +47,6 @@ export default function Projects() {
 					<motion.article key={project.title} variants={fadeUp}>
 						<Link
 							href={`/projects/${project.slug}`}
-							/* Plain left clicks run the curtain; modified clicks
-							   (new tab, etc.) fall through to the browser */
 							onClick={(event) => {
 								if (
 									event.button !== 0 ||
@@ -68,7 +63,6 @@ export default function Projects() {
 							}}
 							className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl bg-gray-background/60 transition-colors duration-300 hover:bg-gray-background"
 						>
-							{/* Screenshot slot, kept on a fixed ratio so every card lines up */}
 							<div className="flex aspect-4/3 items-center justify-center bg-gray-light">
 								<span className="text-sm text-gray-dark">Picture Here</span>
 							</div>
@@ -89,7 +83,6 @@ export default function Projects() {
 									{project.summary}
 								</p>
 
-								{/* Pushed to the bottom so the dates align across a row */}
 								<hr className="mt-auto border-t border-gray-dark/50" />
 								<p className="pt-4 text-sm text-gray-dark">
 									{project.completed}

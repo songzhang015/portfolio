@@ -94,16 +94,13 @@ export default function Contact() {
 			whileInView="visible"
 			viewport={{ once: true, amount: 0.4 }}
 		>
-			{/* Ambient particles, rising bottom to top through the section */}
 			<ParticleField direction="up" className="z-0" />
 
-			{/* Matches the hero, experience, and projects headline scale */}
 			<h2 className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] leading-[1.02] font-medium tracking-tight text-white">
 				<span className="block">CONTACT</span>
 				<span className="block">ME</span>
 			</h2>
 
-			{/* Blurb left, links right, both starting on the same line under the headline */}
 			<div className="relative z-10 mt-12 grid flex-1 grid-cols-1 items-start gap-16 md:grid-cols-2">
 				<p className="max-w-md text-2xl leading-relaxed text-gray-light">
 					I&apos;m always open to chatting about projects,
@@ -120,7 +117,6 @@ export default function Contact() {
 								: {})}
 							className="group flex w-fit cursor-pointer items-center gap-3"
 						>
-							{/* Wrapper keeps the underline on the text, not the icon */}
 							<span className="relative">
 								{label}
 								<span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-white transition-transform duration-300 group-hover:scale-x-100" />
@@ -138,7 +134,6 @@ export default function Contact() {
 			<div className="relative z-10 mt-16 flex items-end justify-between text-lg text-gray">
 				<div className="flex flex-col">
 					<span>Portland, OR</span>
-					{/* Non-breaking space holds the line before the clock mounts */}
 					<span className="text-gray-dark">{localTime ?? " "}</span>
 				</div>
 
