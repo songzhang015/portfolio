@@ -2,5 +2,7 @@
 
 import { createContext, useContext } from "react";
 
-export const LoadingContext = createContext(true);
+/* Default false: pages without the loadup overlay (project pages) are never
+   in a loading state, so anything reading this renders straight away */
+export const LoadingContext = createContext(false);
 export const useLoading = () => useContext(LoadingContext);

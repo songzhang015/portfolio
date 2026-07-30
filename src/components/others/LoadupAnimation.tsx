@@ -11,6 +11,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 
 import CountUp from "../ui/CountUp";
 import { LoadingContext } from "./LoadingContext";
+import { hasNavigatedInApp } from "../../lib/intro";
 
 /* Two-stage curtain: the gray panel sweeps down over the name to cover the
    screen, then the whole overlay slides up off the top to reveal the page */
@@ -52,27 +53,33 @@ export default function LoadupAnimation({
 }: {
     children: React.ReactNode;
 }) {
-    const [isLoading, setIsLoading] = useState(true);
+    /* Coming back from a project shouldn't replay the intro — it belongs to a
+       fresh page load */
+    const [isLoading, setIsLoading] = useState(() => !hasNavigatedInApp());
 
     const progress = useMotionValue(0);
     const smoothProgress = useSpring(progress, COUNT_SPRING);
     const barWidth = useTransform(smoothProgress, (value) => `${value}%`);
 
     useEffect(() => {
+        if (!isLoading) return;
+
         const timer = setTimeout(() => {
             setIsLoading(false);
         }, LOADER_DURATION);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [isLoading]);
 
     useEffect(() => {
+        if (!isLoading) return;
+
         const timer = setTimeout(() => {
             progress.set(100);
         }, COUNT_DELAY * 1000);
 
         return () => clearTimeout(timer);
-    }, [progress]);
+    }, [isLoading, progress]);
 
     return (
         <LoadingContext.Provider value={isLoading}>

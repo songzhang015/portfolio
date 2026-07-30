@@ -3,14 +3,15 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useMotionValueEvent, Variants } from "framer-motion";
 import { useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
 import { useLoading } from "../others/LoadingContext";
 import { NavButton } from "../ui/NavButton";
+import {
+	usePageTransition,
+	type ScrollTarget,
+} from "../others/PageTransition";
 
-type SectionId = "experience" | "projects" | "contact";
-/* "top" scrolls back to the hero rather than to a section element */
-type NavTarget = SectionId | "top";
-
-const centerItems: { target: NavTarget; label: string }[] = [
+const centerItems: { target: ScrollTarget; label: string }[] = [
 	{ target: "top", label: "About" },
 	{ target: "experience", label: "Experience" },
 	{ target: "projects", label: "Projects" },
@@ -56,20 +57,30 @@ export default function Header() {
 	const isLoading = useLoading();
 	const { scrollY } = useScroll();
 	const lenis = useLenis();
+	const pathname = usePathname();
+	const navigateWithCurtain = usePageTransition();
+	const isHome = pathname === "/";
 	const isProgrammaticScroll = useRef(false);
 	const [hidden, setHidden] = useState(false);
 	const [isAtTop, setIsAtTop] = useState(true);
 	const [hasEntered, setHasEntered] = useState(false);
 
-	const scrollToTarget = (target: NavTarget): void => {
+	const goTo = (target: ScrollTarget): void => {
+		/* Off the homepage there is nothing to scroll to, so run the curtain back
+		   to "/" and let it land on the right section while the screen is covered */
+		if (!isHome) {
+			navigateWithCurtain("/", target);
+			return;
+		}
+
 		if (!lenis) return;
 
-		/* Contact is the last section, so it scrolls to the very bottom of the
-		   page rather than to its own top — that leaves no dead space below it */
+		/* "bottom" is for contact, the last section — scrolling to the very end
+		   leaves no dead space below it */
 		const destination =
 			target === "top"
 				? 0
-				: target === "contact"
+				: target === "bottom"
 					? "bottom"
 					: document.getElementById(target);
 
@@ -140,12 +151,14 @@ export default function Header() {
 			`}
 		>
 			<motion.div variants={itemVariants} className="w-fit">
-				{/* A reload rather than a route change, so the page comes back
-				    through the loadup animation */}
+				{/* On the homepage it reloads (bringing back the loadup animation);
+				    from a project it curtains back to the top of the homepage */}
 				<button
 					type="button"
-					onClick={() => window.location.reload()}
-					aria-label="Reload the page"
+					onClick={() =>
+						isHome ? window.location.reload() : goTo("top")
+					}
+					aria-label={isHome ? "Reload the page" : "Back to the homepage"}
 					className="font-display block w-fit cursor-pointer text-[2.5rem] leading-none text-gold"
 				>
 					SZ
@@ -155,7 +168,7 @@ export default function Header() {
 			<nav className="flex justify-center gap-16">
 				{centerItems.map(({ target, label }) => (
 					<motion.div variants={itemVariants} key={label}>
-						<NavButton onClick={() => scrollToTarget(target)}>
+						<NavButton onClick={() => goTo(target)}>
 							{label}
 						</NavButton>
 					</motion.div>
@@ -164,7 +177,7 @@ export default function Header() {
 
 			<div className="flex justify-end">
 				<motion.div variants={itemVariants}>
-					<NavButton onClick={() => scrollToTarget("contact")}>
+					<NavButton onClick={() => goTo("bottom")}>
 						Contact
 					</NavButton>
 				</motion.div>

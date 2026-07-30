@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PROJECTS, getProject } from "../../../lib/projects";
 import GridPattern from "../../../components/ui/GridPattern";
+import Header from "../../../components/sections/Header";
 
 type ProjectPageProps = {
 	params: Promise<{ slug: string }>;
@@ -38,13 +39,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 	/* Intentionally blank for now — the case studies still need writing, so the
 	   page is just the same grid backdrop the rest of the site sits on */
 	return (
-		<main className="relative min-h-screen bg-black font-sans">
+		<div className="relative min-h-screen bg-black font-sans">
 			{/* Fixed so the grid spans the whole page rather than scrolling away */}
 			<GridPattern
 				width={80}
 				height={80}
 				className="fixed inset-0 z-0 h-screen w-screen opacity-8"
 			/>
-		</main>
+
+			<Header />
+
+			<main className="relative z-10 min-h-screen" />
+		</div>
 	);
 }

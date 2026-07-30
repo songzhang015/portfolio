@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
+import { useLenis } from "lenis/react";
 import {
 	createContext,
 	useCallback,
@@ -10,6 +11,7 @@ import {
 	useState,
 } from "react";
 import { cn } from "../../lib/utils";
+import { markInAppNavigation } from "../../lib/intro";
 
 /* Same two-stage curtain as the loadup: the gray panel sweeps down to cover the
    screen, then the whole overlay slides up off the top to reveal what's behind */
@@ -21,11 +23,19 @@ const CURTAIN_EASE = [0.76, 0, 0.24, 1] as const;
    behind the curtain */
 const NAVIGATION_TIMEOUT_MS = 1500;
 
+/* Mid-page sections sit under the fixed header */
+const HEADER_OFFSET = 96;
+
+/* "top" and "bottom" pin to the page edges; the rest are section ids */
+export type ScrollTarget = "top" | "bottom" | "experience" | "projects";
+
 /* covering: gray sweeping down over the old page
    covered: screen fully hidden, route change in flight */
 type Phase = "idle" | "covering" | "covered";
 
-const PageTransitionContext = createContext<(href: string) => void>(() => {});
+type NavigateWithCurtain = (href: string, scrollTo?: ScrollTarget) => void;
+
+const PageTransitionContext = createContext<NavigateWithCurtain>(() => {});
 
 export const usePageTransition = () => useContext(PageTransitionContext);
 
@@ -36,40 +46,95 @@ export default function PageTransition({
 }) {
 	const router = useRouter();
 	const pathname = usePathname();
+	const lenis = useLenis();
 
 	const [phase, setPhase] = useState<Phase>("idle");
 	const [pendingHref, setPendingHref] = useState<string | null>(null);
+	const [pendingScroll, setPendingScroll] = useState<ScrollTarget | null>(
+		null,
+	);
 	const [timedOut, setTimedOut] = useState(false);
 
-	const navigate = useCallback(
-		(href: string) => {
+	/* Read once up front rather than in an effect, then track changes */
+	const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+		() =>
+			typeof window !== "undefined" &&
+			window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+	);
+
+	useEffect(() => {
+		const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+		const handleChange = (event: MediaQueryListEvent): void => {
+			setPrefersReducedMotion(event.matches);
+		};
+
+		mediaQuery.addEventListener("change", handleChange);
+		return () => mediaQuery.removeEventListener("change", handleChange);
+	}, []);
+
+	const navigate = useCallback<NavigateWithCurtain>(
+		(href, scrollTo) => {
 			if (phase !== "idle") return;
 
-			/* No curtain when motion is reduced — just go */
-			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-				router.push(href);
-				return;
-			}
+			/* Tells the homepage loader to stay out of the way — the intro is for
+			   fresh page loads, not for coming back from a project */
+			markInAppNavigation();
 
 			setPendingHref(href);
+			setPendingScroll(scrollTo ?? null);
 			setPhase("covering");
 		},
-		[phase, router],
+		[phase],
 	);
+
+	const hasLanded = phase === "covered" && pathname === pendingHref;
+
+	/* Jump to the requested section while the screen is still covered, so the
+	   curtain lifts on the right part of the page rather than scrolling after */
+	useEffect(() => {
+		if (!hasLanded || !pendingScroll || !lenis) return;
+
+		const section =
+			pendingScroll === "top" || pendingScroll === "bottom"
+				? null
+				: document.getElementById(pendingScroll);
+
+		const destination =
+			pendingScroll === "top"
+				? 0
+				: pendingScroll === "bottom"
+					? "bottom"
+					: section;
+
+		if (destination === null) return;
+
+		lenis.scrollTo(destination, {
+			offset: section ? -HEADER_OFFSET : 0,
+			immediate: true,
+		});
+	}, [hasLanded, pendingScroll, lenis]);
 
 	/* Backstop only — the reveal normally starts as soon as the route lands */
 	useEffect(() => {
 		if (phase !== "covered") return;
 
-		const timer = setTimeout(() => setTimedOut(true), NAVIGATION_TIMEOUT_MS);
+		const timer = setTimeout(
+			() => setTimedOut(true),
+			NAVIGATION_TIMEOUT_MS,
+		);
 
 		return () => clearTimeout(timer);
 	}, [phase]);
 
 	/* Derived rather than stored, so the new route landing is what drives the
 	   reveal instead of a second round of state updates */
-	const isRevealing =
-		phase === "covered" && (pathname === pendingHref || timedOut);
+	const isRevealing = hasLanded || (phase === "covered" && timedOut);
+
+	/* Reduced motion keeps the same sequencing — including the mid-curtain jump
+	   to the right section — just without the visible sweep */
+	const coverDuration = prefersReducedMotion ? 0 : COVER_DURATION;
+	const revealDuration = prefersReducedMotion ? 0 : REVEAL_DURATION;
 
 	return (
 		<PageTransitionContext.Provider value={navigate}>
@@ -83,18 +148,21 @@ export default function PageTransition({
 						   visible underneath; black only once the screen is covered */
 						className={cn(
 							"fixed inset-0 z-[998] overflow-hidden",
-							phase === "covering" ? "bg-transparent" : "bg-black",
+							phase === "covering"
+								? "bg-transparent"
+								: "bg-black",
 						)}
 						initial={{ y: "0%" }}
 						animate={{ y: isRevealing ? "-100%" : "0%" }}
 						transition={{
-							duration: REVEAL_DURATION,
+							duration: revealDuration,
 							ease: CURTAIN_EASE,
 						}}
 						onAnimationComplete={() => {
 							if (!isRevealing) return;
 
 							setPendingHref(null);
+							setPendingScroll(null);
 							setTimedOut(false);
 							setPhase("idle");
 						}}
@@ -104,7 +172,7 @@ export default function PageTransition({
 							initial={{ y: "-100%" }}
 							animate={{ y: "0%" }}
 							transition={{
-								duration: COVER_DURATION,
+								duration: coverDuration,
 								ease: CURTAIN_EASE,
 							}}
 							onAnimationComplete={() => {
