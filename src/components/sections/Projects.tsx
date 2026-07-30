@@ -12,33 +12,33 @@ type Project = {
 
 const PROJECTS: Project[] = [
 	{
-		title: "Project One",
+		title: "Coffee Companion",
 		summary:
-			"Placeholder summary for the first project, describing what it does and who it was built for.",
+			"An AI-powered coffee guide that logs brews and delivers personalized flavor-tuning recommendations.",
 		completed: "Completed June 2026",
 	},
 	{
-		title: "Project Two",
+		title: "Drawing Game",
 		summary:
-			"Placeholder summary for the second project, describing what it does and who it was built for.",
+			"A real-time multiplayer drawing-and-guessing game built with Flask, MongoDB, and WebSockets.",
 		completed: "Completed April 2026",
 	},
 	{
-		title: "Project Three",
+		title: "Nulloth",
 		summary:
-			"Placeholder summary for the third project, describing what it does and who it was built for.",
+			"An Electron app orchestrating parallel Claude and Codex coding agents across isolated git worktrees.",
 		completed: "Completed February 2026",
 	},
 	{
-		title: "Project Four",
+		title: "Everleaf",
 		summary:
-			"Placeholder summary for the fourth project, describing what it does and who it was built for.",
+			"A data dashboard visualizing farm health, environmental metrics, and regional crop trends via REST API.",
 		completed: "Completed December 2025",
 	},
 	{
-		title: "Project Five",
+		title: "Campus Security",
 		summary:
-			"Placeholder summary for the fifth project, describing what it does and who it was built for.",
+			"An AI-assisted dispatch platform for tracking, autofilling, and resolving campus safety incidents.",
 		completed: "Completed October 2025",
 	},
 ];
@@ -82,7 +82,7 @@ export default function Projects() {
 					<motion.article
 						key={project.title}
 						variants={fadeUp}
-						className="group flex flex-col overflow-hidden rounded-3xl bg-gray-background transition-colors duration-300 hover:bg-gray-dark"
+						className="group flex flex-col overflow-hidden rounded-3xl bg-gray-background transition-colors duration-300 hover:bg-gray-dark/15"
 					>
 						{/* Screenshot slot, kept on a fixed ratio so every card lines up */}
 						<div className="flex aspect-4/3 items-center justify-center bg-gray-light">
@@ -103,12 +103,13 @@ export default function Projects() {
 								</span>
 							</div>
 
-							<p className="mt-4 text-base leading-relaxed text-gray">
+							<p className="mt-4 mb-8 text-base leading-relaxed text-gray">
 								{project.summary}
 							</p>
 
 							{/* Pushed to the bottom so the dates align across a row */}
-							<p className="mt-auto pt-8 text-sm text-gray-dark">
+							<hr className="mt-auto border-t border-gray-dark/50" />
+							<p className="pt-4 text-sm text-gray-dark">
 								{project.completed}
 							</p>
 						</div>

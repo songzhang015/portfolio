@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useRef } from "react";
 import { cn } from "../../lib/utils";
 
-/* Travel axis: "down" drifts top to bottom, "right" drifts left to right,
-   "left" drifts right to left */
-type Direction = "down" | "right" | "left";
+/* Travel axis: "down" drifts top to bottom, "up" drifts bottom to top,
+   "right" drifts left to right, "left" drifts right to left */
+type Direction = "down" | "up" | "right" | "left";
 
 function isHorizontal(direction: Direction) {
     return direction === "right" || direction === "left";
@@ -108,7 +108,7 @@ class Particle {
             this.x += this.speed * dt * (this.direction === "left" ? -1 : 1);
             this.y = this.baseCross + sway;
         } else {
-            this.y += this.speed * dt;
+            this.y += this.speed * dt * (this.direction === "up" ? -1 : 1);
             this.x = this.baseCross + sway;
         }
 
