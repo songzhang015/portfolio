@@ -7,6 +7,12 @@ import Contact from "../components/sections/Contact";
 import LoadupAnimation from "../components/others/LoadupAnimation";
 import GridPattern from "../components/ui/GridPattern";
 
+/* Breathing room between sections where only the background grid shows through.
+   Each section's particles fade out before they reach it — see ParticleField's edgeFade. */
+function SectionGap() {
+    return <div aria-hidden="true" className="h-[10vh]" />;
+}
+
 export default function Home() {
     return (
         <LoadupAnimation>
@@ -20,9 +26,12 @@ export default function Home() {
 
                 <Header />
                 <Introduction />
+                <SectionGap />
                 <Experience />
                 {/* <About /> */}
+                <SectionGap />
                 <Projects />
+                <SectionGap />
                 <Contact />
             </div>
         </LoadupAnimation>

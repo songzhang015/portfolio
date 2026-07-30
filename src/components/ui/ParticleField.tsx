@@ -22,6 +22,8 @@ const DEFAULT_CONFIG = {
     lifeMin: 10, // seconds — shortest-lived particles fade out around here
     lifeMax: 30, // seconds — longest-lived particles linger this long
     maxOpacity: 0.5,
+    edgeFade: 96, // px — particles dissolve within this distance of the top and bottom edges, so none bleed into the gaps between sections
+
     cursorRadius: 130, // px — glow influence radius around the pointer, 0 disables cursor effects entirely
     cursorGlow: 0.5, // extra opacity/size at cursor center (0 disables glow)
 };
@@ -60,6 +62,7 @@ class Particle {
     driftFreq = 0;
     color = "";
     glow = 0; // 0..1 proximity to the cursor
+    edgeAlpha = 1; // 0..1 falloff near the top and bottom edges
     colors: string[];
     config: ParticleConfig;
     direction: Direction;
@@ -112,6 +115,15 @@ class Particle {
             this.x = this.baseCross + sway;
         }
 
+        this.edgeAlpha = 1;
+        if (config.edgeFade > 0) {
+            const edgeDistance = Math.min(this.y, bounds.height - this.y);
+            this.edgeAlpha = Math.max(
+                0,
+                Math.min(1, edgeDistance / config.edgeFade),
+            );
+        }
+
         this.glow = 0;
         if (pointer.active && config.cursorRadius > 0) {
             const dist = Math.hypot(this.x - pointer.x, this.y - pointer.y);
@@ -136,10 +148,11 @@ class Particle {
     }
 
     draw(ctx: CanvasRenderingContext2D) {
-        const alpha = Math.min(
-            this.opacity * (1 + this.config.cursorGlow * this.glow),
-            1,
-        );
+        const alpha =
+            Math.min(
+                this.opacity * (1 + this.config.cursorGlow * this.glow),
+                1,
+            ) * this.edgeAlpha;
 
         if (alpha <= 0) {
             return;
