@@ -22,7 +22,7 @@ const DEFAULT_CONFIG = {
     lifeMin: 10, // seconds — shortest-lived particles fade out around here
     lifeMax: 30, // seconds — longest-lived particles linger this long
     maxOpacity: 0.5,
-    edgeFade: 96, // px — particles dissolve within this distance of the top and bottom edges, so none bleed into the gaps between sections
+    edgeFade: 120, // px — particles dissolve within this distance of the top and bottom edges, so none bleed into the gaps between sections
 
     cursorRadius: 130, // px — glow influence radius around the pointer, 0 disables cursor effects entirely
     cursorGlow: 0.5, // extra opacity/size at cursor center (0 disables glow)

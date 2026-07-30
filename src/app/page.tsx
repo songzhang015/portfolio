@@ -10,7 +10,7 @@ import GridPattern from "../components/ui/GridPattern";
 /* Breathing room between sections where only the background grid shows through.
    Each section's particles fade out before they reach it — see ParticleField's edgeFade. */
 function SectionGap() {
-    return <div aria-hidden="true" className="h-[10vh]" />;
+    return <div aria-hidden="true" className="h-[20vh]" />;
 }
 
 export default function Home() {
