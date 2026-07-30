@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { fadeUp } from "../../lib/animations";
+import ParticleField from "../ui/ParticleField";
 
 type Role = {
 	title: string;
@@ -30,7 +31,7 @@ const listVariants: Variants = {
 };
 
 /* Square side, which doubles as the length of each leg of the circuit */
-const BOX_PX = 88;
+const BOX_PX = 110;
 
 const MOVE_S = 0.6;
 const PAUSE_S = 0.9;
@@ -85,22 +86,26 @@ export default function Experience() {
 			id="experience"
 			className="relative flex min-h-screen flex-col justify-between overflow-hidden px-8 pt-32 pb-24 md:px-16"
 		>
+			{/* Ambient particles, tracking left to right across the section */}
+			<ParticleField direction="right" className="z-0" />
+
 			<motion.h2
 				variants={fadeUp}
 				initial="initial"
 				whileInView="visible"
 				viewport={{ once: true, amount: 0.3 }}
 				/* Matches the hero headline scale so both read as the same type system */
-				className="text-[clamp(1.75rem,6.4vw,8.5rem)] font-medium leading-[1.02] tracking-tight text-white"
+				className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] font-medium leading-[1.02] tracking-tight text-white"
 			>
 				<span className="block pr-14 text-right">TECHNICAL</span>
 				<span className="block pr-14 text-right">EXPERIENCE</span>
 			</motion.h2>
 
-			{/* Two squares wide and tall, so the whole circuit stays inside the track */}
+			{/* Two squares wide and tall, so the whole circuit stays inside the track.
+			    Centred on the middle of the section's bottom-right quadrant. */}
 			<div
 				aria-hidden="true"
-				className="pointer-events-none absolute top-1/2 right-[14%] hidden -translate-y-1/4 lg:block"
+				className="pointer-events-none absolute top-3/4 left-3/4 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
 				style={{ width: BOX_PX * 2, height: BOX_PX * 2 }}
 			>
 				<motion.div
@@ -131,17 +136,17 @@ export default function Experience() {
 				initial="initial"
 				whileInView="visible"
 				viewport={{ once: true, amount: 0.2 }}
-				className="mt-24 flex flex-col gap-14 pl-4 md:pl-8"
+				className="relative z-10 mt-24 flex flex-col gap-14 pl-4 md:pl-8"
 			>
 				{ROLES.map((role) => (
 					<motion.div key={role.title} variants={fadeUp}>
-						<h3 className="whitespace-nowrap text-xl font-semibold tracking-tight text-white sm:text-2xl">
+						<h3 className="whitespace-nowrap text-2xl font-semibold tracking-tight text-white sm:text-3xl">
 							{role.title}
 						</h3>
 
-						<p className="mt-1 text-sm text-gray">{role.meta}</p>
+						<p className="mt-1 text-base text-gray">{role.meta}</p>
 
-						<p className="mt-4 max-w-md text-base leading-relaxed text-gray-light">
+						<p className="mt-4 max-w-md text-lg leading-relaxed text-gray-light">
 							{role.summary}
 						</p>
 					</motion.div>
