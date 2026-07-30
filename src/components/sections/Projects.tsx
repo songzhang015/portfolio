@@ -15,19 +15,19 @@ const PROJECTS: Project[] = [
 		title: "Coffee Companion",
 		summary:
 			"An AI-powered coffee guide that logs brews and delivers personalized flavor-tuning recommendations.",
-		completed: "Completed June 2026",
-	},
-	{
-		title: "Drawing Game",
-		summary:
-			"A real-time multiplayer drawing-and-guessing game built with Flask, MongoDB, and WebSockets.",
-		completed: "Completed April 2026",
+		completed: "Completed July 2026",
 	},
 	{
 		title: "Nulloth",
 		summary:
 			"An Electron app orchestrating parallel Claude and Codex coding agents across isolated git worktrees.",
-		completed: "Completed February 2026",
+		completed: "Completed May 2026",
+	},
+	{
+		title: "Campus Security",
+		summary:
+			"An AI-assisted dispatch platform for tracking, autofilling, and resolving campus safety incidents.",
+		completed: "Completed April 2026",
 	},
 	{
 		title: "Everleaf",
@@ -36,10 +36,10 @@ const PROJECTS: Project[] = [
 		completed: "Completed December 2025",
 	},
 	{
-		title: "Campus Security",
+		title: "Drawing Game",
 		summary:
-			"An AI-assisted dispatch platform for tracking, autofilling, and resolving campus safety incidents.",
-		completed: "Completed October 2025",
+			"A real-time multiplayer drawing-and-guessing game built with Flask, MongoDB, and WebSockets.",
+		completed: "Completed November 2025",
 	},
 ];
 
