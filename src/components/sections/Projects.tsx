@@ -5,6 +5,7 @@ import { fadeUp } from "../../lib/animations";
 import ParticleField from "../ui/ParticleField";
 import { PROJECTS } from "../../lib/projects";
 import Link from "next/link";
+import { FiArrowUpRight } from "react-icons/fi";
 
 const gridVariants: Variants = {
 	initial: {},
@@ -59,12 +60,10 @@ export default function Projects() {
 										{project.title}
 									</h3>
 
-									<span
+									<FiArrowUpRight
 										aria-hidden="true"
-										className="text-lg text-gray transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white"
-									>
-										↗
-									</span>
+										className="shrink-0 text-xl text-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white"
+									/>
 								</div>
 
 								<p className="mt-4 mb-8 text-base leading-relaxed text-gray">
