@@ -81,7 +81,9 @@ export default function Contact() {
 	return (
 		<motion.section
 			id="contact"
-			className="relative flex min-h-screen flex-col overflow-hidden px-8 pt-32 pb-16 md:px-16"
+			/* Left inset is the section padding plus the hero's pl-14, so "CONTACT ME"
+			   lines up with "DEVELOPING FULL-STACK" */
+			className="relative flex min-h-screen flex-col overflow-hidden pt-32 pr-8 pb-16 pl-22 md:pr-16 md:pl-30"
 			variants={fadeUp}
 			initial="initial"
 			whileInView="visible"
@@ -98,12 +100,12 @@ export default function Contact() {
 
 			{/* Blurb left, links right, both starting on the same line under the headline */}
 			<div className="relative z-10 mt-12 grid flex-1 grid-cols-1 items-start gap-16 md:grid-cols-2">
-				<p className="max-w-sm text-xl leading-relaxed text-gray-light">
+				<p className="max-w-md text-2xl leading-relaxed text-gray-light">
 					I&apos;m always open to chatting about projects,
 					opportunities, or just to connect!
 				</p>
 
-				<div className="flex flex-col items-start gap-1 text-4xl font-medium tracking-tight text-white uppercase md:text-5xl">
+				<div className="flex flex-col items-start gap-3 text-5xl font-medium tracking-tight text-white uppercase md:text-6xl">
 					{SOCIAL_LINKS.map(({ href, label, Icon, external }) => (
 						<a
 							key={label}

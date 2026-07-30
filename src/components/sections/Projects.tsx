@@ -63,8 +63,9 @@ export default function Projects() {
 				initial="initial"
 				whileInView="visible"
 				viewport={{ once: true, amount: 0.3 }}
-				/* Matches the hero and experience headline scale */
-				className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] leading-[1.02] font-medium tracking-tight text-white"
+				/* Matches the hero and experience headline scale; pl-14 lines the text
+				   up with "DEVELOPING FULL-STACK" in the hero */
+				className="relative z-10 pl-14 text-[clamp(1.75rem,6.4vw,8.5rem)] leading-[1.02] font-medium tracking-tight text-white"
 			>
 				<span className="block">FEATURED</span>
 				<span className="block">PROJECTS</span>
