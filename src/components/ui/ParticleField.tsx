@@ -3,8 +3,13 @@
 import { useEffect, useMemo, useRef } from "react";
 import { cn } from "../../lib/utils";
 
-/* Travel axis: "down" drifts top to bottom, "right" drifts left to right */
-type Direction = "down" | "right";
+/* Travel axis: "down" drifts top to bottom, "right" drifts left to right,
+   "left" drifts right to left */
+type Direction = "down" | "right" | "left";
+
+function isHorizontal(direction: Direction) {
+    return direction === "right" || direction === "left";
+}
 
 const DEFAULT_CONFIG = {
     count: 300, // total particles alive at once
@@ -76,7 +81,7 @@ class Particle {
         const config = this.config;
         this.x = Math.random() * bounds.width;
         this.y = Math.random() * bounds.height;
-        this.baseCross = this.direction === "right" ? this.y : this.x;
+        this.baseCross = isHorizontal(this.direction) ? this.y : this.x;
         this.glow = 0;
         this.size =
             config.sizeMin + Math.random() * (config.sizeMax - config.sizeMin);
@@ -99,8 +104,8 @@ class Particle {
 
         const sway = Math.sin(this.driftPhase) * config.driftAmount;
 
-        if (this.direction === "right") {
-            this.x += this.speed * dt;
+        if (isHorizontal(this.direction)) {
+            this.x += this.speed * dt * (this.direction === "left" ? -1 : 1);
             this.y = this.baseCross + sway;
         } else {
             this.y += this.speed * dt;

@@ -5,29 +5,29 @@ import { fadeUp } from "../../lib/animations";
 import ParticleField from "../ui/ParticleField";
 
 type Role = {
-	title: string;
-	meta: string;
-	summary: string;
+    title: string;
+    meta: string;
+    summary: string;
 };
 
 const ROLES: Role[] = [
-	{
-		title: "QuackHacks • Software Engineer",
-		meta: "June 2026 - Present • Eugene, OR",
-		summary:
-			"University of Oregon's premier hackathon, hosting hundreds of students from over 30 different schools to collaborate together across a 24-hour event.",
-	},
-	{
-		title: "Synrax • Co-Founder & Software Engineer",
-		meta: "January 2026 - May 2026 • Eugene, OR",
-		summary:
-			"AI code-review platform integrated with GitHub to review pull requests and generate smoke and unit tests, built for developers and engineering managers.",
-	},
+    {
+        title: "QuackHacks • Software Engineer",
+        meta: "June 2026 - Present • Eugene, OR",
+        summary:
+            "University of Oregon's premier hackathon, hosting hundreds of students from over 30 different schools to collaborate together across a 24-hour event.",
+    },
+    {
+        title: "Synrax • Co-Founder & Software Engineer",
+        meta: "January 2026 - May 2026 • Eugene, OR",
+        summary:
+            "AI code-review platform integrated with GitHub to review pull requests and generate smoke and unit tests, built for developers and engineering managers.",
+    },
 ];
 
 const listVariants: Variants = {
-	initial: {},
-	visible: { transition: { staggerChildren: 0.15 } },
+    initial: {},
+    visible: { transition: { staggerChildren: 0.15 } },
 };
 
 /* Square side, which doubles as the length of each leg of the circuit */
@@ -38,120 +38,136 @@ const PAUSE_S = 0.9;
 const LAP_S = (MOVE_S + PAUSE_S) * 4;
 
 /* Alternating move/pause legs, as cumulative fractions of a full lap */
-const LAP_TIMES = [MOVE_S, PAUSE_S, MOVE_S, PAUSE_S, MOVE_S, PAUSE_S, MOVE_S, PAUSE_S].reduce<
-	number[]
->((times, seconds) => [...times, times[times.length - 1] + seconds / LAP_S], [0]);
+const LAP_TIMES = [
+    MOVE_S,
+    PAUSE_S,
+    MOVE_S,
+    PAUSE_S,
+    MOVE_S,
+    PAUSE_S,
+    MOVE_S,
+    PAUSE_S,
+].reduce<number[]>(
+    (times, seconds) => [...times, times[times.length - 1] + seconds / LAP_S],
+    [0],
+);
 
 /* Corner steps in grid units. Each move keyframe is followed by a duplicate that
    holds the box still, so the pair reads as move, pause, move, pause. Box one runs
    clockwise from the top-left; box two runs the same circuit from the bottom-right,
    which keeps the two diagonal from each other the whole way around. */
 const BOX_ONE_STEPS = {
-	x: [0, 1, 1, 1, 1, 0, 0, 0, 0],
-	y: [0, 0, 0, 1, 1, 1, 1, 0, 0],
+    x: [0, 1, 1, 1, 1, 0, 0, 0, 0],
+    y: [0, 0, 0, 1, 1, 1, 1, 0, 0],
 };
 
 const BOX_TWO_STEPS = {
-	x: [1, 0, 0, 0, 0, 1, 1, 1, 1],
-	y: [1, 1, 1, 0, 0, 0, 0, 1, 1],
+    x: [1, 0, 0, 0, 0, 1, 1, 1, 1],
+    y: [1, 1, 1, 0, 0, 0, 0, 1, 1],
 };
 
 const LAP_TRANSITION = {
-	duration: LAP_S,
-	times: LAP_TIMES,
-	ease: "easeInOut" as const,
-	repeat: Infinity,
-	repeatType: "loop" as const,
+    duration: LAP_S,
+    times: LAP_TIMES,
+    ease: "easeInOut" as const,
+    repeat: Infinity,
+    repeatType: "loop" as const,
 };
 
 function toPixels(steps: { x: number[]; y: number[] }) {
-	return {
-		x: steps.x.map((step) => step * BOX_PX),
-		y: steps.y.map((step) => step * BOX_PX),
-	};
+    return {
+        x: steps.x.map((step) => step * BOX_PX),
+        y: steps.y.map((step) => step * BOX_PX),
+    };
 }
 
 function toStartPixels(steps: { x: number[]; y: number[] }) {
-	return { x: steps.x[0] * BOX_PX, y: steps.y[0] * BOX_PX };
+    return { x: steps.x[0] * BOX_PX, y: steps.y[0] * BOX_PX };
 }
 
 export default function Experience() {
-	/* Parked at their starting corners when the visitor asks for less motion */
-	const reduceMotion = useReducedMotion();
+    /* Parked at their starting corners when the visitor asks for less motion */
+    const reduceMotion = useReducedMotion();
 
-	const boxStyle = { width: BOX_PX, height: BOX_PX };
+    const boxStyle = { width: BOX_PX, height: BOX_PX };
 
-	return (
-		<section
-			id="experience"
-			className="relative flex min-h-screen flex-col justify-between overflow-hidden px-8 pt-32 pb-24 md:px-16"
-		>
-			{/* Ambient particles, tracking left to right across the section */}
-			<ParticleField direction="right" className="z-0" />
+    return (
+        <section
+            id="experience"
+            className="relative flex min-h-screen flex-col justify-between overflow-hidden px-8 pt-32 pb-24 md:px-16"
+        >
+            {/* Ambient particles, tracking left to right across the section */}
+            <ParticleField direction="right" className="z-0" />
 
-			<motion.h2
-				variants={fadeUp}
-				initial="initial"
-				whileInView="visible"
-				viewport={{ once: true, amount: 0.3 }}
-				/* Matches the hero headline scale so both read as the same type system */
-				className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] font-medium leading-[1.02] tracking-tight text-white"
-			>
-				<span className="block pr-14 text-right">TECHNICAL</span>
-				<span className="block pr-14 text-right">EXPERIENCE</span>
-			</motion.h2>
+            <motion.h2
+                variants={fadeUp}
+                initial="initial"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                /* Matches the hero headline scale so both read as the same type system */
+                className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] font-medium leading-[1.02] tracking-tight text-white"
+            >
+                <span className="block pr-14 text-right">TECHNICAL</span>
+                <span className="block pr-14 text-right">EXPERIENCE</span>
+            </motion.h2>
 
-			{/* Two squares wide and tall, so the whole circuit stays inside the track.
+            {/* Two squares wide and tall, so the whole circuit stays inside the track.
 			    Centred on the middle of the section's bottom-right quadrant. */}
-			<div
-				aria-hidden="true"
-				className="pointer-events-none absolute top-3/4 left-3/4 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
-				style={{ width: BOX_PX * 2, height: BOX_PX * 2 }}
-			>
-				<motion.div
-					className="absolute top-0 left-0 bg-white"
-					style={boxStyle}
-					animate={
-						reduceMotion
-							? toStartPixels(BOX_ONE_STEPS)
-							: toPixels(BOX_ONE_STEPS)
-					}
-					transition={reduceMotion ? { duration: 0 } : LAP_TRANSITION}
-				/>
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute top-3/4 left-3/4 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
+                style={{ width: BOX_PX * 2, height: BOX_PX * 2 }}
+            >
+                <motion.div
+                    className="absolute top-0 left-0 bg-white"
+                    style={boxStyle}
+                    animate={
+                        reduceMotion
+                            ? toStartPixels(BOX_ONE_STEPS)
+                            : toPixels(BOX_ONE_STEPS)
+                    }
+                    transition={reduceMotion ? { duration: 0 } : LAP_TRANSITION}
+                />
 
-				<motion.div
-					className="absolute top-0 left-0 bg-white"
-					style={boxStyle}
-					animate={
-						reduceMotion
-							? toStartPixels(BOX_TWO_STEPS)
-							: toPixels(BOX_TWO_STEPS)
-					}
-					transition={reduceMotion ? { duration: 0 } : LAP_TRANSITION}
-				/>
-			</div>
+                <motion.div
+                    className="absolute top-0 left-0 bg-white"
+                    style={boxStyle}
+                    animate={
+                        reduceMotion
+                            ? toStartPixels(BOX_TWO_STEPS)
+                            : toPixels(BOX_TWO_STEPS)
+                    }
+                    transition={reduceMotion ? { duration: 0 } : LAP_TRANSITION}
+                />
+            </div>
 
-			<motion.div
-				variants={listVariants}
-				initial="initial"
-				whileInView="visible"
-				viewport={{ once: true, amount: 0.2 }}
-				className="relative z-10 mt-24 flex flex-col gap-14 pl-4 md:pl-8"
-			>
-				{ROLES.map((role) => (
-					<motion.div key={role.title} variants={fadeUp}>
-						<h3 className="whitespace-nowrap text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-							{role.title}
-						</h3>
+            <motion.div
+                variants={listVariants}
+                initial="initial"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                className="relative z-10 mt-24 flex flex-col gap-14 pl-4 md:pl-8"
+            >
+                {/* Each block is sized to fit its contents, so the summary can run out
+				    to the width of the single-line title before it wraps */}
+                {ROLES.map((role) => (
+                    <motion.div
+                        key={role.title}
+                        variants={fadeUp}
+                        className="w-fit"
+                    >
+                        <h3 className="whitespace-nowrap text-2xl font-semibold tracking-tight text-white sm:text-4xl">
+                            {role.title}
+                        </h3>
 
-						<p className="mt-1 text-base text-gray">{role.meta}</p>
+                        <p className="mt-1 text-lg text-gray">{role.meta}</p>
 
-						<p className="mt-4 max-w-md text-lg leading-relaxed text-gray-light">
-							{role.summary}
-						</p>
-					</motion.div>
-				))}
-			</motion.div>
-		</section>
-	);
+                        <p className="mt-4 w-full max-w-3xl text-xl leading-relaxed text-gray-light">
+                            {role.summary}
+                        </p>
+                    </motion.div>
+                ))}
+            </motion.div>
+        </section>
+    );
 }

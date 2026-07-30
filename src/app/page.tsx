@@ -8,23 +8,23 @@ import LoadupAnimation from "../components/others/LoadupAnimation";
 import GridPattern from "../components/ui/GridPattern";
 
 export default function Home() {
-	return (
-		<LoadupAnimation>
-			<div className="relative font-sans bg-black">
-				{/* Fixed so the grid spans the whole page rather than scrolling away */}
-				<GridPattern
-					width={80}
-					height={80}
-					className="fixed inset-0 z-0 h-screen w-screen opacity-8"
-				/>
+    return (
+        <LoadupAnimation>
+            <div className="relative font-sans bg-black">
+                {/* Fixed so the grid spans the whole page rather than scrolling away */}
+                <GridPattern
+                    width={80}
+                    height={80}
+                    className="fixed inset-0 z-0 h-screen w-screen opacity-8"
+                />
 
-				<Header />
-				<Introduction />
-				<Experience />
-				{/* <About /> */}
-				<Projects />
-				<Contact />
-			</div>
-		</LoadupAnimation>
-	);
+                <Header />
+                <Introduction />
+                <Experience />
+                {/* <About /> */}
+                <Projects />
+                <Contact />
+            </div>
+        </LoadupAnimation>
+    );
 }
