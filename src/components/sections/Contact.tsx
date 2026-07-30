@@ -5,6 +5,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { motion } from "framer-motion";
 import { fadeUp } from "../../lib/animations";
+import ParticleField from "../ui/ParticleField";
 
 const socialLinks = [
 	{
@@ -31,13 +32,16 @@ export default function Contact() {
 	return (
 		<motion.section
 			id="contact"
-			className="flex min-h-screen items-center justify-center px-8 py-32 md:px-16 lg:px-24"
+			className="relative flex min-h-screen items-center justify-center overflow-hidden px-8 py-32 md:px-16 lg:px-24"
 			variants={fadeUp}
 			initial="initial"
 			whileInView="visible"
 			viewport={{ once: true, amount: 0.4 }}
 		>
-			<div className="flex w-full max-w-7xl flex-col gap-10">
+			{/* Ambient particles, rising bottom to top through the section */}
+			<ParticleField direction="up" className="z-0" />
+
+			<div className="relative z-10 flex w-full max-w-7xl flex-col gap-10">
 				<div className="flex flex-col gap-2">
 					<h2 className="text-4xl font-bold tracking-tight text-gray-100 md:text-5xl">
 						Contact Me

@@ -6,7 +6,6 @@
 import { motion, type Variants } from "framer-motion";
 import { fadeUp } from "../../lib/animations";
 import { useLenis } from "lenis/react";
-import ParticleField from "../ui/ParticleField";
 
 const itemVariants: Variants = {
     initial: { x: -32, opacity: 0 },
@@ -64,12 +63,9 @@ export default function About() {
     return (
         <section
             id="about"
-            className="relative flex justify-center overflow-hidden px-8 py-32 md:px-16 lg:px-24"
+            className="flex justify-center px-8 py-32 md:px-16 lg:px-24"
         >
-            {/* Ambient particles, rising bottom to top through the section */}
-            <ParticleField direction="up" className="z-0" />
-
-            <div className="relative z-10 grid w-full max-w-7xl grid-cols-1 gap-20 md:grid-cols-[0.9fr_1.1fr] md:gap-24">
+            <div className="grid w-full max-w-7xl grid-cols-1 gap-20 md:grid-cols-[0.9fr_1.1fr] md:gap-24">
                 <motion.div
                     className="md:sticky md:top-28 md:self-start"
                     variants={fadeUp}
