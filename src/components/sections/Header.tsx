@@ -139,10 +139,17 @@ export default function Header() {
 				${isAtTop ? "shadow-none backdrop-blur-none" : "shadow-sm shadow-black/75 backdrop-blur-xs"}
 			`}
 		>
-			<motion.div variants={itemVariants}>
-				<span className="font-display text-[2.5rem] leading-none text-gold">
+			<motion.div variants={itemVariants} className="w-fit">
+				{/* A reload rather than a route change, so the page comes back
+				    through the loadup animation */}
+				<button
+					type="button"
+					onClick={() => window.location.reload()}
+					aria-label="Reload the page"
+					className="font-display block w-fit cursor-pointer text-[2.5rem] leading-none text-gold"
+				>
 					SZ
-				</span>
+				</button>
 			</motion.div>
 
 			<nav className="flex justify-center gap-16">
