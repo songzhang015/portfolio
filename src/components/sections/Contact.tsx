@@ -134,16 +134,16 @@ export default function Contact() {
 				<div className="flex flex-col">
 					<span>Portland, OR</span>
 					{/* Non-breaking space holds the line before the clock mounts */}
-					<span>{localTime ?? " "}</span>
+					<span className="text-gray-dark">{localTime ?? " "}</span>
 				</div>
 
-				<nav className="flex flex-col items-end uppercase">
+				<nav className="flex flex-col items-end text-gray-dark uppercase">
 					{NAV_ITEMS.map(({ id, label }) => (
 						<button
 							key={label}
 							type="button"
 							onClick={() => id && scrollToSection(id)}
-							className="cursor-pointer transition-colors duration-300 hover:text-white"
+							className="cursor-pointer transition-colors duration-300 hover:text-gray"
 						>
 							{label}
 						</button>
