@@ -13,6 +13,7 @@
 	--color-gray-dark: #696969;
 	--color-gray-light: #dfdfdf;
 	--color-gray-background: #1c1c1c;
+	--color-gold: #ffe078;
 
 	--color-background: #0b0e14;
 	--color-foreground: #ecedf6;
@@ -55,6 +56,7 @@
 	--color-oxford-blue: #0b0e14;
 
 	--font-sans: var(--font-geist-sans);
+	--font-display: var(--font-italianno-display);
 }
 
 @media (prefers-color-scheme: dark) {

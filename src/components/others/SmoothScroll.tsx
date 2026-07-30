@@ -42,7 +42,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
 			options={{
 				// Shorter glide with a less drawn-out tail than the quartic ease,
 				// so the page settles sooner after the wheel stops
-				duration: 1.0,
+				duration: 0.9,
 				easing: (t: number) => 1 - Math.pow(1 - t, 3),
 				smoothWheel: !prefersReducedMotion,
 				wheelMultiplier: 1.15,

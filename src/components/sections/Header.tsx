@@ -64,8 +64,16 @@ export default function Header() {
 	const scrollToTarget = (target: NavTarget): void => {
 		if (!lenis) return;
 
-		const section = target === "top" ? null : document.getElementById(target);
-		if (target !== "top" && !section) return;
+		/* Contact is the last section, so it scrolls to the very bottom of the
+		   page rather than to its own top — that leaves no dead space below it */
+		const destination =
+			target === "top"
+				? 0
+				: target === "contact"
+					? "bottom"
+					: document.getElementById(target);
+
+		if (destination === null) return;
 
 		const headerOffset = 96;
 		const prefersReducedMotion = window.matchMedia(
@@ -75,9 +83,9 @@ export default function Header() {
 		isProgrammaticScroll.current = true;
 		setHidden(false);
 
-		lenis.scrollTo(section ?? 0, {
-			/* The hero starts at the top of the page, so it needs no header offset */
-			offset: section ? -headerOffset : 0,
+		lenis.scrollTo(destination, {
+			/* Only mid-page sections sit under the fixed header */
+			offset: destination instanceof HTMLElement ? -headerOffset : 0,
 			immediate: prefersReducedMotion,
 			duration: 1.2,
 			easing: (t) => 1 - Math.pow(1 - t, 3),
@@ -131,7 +139,11 @@ export default function Header() {
 				${isAtTop ? "shadow-none backdrop-blur-none" : "shadow-sm shadow-black/75 backdrop-blur-xs"}
 			`}
 		>
-			<div aria-hidden="true" />
+			<motion.div variants={itemVariants}>
+				<span className="font-display text-[2.5rem] leading-none text-gold">
+					SZ
+				</span>
+			</motion.div>
 
 			<nav className="flex justify-center gap-16">
 				{centerItems.map(({ target, label }) => (

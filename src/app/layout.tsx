@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Italianno } from "next/font/google";
 import SmoothScroll from "../components/others/SmoothScroll";
 import "./globals.css";
 
@@ -9,6 +9,13 @@ const geist = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
 	weight: ["400", "500", "700"],
+});
+
+/* Display face, used only for the SZ monogram in the header */
+const italianno = Italianno({
+	variable: "--font-italianno-display",
+	subsets: ["latin"],
+	weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -24,7 +31,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${geist.variable} h-full antialiased`}
+			className={`${geist.variable} ${italianno.variable} h-full antialiased`}
 		>
 			<head>
 				<link
