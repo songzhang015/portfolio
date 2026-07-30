@@ -82,7 +82,7 @@ export default function Projects() {
 					<motion.article
 						key={project.title}
 						variants={fadeUp}
-						className="group flex flex-col overflow-hidden rounded-3xl bg-gray-background transition-colors duration-300 hover:bg-gray-dark/15"
+						className="group flex cursor-pointer flex-col overflow-hidden rounded-3xl bg-gray-background transition-colors duration-300 hover:bg-gray-dark/15"
 					>
 						{/* Screenshot slot, kept on a fixed ratio so every card lines up */}
 						<div className="flex aspect-4/3 items-center justify-center bg-gray-light">
