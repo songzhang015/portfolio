@@ -55,7 +55,6 @@
 	--color-oxford-blue: #0b0e14;
 
 	--font-sans: var(--font-geist-sans);
-	--font-inter: var(--font-inter-sans);
 }
 
 @media (prefers-color-scheme: dark) {

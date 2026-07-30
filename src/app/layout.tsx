@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import SmoothScroll from "../components/others/SmoothScroll";
 import "./globals.css";
-
-const inter = Inter({
-	variable: "--font-inter-sans",
-	subsets: ["latin"],
-});
 
 /* Variable font - the whole 400-700 range is available, so regular (400),
    medium (500) and bold (700) all resolve from this single face */
@@ -29,7 +24,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${geist.variable} ${inter.variable} h-full antialiased`}
+			className={`${geist.variable} h-full antialiased`}
 		>
 			<head>
 				<link
