@@ -1,13 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { SiGithub } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { motion } from "framer-motion";
+import { useLenis } from "lenis/react";
 import { fadeUp } from "../../lib/animations";
 import ParticleField from "../ui/ParticleField";
 
-const socialLinks = [
+type SectionId = "experience" | "projects";
+
+const SOCIAL_LINKS = [
 	{
 		href: "mailto:songzhang015@gmail.com",
 		label: "Email",
@@ -28,11 +32,56 @@ const socialLinks = [
 	},
 ];
 
+/* About is commented out of the page, so it renders as an inert label — matches the header */
+const NAV_ITEMS: { id: SectionId | null; label: string }[] = [
+	{ id: null, label: "About" },
+	{ id: "experience", label: "Experience" },
+	{ id: "projects", label: "Projects" },
+];
+
 export default function Contact() {
+	const lenis = useLenis();
+	/* Null until mounted so the server and client agree on the first render */
+	const [localTime, setLocalTime] = useState<string | null>(null);
+
+	useEffect(() => {
+		const tick = () =>
+			setLocalTime(
+				new Date().toLocaleTimeString("en-US", {
+					timeZone: "America/Los_Angeles",
+					hour: "numeric",
+					minute: "2-digit",
+					second: "2-digit",
+				}),
+			);
+
+		tick();
+		const interval = setInterval(tick, 1000);
+
+		return () => clearInterval(interval);
+	}, []);
+
+	const scrollToSection = (sectionId: SectionId): void => {
+		const section = document.getElementById(sectionId);
+		if (!section || !lenis) return;
+
+		const headerOffset = 96;
+		const prefersReducedMotion = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+
+		lenis.scrollTo(section, {
+			offset: -headerOffset,
+			immediate: prefersReducedMotion,
+			duration: 1.2,
+			easing: (t) => 1 - Math.pow(1 - t, 3),
+		});
+	};
+
 	return (
 		<motion.section
 			id="contact"
-			className="relative flex min-h-screen items-center justify-center overflow-hidden px-8 py-32 md:px-16 lg:px-24"
+			className="relative flex min-h-screen flex-col overflow-hidden px-8 pt-32 pb-16 md:px-16"
 			variants={fadeUp}
 			initial="initial"
 			whileInView="visible"
@@ -41,40 +90,63 @@ export default function Contact() {
 			{/* Ambient particles, rising bottom to top through the section */}
 			<ParticleField direction="up" className="z-0" />
 
-			<div className="relative z-10 flex w-full max-w-7xl flex-col gap-10">
-				<div className="flex flex-col gap-2">
-					<h2 className="text-4xl font-bold tracking-tight text-gray-100 md:text-5xl">
-						Contact Me
-					</h2>
-					<hr className="max-w-xs border-white/50" />
+			{/* Matches the hero, experience, and projects headline scale */}
+			<h2 className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] leading-[1.02] font-medium tracking-tight text-white">
+				<span className="block">CONTACT</span>
+				<span className="block">ME</span>
+			</h2>
+
+			{/* Blurb left, links right, centered in whatever space the headline leaves */}
+			<div className="relative z-10 mt-20 grid flex-1 grid-cols-1 gap-16 md:grid-cols-2 md:items-center">
+				<p className="max-w-sm text-lg leading-relaxed text-gray-light">
+					I&apos;m always open to chatting about projects,
+					opportunities, or just to connect!
+				</p>
+
+				<div className="flex flex-col items-start gap-1 text-3xl font-medium tracking-tight text-white uppercase md:text-4xl">
+					{SOCIAL_LINKS.map(({ href, label, Icon, external }) => (
+						<a
+							key={label}
+							href={href}
+							{...(external
+								? { target: "_blank", rel: "noreferrer" }
+								: {})}
+							className="group flex w-fit cursor-pointer items-center gap-3"
+						>
+							{/* Wrapper keeps the underline on the text, not the icon */}
+							<span className="relative">
+								{label}
+								<span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-white transition-transform duration-300 group-hover:scale-x-100" />
+							</span>
+
+							<Icon
+								aria-hidden="true"
+								className="shrink-0 -translate-x-1 text-[0.8em] text-white opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+							/>
+						</a>
+					))}
+				</div>
+			</div>
+
+			<div className="relative z-10 mt-16 flex items-end justify-between text-base text-gray">
+				<div className="flex flex-col">
+					<span>Portland, OR</span>
+					{/* Non-breaking space holds the line before the clock mounts */}
+					<span>{localTime ?? " "}</span>
 				</div>
 
-				<div className="max-w-2xl space-y-10">
-					<p className="text-lg leading-9 text-gray-400">
-						I&apos;m always open to chatting about software, projects,
-						opportunities, or just connecting!
-					</p>
-
-					<div className="flex items-center gap-10">
-						{socialLinks.map(({ href, label, Icon, external }) => (
-							<div className="group relative" key={label}>
-								<a
-									href={href}
-									{...(external
-										? { target: "_blank", rel: "noreferrer" }
-										: {})}
-									className="block transition-transform duration-300 hover:-translate-y-1"
-									aria-label={label}
-								>
-									<Icon className="text-[34px] transition-transform duration-300 group-hover:scale-110" />
-								</a>
-								<span className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap text-xs text-gray-400 opacity-0 transition-all duration-200 group-hover:translate-y-0.5 group-hover:opacity-100">
-									{label}
-								</span>
-							</div>
-						))}
-					</div>
-				</div>
+				<nav className="flex flex-col items-end uppercase">
+					{NAV_ITEMS.map(({ id, label }) => (
+						<button
+							key={label}
+							type="button"
+							onClick={() => id && scrollToSection(id)}
+							className="cursor-pointer transition-colors duration-300 hover:text-white"
+						>
+							{label}
+						</button>
+					))}
+				</nav>
 			</div>
 		</motion.section>
 	);

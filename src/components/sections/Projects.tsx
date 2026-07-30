@@ -33,7 +33,7 @@ const PROJECTS: Project[] = [
 		title: "Everleaf",
 		summary:
 			"A data dashboard visualizing farm health, environmental metrics, and regional crop trends via REST API.",
-		completed: "Completed December 2025",
+		completed: "Completed November 2025",
 	},
 	{
 		title: "Drawing Game",
