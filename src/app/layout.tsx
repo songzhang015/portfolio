@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Italianno } from "next/font/google";
 import SmoothScroll from "../components/others/SmoothScroll";
+import PageTransition from "../components/others/PageTransition";
 import "./globals.css";
 
 /* Variable font - the whole 400-700 range is available, so regular (400),
@@ -41,7 +42,9 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="min-h-full flex flex-col">
-				<SmoothScroll>{children}</SmoothScroll>
+				<SmoothScroll>
+					<PageTransition>{children}</PageTransition>
+				</SmoothScroll>
 			</body>
 		</html>
 	);

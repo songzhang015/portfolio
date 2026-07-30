@@ -6,6 +6,7 @@ import ParticleField from "../ui/ParticleField";
 import { PROJECTS } from "../../lib/projects";
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
+import { usePageTransition } from "../others/PageTransition";
 
 const gridVariants: Variants = {
 	initial: {},
@@ -13,6 +14,8 @@ const gridVariants: Variants = {
 };
 
 export default function Projects() {
+	const navigateWithCurtain = usePageTransition();
+
 	return (
 		<section
 			id="projects"
@@ -47,6 +50,22 @@ export default function Projects() {
 					<motion.article key={project.title} variants={fadeUp}>
 						<Link
 							href={`/projects/${project.slug}`}
+							/* Plain left clicks run the curtain; modified clicks
+							   (new tab, etc.) fall through to the browser */
+							onClick={(event) => {
+								if (
+									event.button !== 0 ||
+									event.metaKey ||
+									event.ctrlKey ||
+									event.shiftKey ||
+									event.altKey
+								) {
+									return;
+								}
+
+								event.preventDefault();
+								navigateWithCurtain(`/projects/${project.slug}`);
+							}}
 							className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl bg-gray-background/60 transition-colors duration-300 hover:bg-gray-background"
 						>
 							{/* Screenshot slot, kept on a fixed ratio so every card lines up */}
