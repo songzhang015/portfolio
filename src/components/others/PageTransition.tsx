@@ -23,9 +23,6 @@ const CURTAIN_EASE = [0.76, 0, 0.24, 1] as const;
    behind the curtain */
 const NAVIGATION_TIMEOUT_MS = 1500;
 
-/* Mid-page sections sit under the fixed header */
-const HEADER_OFFSET = 96;
-
 /* "top" and "bottom" pin to the page edges; the rest are section ids */
 export type ScrollTarget = "top" | "bottom" | "experience" | "projects";
 
@@ -106,7 +103,7 @@ export default function PageTransition({
 		if (destination === null) return;
 
 		lenis.scrollTo(destination, {
-			offset: section ? -HEADER_OFFSET : 0,
+			offset: 0,
 			immediate: true,
 		});
 	}, [hasLanded, pendingScroll, lenis]);

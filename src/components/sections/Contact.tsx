@@ -69,14 +69,12 @@ export default function Contact() {
 			target === "top" ? null : document.getElementById(target);
 		if (target !== "top" && !section) return;
 
-		const headerOffset = 96;
 		const prefersReducedMotion = window.matchMedia(
 			"(prefers-reduced-motion: reduce)",
 		).matches;
 
 		lenis.scrollTo(section ?? 0, {
-			/* The hero starts at the top of the page, so it needs no header offset */
-			offset: section ? -headerOffset : 0,
+			offset: 0,
 			immediate: prefersReducedMotion,
 			duration: 1.2,
 			easing: (t) => 1 - Math.pow(1 - t, 3),

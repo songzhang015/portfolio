@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PROJECTS, getProject } from "../../../lib/projects";
 import GridPattern from "../../../components/ui/GridPattern";
 import Header from "../../../components/sections/Header";
+import ProjectShowcase from "../../../components/sections/ProjectShowcase";
 
 type ProjectPageProps = {
 	params: Promise<{ slug: string }>;
@@ -30,13 +31,14 @@ export async function generateMetadata({
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
 	const { slug } = await params;
+	const project = getProject(slug);
 
-	if (!getProject(slug)) {
+	if (!project) {
 		notFound();
 	}
 
 	return (
-		<div className="relative min-h-screen bg-black font-sans">
+		<div className="relative min-h-screen bg-black font-sans lg:h-screen lg:overflow-hidden">
 			<GridPattern
 				width={80}
 				height={80}
@@ -45,7 +47,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
 			<Header />
 
-			<main className="relative z-10 min-h-screen" />
+			<main className="relative z-10 lg:h-full">
+				<ProjectShowcase project={project} />
+			</main>
 		</div>
 	);
 }

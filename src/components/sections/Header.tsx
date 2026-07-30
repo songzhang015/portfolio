@@ -84,7 +84,6 @@ export default function Header() {
 
 		if (destination === null) return;
 
-		const headerOffset = 96;
 		const prefersReducedMotion = window.matchMedia(
 			"(prefers-reduced-motion: reduce)",
 		).matches;
@@ -93,8 +92,9 @@ export default function Header() {
 		setHidden(false);
 
 		lenis.scrollTo(destination, {
-			/* Only mid-page sections sit under the fixed header */
-			offset: destination instanceof HTMLElement ? -headerOffset : 0,
+			/* Sections are min-h-screen and pad past the fixed header on their own,
+			   so landing flush on the section top fills the viewport exactly */
+			offset: 0,
 			immediate: prefersReducedMotion,
 			duration: 1.2,
 			easing: (t) => 1 - Math.pow(1 - t, 3),
