@@ -1,6 +1,7 @@
 import Header from "../components/sections/Header";
 import Introduction from "../components/sections/Introduction";
-import About from "../components/sections/About";
+import Experience from "../components/sections/Experience";
+// import About from "../components/sections/About";
 import Projects from "../components/sections/Projects";
 import Contact from "../components/sections/Contact";
 import LoadupAnimation from "../components/others/LoadupAnimation";
@@ -19,7 +20,8 @@ export default function Home() {
 
 				<Header />
 				<Introduction />
-				<About />
+				<Experience />
+				{/* <About /> */}
 				<Projects />
 				<Contact />
 			</div>

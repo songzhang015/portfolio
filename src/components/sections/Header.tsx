@@ -6,12 +6,12 @@ import { useLenis } from "lenis/react";
 import { useLoading } from "../others/LoadingContext";
 import { NavButton } from "../ui/NavButton";
 
-type SectionId = "about" | "projects" | "contact";
+type SectionId = "about" | "experience" | "projects" | "contact";
 
-/* Experience has no section to scroll to yet, so it renders as an inert label */
+/* About is commented out of the page, so it renders as an inert label */
 const centerItems: { id: SectionId | null; label: string }[] = [
-	{ id: "about", label: "About" },
-	{ id: null, label: "Experience" },
+	{ id: null, label: "About" },
+	{ id: "experience", label: "Experience" },
 	{ id: "projects", label: "Projects" },
 ];
 
