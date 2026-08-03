@@ -104,7 +104,7 @@ export default function Experience() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
                 /* Matches the hero headline scale so both read as the same type system */
-                className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] font-medium leading-[1.02] tracking-tight text-white"
+                className="relative z-10 text-3xl font-medium leading-[1.02] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
             >
                 <span className="block pr-14 text-right">TECHNICAL</span>
                 <span className="block pr-14 text-right">EXPERIENCE</span>
@@ -155,7 +155,7 @@ export default function Experience() {
                             {role.title}
                         </h3>
 
-                        <p className="mt-1 text-lg text-gray">{role.meta}</p>
+                        <p className="mt-2 text-lg text-gray">{role.meta}</p>
 
                         <p className="mt-4 w-full max-w-3xl text-xl leading-relaxed text-gray-light">
                             {role.summary}

@@ -96,7 +96,7 @@ export default function About() {
 
                         <motion.div
                             variants={itemVariants}
-                            className="mt-1 self-start"
+                            className="mt-2 self-start"
                         >
                             <motion.button
                                 type="button"
@@ -105,7 +105,7 @@ export default function About() {
                                 animate="rest"
                                 whileHover="hover"
                                 whileTap={{ scale: 0.985 }}
-                                className="group relative isolate cursor-pointer overflow-hidden rounded-md bg-oxford-blue px-6 py-3 text-lg text-sky-blue transition-transform duration-300 hover:-translate-y-1"
+                                className="group relative isolate cursor-pointer overflow-hidden rounded-md bg-oxford-blue px-6 py-4 text-lg text-sky-blue transition-transform duration-300 hover:-translate-y-1"
                             >
                                 <span className="relative z-20">Say Hello</span>
 
@@ -172,7 +172,7 @@ export default function About() {
 
                 <div className="space-y-16">
                     <motion.div
-                        className="space-y-5"
+                        className="space-y-6"
                         variants={fadeUp}
                         initial="initial"
                         whileInView="visible"
@@ -201,7 +201,7 @@ export default function About() {
                     </motion.div>
 
                     <motion.div
-                        className="space-y-5"
+                        className="space-y-6"
                         variants={fadeUp}
                         initial="initial"
                         whileInView="visible"

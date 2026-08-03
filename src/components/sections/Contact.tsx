@@ -94,7 +94,7 @@ export default function Contact() {
 		>
 			<ParticleField direction="up" className="z-0" />
 
-			<h2 className="relative z-10 text-[clamp(1.75rem,6.4vw,8.5rem)] leading-[1.02] font-medium tracking-tight text-white">
+			<h2 className="relative z-10 text-3xl leading-[1.02] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
 				<span className="block">CONTACT</span>
 				<span className="block">ME</span>
 			</h2>
@@ -105,7 +105,7 @@ export default function Contact() {
 					opportunities, or just to connect!
 				</p>
 
-				<div className="flex flex-col items-start gap-3 text-5xl font-medium tracking-tight text-white uppercase md:text-6xl">
+				<div className="flex flex-col items-start gap-4 text-5xl font-medium tracking-tight text-white uppercase md:text-6xl">
 					{SOCIAL_LINKS.map(({ href, label, Icon, external }) => (
 						<a
 							key={label}
@@ -113,7 +113,7 @@ export default function Contact() {
 							{...(external
 								? { target: "_blank", rel: "noreferrer" }
 								: {})}
-							className="group flex w-fit cursor-pointer items-center gap-3"
+							className="group flex w-fit cursor-pointer items-center gap-4"
 						>
 							<span className="relative">
 								{label}
@@ -122,7 +122,7 @@ export default function Contact() {
 
 							<Icon
 								aria-hidden="true"
-								className="shrink-0 -translate-x-1 text-[0.8em] text-white opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+								className="shrink-0 -translate-x-1 text-4xl text-white md:text-5xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
 							/>
 						</a>
 					))}

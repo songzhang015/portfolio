@@ -30,7 +30,7 @@ export default function Projects() {
 				viewport={{ once: true, amount: 0.3 }}
 				/* Matches the hero and experience headline scale; pl-14 lines the text
 				   up with "DEVELOPING FULL-STACK" in the hero */
-				className="relative z-10 pl-14 text-[clamp(1.75rem,6.4vw,8.5rem)] leading-[1.02] font-medium tracking-tight text-white"
+				className="relative z-10 pl-14 text-3xl leading-[1.02] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
 			>
 				<span className="block">FEATURED</span>
 				<span className="block">PROJECTS</span>
@@ -67,7 +67,7 @@ export default function Projects() {
 								<span className="text-sm text-gray-dark">Picture Here</span>
 							</div>
 
-							<div className="flex flex-1 flex-col p-7">
+							<div className="flex flex-1 flex-col p-8">
 								<div className="flex items-start justify-between gap-4">
 									<h3 className="text-xl font-semibold tracking-tight text-white">
 										{project.title}

@@ -42,11 +42,11 @@ const COUNT_SPRING = {
 const NAME_START = 2.15;
 const SWAP_DURATION = 1.1;
 
-/* Matches the name block's measured height (48px name + 4px gap + 24px sub) so
+/* Matches the name block's measured height (48px name + 8px gap + 24px sub) so
    both lines clip against the window edges at once during the swap. This is the
    floor: the counter and name sit one slot apart, so any taller and the gap
    between them grows, any shorter and the name clips at rest */
-const SLOT_HEIGHT = "4.75rem";
+const SLOT_HEIGHT = "5rem";
 
 export default function LoadupAnimation({
     children,
@@ -149,7 +149,7 @@ export default function LoadupAnimation({
                                         <span className="text-white text-4xl sm:text-5xl font-bold">
                                             Song Zhang
                                         </span>
-                                        <span className="text-gray text-base mt-1">
+                                        <span className="text-gray text-base mt-2">
                                             Software Engineer&nbsp; /
                                             &nbsp;System Design&nbsp; / &nbsp;AI
                                             Integration

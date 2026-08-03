@@ -64,14 +64,14 @@ export default function ProjectShowcase({ project }: { project: Project }) {
 				>
 					<motion.h2
 						variants={fadeUp}
-						className="text-[clamp(1.25rem,3.4vh,2.25rem)] leading-tight font-semibold tracking-tight text-white"
+						className="text-xl leading-tight font-semibold tracking-tight text-white lg:text-2xl xl:text-3xl 2xl:text-4xl"
 					>
 						{project.altTitle}
 					</motion.h2>
 
 					<motion.div
 						variants={fadeUp}
-						className="mt-[clamp(1rem,3vh,2rem)] flex flex-col gap-[clamp(0.5rem,1.7vh,1.25rem)] text-[clamp(0.8125rem,1.65vh,1.125rem)] leading-relaxed"
+						className="mt-[clamp(1rem,3vh,2rem)] flex flex-col gap-[clamp(0.5rem,1.7vh,1.5rem)] text-sm leading-relaxed lg:text-base xl:text-lg"
 					>
 						{project.sentences.map((sentence, i) => (
 							<p
@@ -94,7 +94,7 @@ export default function ProjectShowcase({ project }: { project: Project }) {
 
 					<motion.div
 						variants={fadeUp}
-						className="mt-auto flex flex-wrap items-center gap-[clamp(1rem,2.4vh,1.75rem)] pt-[clamp(1rem,3vh,2.5rem)] text-[clamp(1.25rem,3.4vh,2.25rem)] text-white"
+						className="mt-auto flex flex-wrap items-center gap-[clamp(1rem,2.4vh,2rem)] pt-[clamp(1rem,3vh,2.5rem)] text-xl text-white lg:text-2xl xl:text-3xl 2xl:text-4xl"
 					>
 						{project.tech.map((name) => (
 							<TechIcon key={name} name={name} />
@@ -123,20 +123,19 @@ function ProjectTitle({ project }: { project: Project }) {
 				target="_blank"
 				rel="noreferrer"
 				aria-label={`${project.title} on GitHub`}
-				/* Clamp lives on the anchor so the icons can size themselves in em */
-				className="group flex w-fit cursor-pointer items-end gap-[0.14em] text-[clamp(2.25rem,min(9.5vw,15vh),9rem)] leading-[1.02] font-medium tracking-tight text-white"
+				className="group flex w-fit cursor-pointer items-end gap-2 text-4xl leading-[1.02] font-medium tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl"
 			>
 				<span className="relative">
 					{project.title.toUpperCase()}
 					<FiArrowUpRight
 						aria-hidden="true"
-						className="absolute top-[0.02em] left-full ml-[0.04em] text-[0.2em] leading-none text-gray opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white group-hover:opacity-100"
+						className="absolute top-[0.02em] left-full ml-2 text-xs leading-none text-gray opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white group-hover:opacity-100 lg:text-sm xl:text-xl 2xl:text-2xl"
 					/>
 				</span>
 
 				<SiGithub
 					aria-hidden="true"
-					className="mb-[0.1em] shrink-0 text-[0.24em] leading-none text-gray opacity-0 transition-all duration-300 group-hover:text-white group-hover:opacity-100"
+					className="mb-2 shrink-0 text-xs leading-none text-gray opacity-0 transition-all duration-300 group-hover:text-white group-hover:opacity-100 md:text-sm lg:text-lg xl:text-2xl 2xl:text-3xl"
 				/>
 			</a>
 		</h1>

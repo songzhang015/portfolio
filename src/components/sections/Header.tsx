@@ -143,7 +143,7 @@ export default function Header() {
 			}}
 			transition={{ duration: 0.3, ease: "easeOut" }}
 			className={`
-				fixed top-0 left-0 w-full z-50 grid grid-cols-3 items-center text-md py-8 px-16
+				fixed top-0 left-0 w-full z-50 grid grid-cols-3 items-center text-base py-8 px-16
 				transition-shadow duration-300
 				${isAtTop ? "shadow-none backdrop-blur-none" : "shadow-sm shadow-black/75 backdrop-blur-xs"}
 			`}
@@ -155,7 +155,7 @@ export default function Header() {
 						isHome ? window.location.reload() : goTo("top")
 					}
 					aria-label={isHome ? "Reload the page" : "Back to the homepage"}
-					className="font-display block w-fit cursor-pointer text-[2.5rem] leading-none text-gold"
+					className="font-display block w-fit cursor-pointer text-4xl leading-none text-gold"
 				>
 					SZ
 				</button>
