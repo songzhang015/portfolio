@@ -129,7 +129,7 @@ export default function Contact() {
 				</div>
 			</div>
 
-			<div className="relative z-10 mt-16 flex items-end justify-between text-lg text-gray">
+			<div className="relative z-10 mt-16 flex items-end justify-between text-xl text-gray">
 				<div className="flex flex-col">
 					<span>Portland, OR</span>
 					<span className="text-gray-dark">{localTime ?? " "}</span>

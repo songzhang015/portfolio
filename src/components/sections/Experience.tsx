@@ -3,6 +3,7 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { fadeUp } from "../../lib/animations";
 import ParticleField from "../ui/ParticleField";
+import Squiggle from "../ui/Squiggle";
 
 type Role = {
     title: string;
@@ -86,7 +87,6 @@ function toStartPixels(steps: { x: number[]; y: number[] }) {
 }
 
 export default function Experience() {
-    /* Parked at their starting corners when the visitor asks for less motion */
     const reduceMotion = useReducedMotion();
 
     const boxStyle = { width: BOX_PX, height: BOX_PX };
@@ -98,21 +98,33 @@ export default function Experience() {
         >
             <ParticleField direction="right" className="z-0" />
 
-            <motion.h2
-                variants={fadeUp}
-                initial="initial"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                /* Matches the hero headline scale so both read as the same type system */
-                className="relative z-10 text-3xl font-medium leading-[1.02] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
-            >
-                <span className="block pr-14 text-right">TECHNICAL</span>
-                <span className="block pr-14 text-right">EXPERIENCE</span>
-            </motion.h2>
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center">
+                <motion.div
+                    variants={fadeUp}
+                    initial="initial"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    className="w-full md:w-1/2 md:shrink-0"
+                >
+                    <Squiggle variant="experience" />
+                </motion.div>
+
+                <motion.h2
+                    variants={fadeUp}
+                    initial="initial"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    data-squiggle-stop=""
+                    className="text-3xl font-medium leading-[1.02] tracking-tight text-white sm:text-4xl md:flex-1 md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+                >
+                    <span className="block pr-14 text-right">TECHNICAL</span>
+                    <span className="block pr-14 text-right">EXPERIENCE</span>
+                </motion.h2>
+            </div>
 
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute top-3/4 left-3/4 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
+                className="pointer-events-none absolute top-3/4 left-3/4 z-10 hidden translate-x-[calc(-50%+6rem)] translate-y-[calc(-50%-2rem)] lg:block"
                 style={{ width: BOX_PX * 2, height: BOX_PX * 2 }}
             >
                 <motion.div

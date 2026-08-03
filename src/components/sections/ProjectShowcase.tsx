@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
+import Image from "next/image";
 import { SiGithub } from "react-icons/si";
 import { FiArrowUpRight } from "react-icons/fi";
 import { fadeUp } from "../../lib/animations";
-import type { Project } from "../../lib/projects";
+import { IMAGE_ALIGNMENTS, type Project } from "../../lib/projects";
 import TechIcon from "../ui/TechIcon";
 
 /* How long each sentence stays highlighted before the rotation advances */
@@ -43,17 +44,33 @@ export default function ProjectShowcase({ project }: { project: Project }) {
 					animate="visible"
 					className="grid aspect-3/2 grid-cols-2 grid-rows-2 gap-4 lg:aspect-auto lg:h-full lg:min-h-0"
 				>
-					{IMAGE_SLOTS.map((span, i) => (
-						<motion.div
-							key={i}
-							variants={fadeUp}
-							className={`flex items-center justify-center rounded-2xl bg-gray-light ${span}`}
-						>
-							<span className="text-sm text-gray-dark">
-								Picture Here
-							</span>
-						</motion.div>
-					))}
+					{IMAGE_SLOTS.map((span, i) => {
+						const image = project.gallery?.[i];
+
+						return (
+							<motion.div
+								key={i}
+								variants={fadeUp}
+								className={`group relative flex items-center justify-center overflow-hidden rounded-2xl ${image ? "" : "bg-gray-light"} ${span}`}
+							>
+								{image ? (
+									<Image
+										src={image.src}
+										alt={`${project.title} screenshot`}
+										fill
+										sizes="(min-width: 1024px) 26vw, 45vw"
+										className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02] ${
+											image.align ? IMAGE_ALIGNMENTS[image.align] : "object-center"
+										}`}
+									/>
+								) : (
+									<span className="text-sm text-gray-dark">
+										Picture Here
+									</span>
+								)}
+							</motion.div>
+						);
+					})}
 				</motion.div>
 
 				<motion.div
@@ -94,7 +111,7 @@ export default function ProjectShowcase({ project }: { project: Project }) {
 
 					<motion.div
 						variants={fadeUp}
-						className="mt-auto flex flex-wrap items-center gap-[clamp(1rem,2.4vh,2rem)] pt-[clamp(1rem,3vh,2.5rem)] text-xl text-white lg:text-2xl xl:text-3xl 2xl:text-4xl"
+						className="mt-auto flex w-full items-center justify-start gap-[clamp(3.5rem,6.5vh,6rem)] pt-[clamp(1rem,3vh,2.5rem)] text-xl text-white lg:text-2xl xl:text-3xl 2xl:text-4xl"
 					>
 						{project.tech.map((name) => (
 							<TechIcon key={name} name={name} />

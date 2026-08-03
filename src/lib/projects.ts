@@ -1,5 +1,21 @@
 import type { TechKey } from "../components/ui/TechIcon";
 
+export type ProjectImage = {
+	src: string;
+	/* Scales the image inside its frame — 1.3 zooms 30% into the center */
+	zoom?: number;
+	/* Which edge of the image stays in frame when it's cropped — defaults to center */
+	align?: keyof typeof IMAGE_ALIGNMENTS;
+};
+
+export const IMAGE_ALIGNMENTS = {
+	left: "object-left",
+	right: "object-right",
+	top: "object-top",
+	bottom: "object-bottom",
+	"top-left": "object-top-left",
+} as const;
+
 export type Project = {
 	/* Doubles as the /projects/<slug> route segment */
 	slug: string;
@@ -13,6 +29,10 @@ export type Project = {
 	tech: TechKey[];
 	completed: string;
 	repoUrl: string;
+	/* Featured-card image; the card falls back to a placeholder without it */
+	card?: ProjectImage;
+	/* Project-page panels in slot order — the first fills the tall left slot */
+	gallery?: ProjectImage[];
 };
 
 /* Newest first — the featured grid renders them in this order */
@@ -32,7 +52,13 @@ export const PROJECTS: Project[] = [
 		],
 		tech: ["react", "typescript", "python", "flask", "claude", "mongodb"],
 		completed: "Completed July 2026",
-		repoUrl: "https://github.com/songzhang015/coffee-companion",
+		repoUrl: "https://github.com/songzhang015/coffee-companion-v2",
+		card: { src: "/projects/coffee-companion/landing.png" },
+		gallery: [
+			{ src: "/projects/coffee-companion/recommendations.jpeg", align: "top" },
+			{ src: "/projects/coffee-companion/login.png" },
+			{ src: "/projects/coffee-companion/new-entry.png" },
+		],
 	},
 	{
 		slug: "nulloth",
@@ -50,6 +76,12 @@ export const PROJECTS: Project[] = [
 		tech: ["electron", "typescript", "react", "claude", "codex", "sqlite"],
 		completed: "Completed May 2026",
 		repoUrl: "https://github.com/flamboh/beaver-hacks-2026",
+		card: { src: "/projects/nulloth/control-panel.png", align: "top-left" },
+		gallery: [
+			{ src: "/projects/nulloth/skills.png", align: "top" },
+			{ src: "/projects/nulloth/review.png" },
+			{ src: "/projects/nulloth/agents.png" },
+		],
 	},
 	{
 		slug: "campus-security",
@@ -67,10 +99,16 @@ export const PROJECTS: Project[] = [
 		tech: ["flask", "mongodb", "typescript", "python", "react"],
 		completed: "Completed April 2026",
 		repoUrl: "https://github.com/songzhang015/campus-security",
+		card: { src: "/projects/campus-security/sign-in.png", zoom: 1.4 },
+		gallery: [
+			{ src: "/projects/campus-security/incident-panel.jpeg", align: "top" },
+			{ src: "/projects/campus-security/dashboard.png" },
+			{ src: "/projects/campus-security/alert-drafts.png" },
+		],
 	},
 	{
 		slug: "everleaf",
-		title: "Everleaf",
+		title: "EverLeaf",
 		altTitle: "Farm Health Analytics Dashboard",
 		summary:
 			"A data dashboard visualizing farm health, environmental metrics, and regional crop trends via REST API.",
@@ -84,6 +122,12 @@ export const PROJECTS: Project[] = [
 		tech: ["react", "typescript", "python", "flask", "mongodb"],
 		completed: "Completed November 2025",
 		repoUrl: "https://github.com/Tyrost/EverLeaf",
+		card: { src: "/projects/everleaf/hero.png", align: "left" },
+		gallery: [
+			{ src: "/projects/everleaf/features.jpeg" },
+			{ src: "/projects/everleaf/highlights.png" },
+			{ src: "/projects/everleaf/analytics.png" },
+		],
 	},
 	{
 		slug: "drawing-game",
@@ -108,6 +152,12 @@ export const PROJECTS: Project[] = [
 		],
 		completed: "Completed November 2025",
 		repoUrl: "https://github.com/songzhang015/cs-322-final-project",
+		card: { src: "/projects/drawing-game/lobby.png", zoom: 1.1 },
+		gallery: [
+			{ src: "/projects/drawing-game/canvas.jpeg", align: "top" },
+			{ src: "/projects/drawing-game/drawing.png" },
+			{ src: "/projects/drawing-game/guessing.png" },
+		],
 	},
 ];
 

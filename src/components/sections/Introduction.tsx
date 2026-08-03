@@ -2,6 +2,7 @@
 
 import { useLoading } from "../others/LoadingContext";
 import ParticleField from "../ui/ParticleField";
+import Squiggle from "../ui/Squiggle";
 import {
     motion,
     type Variants,
@@ -134,6 +135,10 @@ export default function Introduction() {
                         ))}
                     </motion.div>
                 </div>
+
+                <motion.div variants={itemVariants} className="-mx-8 md:-mx-16">
+                    <Squiggle variant="hero" />
+                </motion.div>
 
                 <motion.h2
                     variants={itemVariants}

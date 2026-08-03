@@ -3,8 +3,10 @@
 import { motion, type Variants } from "framer-motion";
 import { fadeUp } from "../../lib/animations";
 import ParticleField from "../ui/ParticleField";
-import { PROJECTS } from "../../lib/projects";
+import Squiggle from "../ui/Squiggle";
+import { IMAGE_ALIGNMENTS, PROJECTS } from "../../lib/projects";
 import Link from "next/link";
+import Image from "next/image";
 import { FiArrowUpRight } from "react-icons/fi";
 import { usePageTransition } from "../others/PageTransition";
 
@@ -23,25 +25,38 @@ export default function Projects() {
 		>
 			<ParticleField direction="left" className="z-0" />
 
-			<motion.h2
-				variants={fadeUp}
-				initial="initial"
-				whileInView="visible"
-				viewport={{ once: true, amount: 0.3 }}
-				/* Matches the hero and experience headline scale; pl-14 lines the text
-				   up with "DEVELOPING FULL-STACK" in the hero */
-				className="relative z-10 pl-14 text-3xl leading-[1.02] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
-			>
-				<span className="block">FEATURED</span>
-				<span className="block">PROJECTS</span>
-			</motion.h2>
+			<div className="relative z-10 flex flex-col md:flex-row md:items-center">
+				<motion.h2
+					variants={fadeUp}
+					initial="initial"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.3 }}
+					data-squiggle-stop=""
+					/* Matches the hero and experience headline scale; pl-14 lines the
+					   text up with "DEVELOPING FULL-STACK" in the hero */
+					className="pl-14 text-3xl leading-[1.02] font-medium tracking-tight text-white sm:text-4xl md:flex-1 md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+				>
+					<span className="block">FEATURED</span>
+					<span className="block">PROJECTS</span>
+				</motion.h2>
+
+				<motion.div
+					variants={fadeUp}
+					initial="initial"
+					whileInView="visible"
+					viewport={{ once: true, amount: 0.3 }}
+					className="w-full md:w-1/2 md:shrink-0"
+				>
+					<Squiggle variant="projects" />
+				</motion.div>
+			</div>
 
 			<motion.div
 				variants={gridVariants}
 				initial="initial"
 				whileInView="visible"
 				viewport={{ once: true, amount: 0.15 }}
-				className="relative z-10 mx-auto mt-24 grid w-full max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+				className="relative z-10 mx-auto mt-24 grid w-full max-w-7xl grid-cols-1 gap-x-16 gap-y-8 sm:grid-cols-2 lg:grid-cols-3"
 			>
 				{PROJECTS.map((project) => (
 					<motion.article key={project.title} variants={fadeUp}>
@@ -63,8 +78,29 @@ export default function Projects() {
 							}}
 							className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl bg-gray-background/60 transition-colors duration-300 hover:bg-gray-background"
 						>
-							<div className="flex aspect-4/3 items-center justify-center bg-gray-light">
-								<span className="text-sm text-gray-dark">Picture Here</span>
+							<div
+								className={`relative flex aspect-4/3 items-center justify-center overflow-hidden ${project.card ? "" : "bg-gray-light"}`}
+							>
+								{project.card ? (
+									<div
+										className="absolute inset-0"
+										style={{ transform: `scale(${project.card.zoom ?? 1})` }}
+									>
+										<Image
+											src={project.card.src}
+											alt={`${project.title} preview`}
+											fill
+											sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+											className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02] ${
+												project.card.align
+													? IMAGE_ALIGNMENTS[project.card.align]
+													: "object-center"
+											}`}
+										/>
+									</div>
+								) : (
+									<span className="text-sm text-gray-dark">Picture Here</span>
+								)}
 							</div>
 
 							<div className="flex flex-1 flex-col p-8">

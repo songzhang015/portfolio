@@ -23,6 +23,11 @@ const CURTAIN_EASE = [0.76, 0, 0.24, 1] as const;
    behind the curtain */
 const NAVIGATION_TIMEOUT_MS = 1500;
 
+/* Frames to keep re-pinning the target section after the route lands. The
+   landing page settles over the first few frames — fonts, images and the
+   router's own scroll reset all move things — so one scroll isn't enough */
+const SETTLE_FRAMES = 12;
+
 /* "top" and "bottom" pin to the page edges; the rest are section ids */
 export type ScrollTarget = "top" | "bottom" | "experience" | "projects";
 
@@ -88,24 +93,38 @@ export default function PageTransition({
 	useEffect(() => {
 		if (!hasLanded || !pendingScroll || !lenis) return;
 
-		const section =
-			pendingScroll === "top" || pendingScroll === "bottom"
-				? null
-				: document.getElementById(pendingScroll);
+		let framesLeft = SETTLE_FRAMES;
+		let frame = 0;
 
-		const destination =
-			pendingScroll === "top"
-				? 0
-				: pendingScroll === "bottom"
-					? "bottom"
-					: section;
+		const pin = (): void => {
+			const section =
+				pendingScroll === "top" || pendingScroll === "bottom"
+					? null
+					: document.getElementById(pendingScroll);
 
-		if (destination === null) return;
+			const destination =
+				pendingScroll === "top"
+					? 0
+					: pendingScroll === "bottom"
+						? "bottom"
+						: section;
 
-		lenis.scrollTo(destination, {
-			offset: 0,
-			immediate: true,
-		});
+			if (destination !== null) {
+				lenis.resize();
+				lenis.scrollTo(destination, {
+					offset: 0,
+					immediate: true,
+					force: true,
+				});
+			}
+
+			framesLeft -= 1;
+			if (framesLeft > 0) frame = requestAnimationFrame(pin);
+		};
+
+		pin();
+
+		return () => cancelAnimationFrame(frame);
 	}, [hasLanded, pendingScroll, lenis]);
 
 	useEffect(() => {
@@ -173,7 +192,9 @@ export default function PageTransition({
 								setPhase("covered");
 
 								if (pendingHref) {
-									router.push(pendingHref);
+									router.push(pendingHref, {
+										scroll: !pendingScroll,
+									});
 								}
 							}}
 						/>
