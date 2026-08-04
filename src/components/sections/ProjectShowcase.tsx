@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import { SiGithub } from "react-icons/si";
-import { FiArrowUpRight } from "react-icons/fi";
 import { fadeUp } from "../../lib/animations";
 import { IMAGE_ALIGNMENTS, type Project } from "../../lib/projects";
 import TechIcon from "../ui/TechIcon";
@@ -144,16 +143,11 @@ function ProjectTitle({ project }: { project: Project }) {
 			>
 				<span className="relative">
 					{project.title.toUpperCase()}
-					<FiArrowUpRight
+					<SiGithub
 						aria-hidden="true"
 						className="absolute top-[0.02em] left-full ml-2 text-xs leading-none text-gray opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white group-hover:opacity-100 lg:text-sm xl:text-xl 2xl:text-2xl"
 					/>
 				</span>
-
-				<SiGithub
-					aria-hidden="true"
-					className="mb-2 shrink-0 text-xs leading-none text-gray opacity-0 transition-all duration-300 group-hover:text-white group-hover:opacity-100 md:text-sm lg:text-lg xl:text-2xl 2xl:text-3xl"
-				/>
 			</a>
 		</h1>
 	);
