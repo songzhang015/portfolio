@@ -142,7 +142,7 @@ export default function Introduction() {
 
                 <motion.h2
                     variants={itemVariants}
-                    className="text-3xl font-medium leading-[1.02] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+                    className="font-medium leading-[1.02] tracking-tight text-white text-[clamp(1.5rem,5vw,16rem)]"
                 >
                     <span className="block pl-14">DEVELOPING FULL-STACK</span>
                     <span className="block pr-14 text-right">APPLICATIONS</span>

@@ -54,6 +54,9 @@ const TECH: Record<string, Tech> = {
 
 export type TechKey = keyof typeof TECH;
 
+const LIFT =
+	"shrink-0 transition-transform duration-300 ease-out hover:-translate-y-1";
+
 export default function TechIcon({ name }: { name: TechKey }) {
 	const tech = TECH[name];
 
@@ -63,7 +66,7 @@ export default function TechIcon({ name }: { name: TechKey }) {
 			<img
 				src={tech.src}
 				alt={tech.label}
-				className="h-[1em] w-[1em] shrink-0"
+				className={`h-[1em] w-[1em] ${LIFT}`}
 			/>
 		);
 	}
@@ -73,10 +76,17 @@ export default function TechIcon({ name }: { name: TechKey }) {
 			<tech.Icon
 				role="img"
 				aria-label={tech.label}
+				className={LIFT}
 				style={tech.color ? { color: tech.color } : undefined}
 			/>
 		);
 	}
 
-	return <i role="img" aria-label={tech.label} className={tech.className} />;
+	return (
+		<i
+			role="img"
+			aria-label={tech.label}
+			className={`${tech.className} ${LIFT}`}
+		/>
+	);
 }

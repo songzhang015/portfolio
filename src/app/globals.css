@@ -57,6 +57,12 @@
 
 	--font-sans: var(--font-geist-sans);
 	--font-display: var(--font-italianno-display);
+
+	/* Breakpoints past Tailwind's 2xl (96rem), in rem so they sort after it —
+	   an arbitrary `min-[1920px]:` variant is emitted before every rem-based
+	   breakpoint and loses the cascade to 2xl */
+	--breakpoint-3xl: 120rem;
+	--breakpoint-4xl: 150rem;
 }
 
 @media (prefers-color-scheme: dark) {

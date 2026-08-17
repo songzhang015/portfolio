@@ -94,7 +94,7 @@ export default function Contact() {
 		>
 			<ParticleField direction="up" className="z-0" />
 
-			<h2 className="relative z-10 text-3xl leading-[1.02] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
+			<h2 className="relative z-10 text-[clamp(1.5rem,5vw,16rem)] leading-[1.02] font-medium tracking-tight text-white">
 				<span className="block">CONTACT</span>
 				<span className="block">ME</span>
 			</h2>

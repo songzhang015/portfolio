@@ -115,7 +115,7 @@ export default function Experience() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
                     data-squiggle-stop=""
-                    className="text-3xl font-medium leading-[1.02] tracking-tight text-white sm:text-4xl md:flex-1 md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+                    className="font-medium leading-[1.02] tracking-tight text-white text-[clamp(1.5rem,5vw,16rem)] md:flex-1"
                 >
                     <span className="block pr-14 text-right">TECHNICAL</span>
                     <span className="block pr-14 text-right">EXPERIENCE</span>
