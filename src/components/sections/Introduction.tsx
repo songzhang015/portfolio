@@ -83,12 +83,12 @@ export default function Introduction() {
     return (
         <section
             ref={sectionRef}
-            className="relative flex min-h-screen flex-col overflow-hidden"
+            className="relative flex min-h-svh flex-col overflow-hidden"
         >
             <ParticleField className="z-0" />
 
             <motion.div
-                className="relative z-10 flex w-full flex-1 flex-col justify-between px-8 pt-48 pb-10 md:px-16"
+                className="relative z-10 flex w-full flex-1 flex-col justify-between px-8 pt-32 pb-10 md:px-16 md:pt-48"
                 style={{ y: contentY }}
                 variants={{
                     initial: {},
@@ -103,7 +103,7 @@ export default function Introduction() {
                 initial="initial"
                 animate={isLoading ? "initial" : "visible"}
             >
-                <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-8 md:flex-row md:items-start md:justify-center md:gap-16">
+                <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-8 xl:flex-row xl:justify-center xl:gap-16">
                     <motion.h1
                         variants={itemVariants}
                         className="text-6xl font-medium leading-[1.2] tracking-tight md:text-7xl"
@@ -114,7 +114,7 @@ export default function Introduction() {
 
                     <motion.div
                         variants={itemVariants}
-                        className="space-y-8 pt-4 text-lg md:whitespace-nowrap md:text-xl"
+                        className="space-y-8 pt-4 text-lg md:text-xl xl:whitespace-nowrap"
                     >
                         {BLURBS.map((blurb, i) => (
                             <p
@@ -142,10 +142,15 @@ export default function Introduction() {
 
                 <motion.h2
                     variants={itemVariants}
-                    className="font-medium leading-[1.02] tracking-tight text-white text-[clamp(1.5rem,5vw,16rem)]"
+                    className="font-medium leading-[1.02] tracking-tight text-white text-[clamp(2rem,11vw,4rem)] lg:text-[clamp(1.5rem,5vw,16rem)]"
                 >
-                    <span className="block pl-14">DEVELOPING FULL-STACK</span>
-                    <span className="block pr-14 text-right">APPLICATIONS</span>
+                    <span className="block lg:pl-14">
+                        DEVELOPING{" "}
+                        <span className="block lg:inline">FULL-STACK</span>
+                    </span>
+                    <span className="block lg:pr-14 lg:text-right">
+                        APPLICATIONS
+                    </span>
                 </motion.h2>
             </motion.div>
         </section>

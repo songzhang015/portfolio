@@ -21,11 +21,11 @@ export default function Projects() {
 	return (
 		<section
 			id="projects"
-			className="relative flex min-h-screen flex-col overflow-hidden px-8 pt-32 pb-32 md:px-16"
+			className="relative flex min-h-svh flex-col overflow-hidden px-8 pt-32 pb-32 md:px-16"
 		>
 			<ParticleField direction="left" className="z-0" />
 
-			<div className="relative z-10 flex flex-col md:flex-row md:items-center">
+			<div className="relative z-10 flex flex-col lg:flex-row lg:items-center">
 				<motion.h2
 					variants={fadeUp}
 					initial="initial"
@@ -34,7 +34,7 @@ export default function Projects() {
 					data-squiggle-stop=""
 					/* Matches the hero and experience headline scale; pl-14 lines the
 					   text up with "DEVELOPING FULL-STACK" in the hero */
-					className="pl-14 text-[clamp(1.5rem,5vw,16rem)] leading-[1.02] font-medium tracking-tight text-white md:flex-1"
+					className="text-[clamp(2rem,11vw,4rem)] leading-[1.02] font-medium tracking-tight text-white lg:flex-1 lg:pl-14 lg:text-[clamp(1.5rem,5vw,16rem)]"
 				>
 					<span className="block">FEATURED</span>
 					<span className="block">PROJECTS</span>
@@ -45,7 +45,7 @@ export default function Projects() {
 					initial="initial"
 					whileInView="visible"
 					viewport={{ once: true, amount: 0.3 }}
-					className="w-full md:w-1/2 md:shrink-0"
+					className="w-full lg:w-1/2 lg:shrink-0"
 				>
 					<Squiggle variant="projects" />
 				</motion.div>
@@ -56,7 +56,7 @@ export default function Projects() {
 				initial="initial"
 				whileInView="visible"
 				viewport={{ once: true, amount: 0.15 }}
-				className="relative z-10 mx-auto mt-24 grid w-full max-w-[84rem] grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3"
+				className="relative z-10 mx-auto mt-16 grid w-full max-w-[84rem] grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
 			>
 				{PROJECTS.map((project) => (
 					<motion.article key={project.title} variants={fadeUp}>

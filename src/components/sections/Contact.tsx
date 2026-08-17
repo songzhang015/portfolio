@@ -84,9 +84,9 @@ export default function Contact() {
 	return (
 		<motion.section
 			id="contact"
-			/* Left inset is the section padding plus the hero's pl-14, so "CONTACT ME"
-			   lines up with "DEVELOPING FULL-STACK" */
-			className="relative flex min-h-screen flex-col overflow-hidden pt-32 pr-8 pb-16 pl-22 md:pr-16 md:pl-30"
+			/* From md up the left inset is the section padding plus the hero's pl-14,
+			   so "CONTACT ME" lines up with "DEVELOPING FULL-STACK" */
+			className="relative flex min-h-svh flex-col overflow-hidden px-8 pt-32 pb-16 lg:pr-16 lg:pl-30"
 			variants={fadeUp}
 			initial="initial"
 			whileInView="visible"
@@ -94,18 +94,18 @@ export default function Contact() {
 		>
 			<ParticleField direction="up" className="z-0" />
 
-			<h2 className="relative z-10 text-[clamp(1.5rem,5vw,16rem)] leading-[1.02] font-medium tracking-tight text-white">
+			<h2 className="relative z-10 text-[clamp(2rem,11vw,4rem)] leading-[1.02] font-medium tracking-tight text-white lg:text-[clamp(1.5rem,5vw,16rem)]">
 				<span className="block">CONTACT</span>
 				<span className="block">ME</span>
 			</h2>
 
-			<div className="relative z-10 mt-12 grid flex-1 grid-cols-1 items-start gap-16 md:grid-cols-2">
-				<p className="max-w-md text-2xl leading-relaxed text-gray-light">
+			<div className="relative z-10 mt-12 grid flex-1 grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-16">
+				<p className="max-w-md text-lg leading-relaxed text-gray-light lg:text-2xl">
 					I&apos;m always open to chatting about projects,
 					opportunities, or just to connect!
 				</p>
 
-				<div className="flex flex-col items-start gap-4 text-5xl font-medium tracking-tight text-white uppercase md:text-6xl">
+				<div className="flex flex-col items-start gap-4 text-5xl font-medium tracking-tight text-white uppercase lg:text-6xl">
 					{SOCIAL_LINKS.map(({ href, label, Icon, external }) => (
 						<a
 							key={label}
@@ -122,7 +122,7 @@ export default function Contact() {
 
 							<Icon
 								aria-hidden="true"
-								className="shrink-0 -translate-x-1 text-4xl text-white md:text-5xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+								className="shrink-0 -translate-x-1 text-4xl text-white lg:text-5xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
 							/>
 						</a>
 					))}

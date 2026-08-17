@@ -19,8 +19,8 @@ const GRID_FIT: Partial<Record<SquiggleVariant, { from: "left" | "right" }>> = {
 };
 
 /* Below this the section stacks and the squiggle has its row to itself, so it
-   keeps its natural full-width size. Tracks Tailwind's `md` */
-const SIDE_BY_SIDE = "(min-width: 768px)";
+   keeps its natural full-width size. Tracks Tailwind's `lg` */
+const SIDE_BY_SIDE = "(min-width: 1024px)";
 
 /* A fitted squiggle never draws shorter than this, so a wide headline can't
    squash it into a stub */
@@ -37,8 +37,11 @@ const TRAIL_LAG = 1;
 /* Seconds the band sits empty between one pass erasing and the next starting */
 const REST_S = 1;
 
-/* Stroke weight in viewBox units */
-const STROKE_WIDTH = 7;
+/* Rendered stroke weight, in device pixels at each breakpoint. Held in device
+   pixels by vector-effect="non-scaling-stroke" rather than in viewBox units, so
+   the pen keeps its weight instead of thinning out as the band scales down */
+const STROKE_CLASS =
+	"[stroke-width:4px] md:[stroke-width:5px] lg:[stroke-width:7px]";
 
 /* Every design is drawn in a band this tall, so the three share a scale */
 const BAND_HEIGHT = 200;
@@ -428,8 +431,8 @@ export default function Squiggle({ variant, className }: SquiggleProps) {
 			<path
 				ref={grayRef}
 				d={path}
-				className="stroke-gray-dark"
-				strokeWidth={STROKE_WIDTH}
+				className={cn("stroke-gray-dark", STROKE_CLASS)}
+				vectorEffect="non-scaling-stroke"
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				strokeDasharray="0 1"
@@ -438,8 +441,8 @@ export default function Squiggle({ variant, className }: SquiggleProps) {
 			<path
 				ref={whiteRef}
 				d={path}
-				className="stroke-white"
-				strokeWidth={STROKE_WIDTH}
+				className={cn("stroke-white", STROKE_CLASS)}
+				vectorEffect="non-scaling-stroke"
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				strokeDasharray="0 1"

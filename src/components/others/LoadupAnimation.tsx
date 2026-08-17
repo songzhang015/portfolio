@@ -7,7 +7,7 @@ import {
     useSpring,
     useTransform,
 } from "motion/react";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 
 import CountUp from "../ui/CountUp";
 import { LoadingContext } from "./LoadingContext";
@@ -45,8 +45,9 @@ const SWAP_DURATION = 1.1;
 /* Matches the name block's measured height (48px name + 8px gap + 24px sub) so
    both lines clip against the window edges at once during the swap. This is the
    floor: the counter and name sit one slot apart, so any taller and the gap
-   between them grows, any shorter and the name clips at rest */
-const SLOT_HEIGHT = "5rem";
+   between them grows, any shorter and the name clips at rest. Narrow screens get
+   the taller value because the subtitle wraps onto a second line there */
+const SLOT_HEIGHT = "[--swap-slot:7rem] sm:[--swap-slot:5rem]";
 
 export default function LoadupAnimation({
     children,
@@ -88,7 +89,7 @@ export default function LoadupAnimation({
                     {isLoading && (
                         <motion.div
                             key="loader-overlay"
-                            className="fixed inset-0 z-[999] flex justify-center items-center h-screen overflow-hidden bg-black"
+                            className="fixed inset-0 z-[999] flex justify-center items-center h-dvh overflow-hidden bg-black"
                             initial={{ y: "0%" }}
                             animate={{ y: "-100%" }}
                             transition={{
@@ -109,12 +110,7 @@ export default function LoadupAnimation({
                             />
 
                             <motion.div
-                                className="relative z-10 h-[var(--swap-slot)] w-full overflow-hidden select-none"
-                                style={
-                                    {
-                                        "--swap-slot": SLOT_HEIGHT,
-                                    } as CSSProperties
-                                }
+                                className={`relative z-10 h-[var(--swap-slot)] w-full overflow-hidden px-8 select-none ${SLOT_HEIGHT}`}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -149,7 +145,7 @@ export default function LoadupAnimation({
                                         <span className="text-white text-4xl sm:text-5xl font-bold">
                                             Song Zhang
                                         </span>
-                                        <span className="text-gray text-base mt-2">
+                                        <span className="text-gray text-base mt-2 text-center">
                                             Software Engineer&nbsp; /
                                             &nbsp;System Design&nbsp; / &nbsp;AI
                                             Integration
@@ -173,7 +169,7 @@ export default function LoadupAnimation({
                     )}
                 </AnimatePresence>
 
-                <div className={isLoading ? "h-screen overflow-hidden" : ""}>
+                <div className={isLoading ? "h-dvh overflow-hidden" : ""}>
                     {children}
                 </div>
             </>

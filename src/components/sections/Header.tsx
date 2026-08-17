@@ -143,12 +143,13 @@ export default function Header() {
 			}}
 			transition={{ duration: 0.3, ease: "easeOut" }}
 			className={`
-				fixed top-0 left-0 w-full z-50 grid grid-cols-3 items-center text-base py-8 px-16
+				fixed top-0 left-0 w-full z-50 flex items-center justify-between text-sm py-6 px-6
+					md:grid md:grid-cols-3 md:text-base md:py-8 md:px-16
 				transition-shadow duration-300
 				${isAtTop ? "shadow-none backdrop-blur-none" : "shadow-sm shadow-black/75 backdrop-blur-xs"}
 			`}
 		>
-			<motion.div variants={itemVariants} className="w-fit">
+			<motion.div variants={itemVariants} className="hidden w-fit md:block">
 				<button
 					type="button"
 					onClick={() =>
@@ -161,7 +162,7 @@ export default function Header() {
 				</button>
 			</motion.div>
 
-			<nav className="flex justify-center gap-16">
+			<nav className="contents md:flex md:justify-center md:gap-16">
 				{centerItems.map(({ target, label }) => (
 					<motion.div variants={itemVariants} key={label}>
 						<NavButton onClick={() => goTo(target)}>
@@ -171,7 +172,7 @@ export default function Header() {
 				))}
 			</nav>
 
-			<div className="flex justify-end">
+			<div className="flex md:justify-end">
 				<motion.div variants={itemVariants}>
 					<NavButton onClick={() => goTo("bottom")}>
 						Contact

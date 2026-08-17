@@ -134,7 +134,7 @@ export default function ProjectShowcase({ project }: { project: Project }) {
 
 					<motion.div
 						variants={fadeUp}
-						className="mt-auto flex w-full items-center justify-start gap-[clamp(3.5rem,6.5vh,6rem)] pt-[clamp(1rem,3vh,2.5rem)] text-xl text-white lg:text-2xl xl:text-3xl 2xl:text-4xl 3xl:text-5xl"
+						className="mt-auto flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-4 pt-8 text-xl text-white sm:gap-x-10 lg:gap-x-[clamp(3.5rem,6.5vh,6rem)] lg:pt-[clamp(1rem,3vh,2.5rem)] lg:text-2xl xl:text-3xl 2xl:text-4xl 3xl:text-5xl"
 					>
 						{project.tech.map((name) => (
 							<TechIcon key={name} name={name} />
@@ -192,7 +192,7 @@ function Lightbox({
 				animate={{ opacity: 1, scale: 1 }}
 				exit={{ opacity: 0, scale: 0.96 }}
 				transition={{ duration: 0.25, ease: "easeOut" }}
-				className="relative h-2/3 w-2/3"
+				className="relative h-2/3 w-full lg:w-2/3"
 			>
 				<Image
 					src={image.src}

@@ -94,17 +94,17 @@ export default function Experience() {
     return (
         <section
             id="experience"
-            className="relative flex min-h-screen flex-col justify-between overflow-hidden px-8 pt-32 pb-24 md:px-16"
+            className="relative flex min-h-svh flex-col justify-between overflow-hidden px-8 pt-32 pb-24 md:px-16"
         >
             <ParticleField direction="right" className="z-0" />
 
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center">
+            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center">
                 <motion.div
                     variants={fadeUp}
                     initial="initial"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
-                    className="w-full md:w-1/2 md:shrink-0"
+                    className="w-full lg:w-1/2 lg:shrink-0"
                 >
                     <Squiggle variant="experience" />
                 </motion.div>
@@ -115,10 +115,10 @@ export default function Experience() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
                     data-squiggle-stop=""
-                    className="font-medium leading-[1.02] tracking-tight text-white text-[clamp(1.5rem,5vw,16rem)] md:flex-1"
+                    className="font-medium leading-[1.02] tracking-tight text-white text-[clamp(2rem,11vw,4rem)] lg:flex-1 lg:text-[clamp(1.5rem,5vw,16rem)]"
                 >
-                    <span className="block pr-14 text-right">TECHNICAL</span>
-                    <span className="block pr-14 text-right">EXPERIENCE</span>
+                    <span className="block text-right lg:pr-14">TECHNICAL</span>
+                    <span className="block text-right lg:pr-14">EXPERIENCE</span>
                 </motion.h2>
             </div>
 
@@ -155,7 +155,7 @@ export default function Experience() {
                 initial="initial"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
-                className="relative z-10 mt-24 flex flex-col gap-14 pl-4 md:pl-8"
+                className="relative z-10 mt-16 flex flex-col gap-12 sm:pl-4 md:mt-24 md:gap-14 md:pl-8"
             >
                 {ROLES.map((role) => (
                     <motion.div
@@ -163,13 +163,15 @@ export default function Experience() {
                         variants={fadeUp}
                         className="w-fit"
                     >
-                        <h3 className="whitespace-nowrap text-2xl font-semibold tracking-tight text-white sm:text-4xl">
+                        <h3 className="text-xl font-semibold tracking-tight text-white sm:text-2xl md:text-3xl lg:whitespace-nowrap lg:text-4xl">
                             {role.title}
                         </h3>
 
-                        <p className="mt-2 text-lg text-gray">{role.meta}</p>
+                        <p className="mt-2 text-base text-gray md:text-lg">
+                            {role.meta}
+                        </p>
 
-                        <p className="mt-4 w-full max-w-3xl text-xl leading-relaxed text-gray-light">
+                        <p className="mt-4 w-full max-w-3xl text-lg leading-relaxed text-gray-light md:text-xl">
                             {role.summary}
                         </p>
                     </motion.div>

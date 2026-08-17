@@ -8,7 +8,7 @@ import LoadupAnimation from "../components/others/LoadupAnimation";
 import GridPattern from "../components/ui/GridPattern";
 
 function SectionGap() {
-    return <div aria-hidden="true" className="h-[20vh]" />;
+    return <div aria-hidden="true" className="h-[12vh] md:h-[20vh]" />;
 }
 
 export default function Home() {
