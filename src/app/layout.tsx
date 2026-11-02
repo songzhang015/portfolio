@@ -1,51 +1,34 @@
 import type { Metadata } from "next";
-import { Geist, Italianno } from "next/font/google";
-import SmoothScroll from "../components/others/SmoothScroll";
-import PageTransition from "../components/others/PageTransition";
+import { Fredoka, Onest } from "next/font/google";
 import "./globals.css";
 
-/* Variable font - the whole 400-700 range is available, so regular (400),
-   medium (500) and bold (700) all resolve from this single face */
-const geist = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-	weight: ["400", "500", "700"],
+const onest = Onest({
+  variable: "--font-onest",
+  subsets: ["latin"],
+  display: "swap",
 });
-
-/* Display face, used only for the SZ monogram in the header */
-const italianno = Italianno({
-	variable: "--font-italianno-display",
-	subsets: ["latin"],
-	weight: "400",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: "700",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-	title: "Song Zhang",
-	description: "Portfolio Website - Song Zhang",
+  title: "Song Zhang",
+  description:
+    "Song Zhang — Computer Science student at the University of Oregon, building frontend experiences, backend systems, and AI integrations.",
 };
 
 export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
-	return (
-		<html
-			lang="en"
-			className={`${geist.variable} ${italianno.variable} h-full antialiased`}
-		>
-			<head>
-				<link
-					rel="stylesheet"
-					type="text/css"
-					href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-				/>
-			</head>
-			<body className="min-h-full flex flex-col">
-				<SmoothScroll>
-					<PageTransition>{children}</PageTransition>
-				</SmoothScroll>
-			</body>
-		</html>
-	);
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html
+      lang="en"
+      className={`${onest.variable} ${fredoka.variable} antialiased`}
+    >
+      <body>{children}</body>
+    </html>
+  );
 }

@@ -1,55 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PROJECTS, getProject } from "../../../lib/projects";
-import GridPattern from "../../../components/ui/GridPattern";
-import Header from "../../../components/sections/Header";
-import ProjectShowcase from "../../../components/sections/ProjectShowcase";
+import Desktop from "../../../components/Desktop";
 
-type ProjectPageProps = {
-	params: Promise<{ slug: string }>;
-};
+type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-	return PROJECTS.map(({ slug }) => ({ slug }));
+  return PROJECTS.map(({ slug }) => ({ slug }));
 }
-
-export async function generateMetadata({
-	params,
-}: ProjectPageProps): Promise<Metadata> {
-	const { slug } = await params;
-	const project = getProject(slug);
-
-	if (!project) {
-		return { title: "Song Zhang" };
-	}
-
-	return {
-		title: `${project.title} - Song Zhang`,
-		description: project.summary,
-	};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const project = getProject((await params).slug);
+  return project
+    ? { title: `${project.title} — Song Zhang`, description: project.summary }
+    : { title: "Song Zhang" };
 }
-
-export default async function ProjectPage({ params }: ProjectPageProps) {
-	const { slug } = await params;
-	const project = getProject(slug);
-
-	if (!project) {
-		notFound();
-	}
-
-	return (
-		<div className="relative min-h-screen bg-black font-sans lg:h-screen lg:overflow-hidden">
-			<GridPattern
-				width={80}
-				height={80}
-				className="fixed inset-0 z-0 h-screen w-screen opacity-8"
-			/>
-
-			<Header />
-
-			<main className="relative z-10 lg:h-full">
-				<ProjectShowcase project={project} />
-			</main>
-		</div>
-	);
+export default async function ProjectPage({ params }: Props) {
+  const { slug } = await params;
+  if (!getProject(slug)) notFound();
+  return <Desktop initialProject={slug} />;
 }
